@@ -4,17 +4,17 @@ class Staff(UNSWMember):
         UNSWMember.__init__(self, name, zId, contact, password)
         self._postHistory = postHistory[] # TODO: discuss as in events
 
-    def get_name(self):
-        return self._name
+    def postEvent():
+        return 0 # TODO:
 
-    def get_zID(self):
-        return self._zID
+    def changeStatus():
+        return 0 # TODO:
 
-    def get_contact(self):
-        return self._contact
-
-    def get_password(self):
-        return self._password
+    def cancelEvent():
+        return 0 # TODO:
 
     def get_postHistory(self):
         return self._postHistory[] # TODO discuss
+
+    def get_attendeeList():
+        return 0 # TODO:

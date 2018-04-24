@@ -1,6 +1,6 @@
 class UNSWMember:
 
-    def __init__(self, name, zID, contact, password):
+   def __init__(self, name, zID, contact, password):
         self._name = name
         self._zID = zID
         self._contact = contact # TODO: DISCUSS list?

@@ -13,8 +13,10 @@ with open("user.csv", "r") as file:
         email = row[2]
         password = row[3]
         role = row[4]
-        system.addUNSWMember(UNSWMember(name, zID, email, password, role))
-
+        if role == 'trainer':
+            system.addUNSWMember(Staff(name, zID, email, password, role))
+        elif role == 'trainee':
+            system.addUNSWMember(Student(name, zID, email, password, role))
 #test    
 current = system.getUNSWMember('name6119988')
 print(current.zID)

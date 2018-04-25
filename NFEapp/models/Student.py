@@ -1,4 +1,6 @@
-class Student(UNSWMember): # TODO discuss need for this class
+from UNSWMember import *
 
-    def __init__(self, name, zID, contact, password):
-        UNSWMember.__init__(self, name, zID, contact, password)
+class Student(UNSWMember):
+
+    def __init__(self, name, zID, contact, password, role):
+        UNSWMember.__init__(self, name, zID, contact, password, role)

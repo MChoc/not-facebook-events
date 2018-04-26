@@ -1,0 +1,86 @@
+:root{
+	
+	
+	
+	--HIGHESTZINDEX:100;
+	
+}
+
+
+
+
+body{
+	overflow-x:hidden;
+	margin:0px;	
+}
+
+#panel1, #panel2, #panel3{
+	width:200px;
+	position:fixed;
+	height:200px;
+	cursor:pointer;
+	top:45vh;
+		z-index:var(--HIGHESTZINDEX);
+}
+
+	
+
+#panel1{
+		background-color:rgba(255,255,255,1);
+		left:65vw;
+}
+
+#panel2{
+		background-color:rgba(255,255,255,1);
+		left:5vw;
+
+}
+
+#panel3{
+		background-color:rgba(255,255,255,1);
+		left:35vw;
+}
+	@media only screen and (max-width: 360px) {
+		#panel1, #panel2, #panel3{
+			width:360px;
+			left:0px;
+			
+		}
+		#panel1{
+			top:5vh;
+		}
+		#panel2{
+			top: calc(10vh);
+		}
+		#panel3{
+			top: calc(50vh);
+		}
+	}
+
+#logo{
+	
+	position:absolute;
+		height:140px;
+		width:330px;
+		top:5vh;
+		left:5vh;
+			background-size:cover;
+			color:white;
+			font-family:Verdana;
+			font-size:10px;
+				z-index:4;
+}
+
+#slideshowp1{
+	background-image:url("harbourbridge.jpg");
+	
+	position:fixed;
+	width:100vw;
+	height:100vh;
+	background-size:cover;
+	
+		z-index:1;
+}
+
+
+		

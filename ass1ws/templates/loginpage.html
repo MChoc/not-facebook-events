@@ -1,0 +1,45 @@
+{% block content %}
+
+<!DOCTYPE html>
+
+
+<html>
+	<head>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/loginpage.css') }}">
+		<link rel="icon" type="image/png" href="p4img1.jpg">
+		
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+	</head>
+
+	<body>
+
+		
+		
+		<div id="slideshowp1">
+			
+		</div>
+		
+		<div id= "logo">
+			
+		</div>
+		
+		
+		<div id="loginpanel">
+			<form method = "post">
+				<input name = "username" type = "text" id = "username" autocomplete="off">
+				<input name = "password" type = "password" id = "password" autocomplete="off">
+				<input type = "submit" id = "submitbutton">
+
+			</form>
+		</div>
+		
+
+
+	</body>
+
+</html>
+{% endblock %}

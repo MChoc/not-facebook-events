@@ -16,9 +16,6 @@ class Convenor(Staff):
     
     def get_attendeeList(session):
         return session.get_attendeeList(session)
-    
-    def test():
-        pass
 
     def change_session_status(session, status):
         session.set_sessionStatus(status)

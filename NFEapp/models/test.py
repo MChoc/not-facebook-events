@@ -1,3 +1,0 @@
-print()
-def hello():
-    pass

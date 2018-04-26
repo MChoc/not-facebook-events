@@ -19,3 +19,6 @@ class Convenor(Staff):
     
     def change_session_status(session, status):
         session.set_sessionStatus(status)
+    
+    def test():
+        pass

@@ -62,7 +62,8 @@ class Staff(UNSWMember):
         for e in self._currentPostEvent:
             if event.get_name() == e.get_name():
                 return False
-        return True
+        else:
+            return True
     
     def registerCourse(self, event):
         if self.avoid_creator(event) == True:
@@ -72,5 +73,8 @@ class Staff(UNSWMember):
             return False
     
     def registerSeminar(self, seminar, session):
-        #to do
-        pass
+        if self.avoid_creator(seminar) == True:
+            if UNSWMember.registerSeminar(self, seminar, session) == True:
+                return True
+        else:
+            return False

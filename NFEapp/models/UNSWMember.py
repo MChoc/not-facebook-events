@@ -3,6 +3,7 @@ from Event import *
 from Course import *
 from Seminar import *
 
+
 class UNSWMember(object):
 
     def __init__ (self, name, zID, email, password, role):
@@ -72,36 +73,53 @@ class UNSWMember(object):
         return current_session
     
     #register for courses
-    def registerCourse(self, event):
-        event.add_attendee(self)
-        self._currentEvents.append(event)
+    def registerCourse(self, course):
+        if self.avoid_closed_status(course) == False:
+            return False
+        if self.avoid_dup(course) == True:
+            course.add_attendee(self)
+            self._currentEvents.append(course)
+        else:
+            return False
 
     def registerSession(self, session):
         session.add_attendee(self)
 
-    '''
-    def register(self, event):
-        if event.get_type() == "course":
-            self.registerCourse(event)
-        if event.get_type() == "session":
-            
-            if event.get_seminar() in self._currentEvents:
-                self.registerSession(event)
-            else:
-                self.registerSession(event)
-                #self._currentEvents.append(event.get_seminar())
-    '''
-
     def registerSeminar(self, seminar, session):
-        flag=0
-        self.registerSession(session)
-        for s in self._currentEvents:
-            if seminar.get_name() == s.get_name():
-                flag = 1
-                break
-        if flag==0:
+        if self.avoid_closed_status(seminar) == False:
+            return False
+        if session.get_sessionStatus() == "closed":
+            return False
+        
+        if self.avoid_dup(seminar) == True:
+            self.registerSession(session)
             self._currentEvents.append(seminar)
-    
+        else:
+            if self.avoid_dup_session(seminar, session) == True:
+                self.registerSession(session)
+            else:
+                return False
+
+    #check against registration history to avoid duplicated registeration for events
+    def avoid_dup(self, event):
+        for e in self._currentEvents:
+            if event.get_name() == e.get_name():
+                return False
+        return True 
+
+    #check aganinst session history to avoid duplicated registration for sessions 
+    def avoid_dup_session(self, seminar, session):
+        s = seminar.get_one_session(session.get_name())
+        for user in s.get_attendeeList():
+            if self._name == user.name:
+                return False
+        return True
+
+    def avoid_closed_status(self, event):
+        if event.get_status() == 'closed':
+            return False
+
+
     #deregister from courses and sessions
     def deRegister(self, event):
         if event.get_type() == "course":

@@ -1,4 +1,5 @@
 from Seminar import *
+from Speaker import *
 
 class Session:
     def __init__(self, name, date, time, location, maxAttendees, deRegWindow, abstractInfo, sessionStatus, speaker):

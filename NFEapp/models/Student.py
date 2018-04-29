@@ -1,4 +1,3 @@
-
 from UNSWMember import *
 
 class Student(UNSWMember):

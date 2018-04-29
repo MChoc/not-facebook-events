@@ -14,7 +14,7 @@ class UNSWMember(object):
         self._role = role
         self._currentEvents = []
         self._pastEvents = []
-    
+
     #getters
     @property
     def name(self):
@@ -32,12 +32,10 @@ class UNSWMember(object):
     def role(self):
         return self._role
 
-    #setters
-    #do we need setters???
     @name.setter
     def name(self, name):
         self._name = name
-    
+
     @email.setter
     def email(self, email):
         self._email = email
@@ -48,20 +46,17 @@ class UNSWMember(object):
 
     def validate_password(self, password):
         return self._password == password
-    
+
     def __str__(self):
         return "Attdenee detail: \nname: {0}, email: {1}".format(self._name, self._email)
-    
-    @property
-    def currentEvents(self):
+
+    def get_current_event(self):
         return self._currentEvents
 
     #need to test
     @property
     def pastEvents(self):
         return self._pastEvents
-        
-    
     def get_current_session(self, seminar):
         if self.avoid_dup(seminar) == True:
             return False       
@@ -73,7 +68,6 @@ class UNSWMember(object):
                     current_session.append(session)
         return current_session
 
-        
     #register for courses
     def registerCourse(self, course):
         if self.avoid_closed_status(course) == False:

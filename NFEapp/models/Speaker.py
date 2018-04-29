@@ -11,14 +11,14 @@ class Speaker(object):
     @property
     def contact(self):
         return self._contact
-    
+
     @name.setter
     def name(self, name):
         self._name = name
-    
+
     @contact.setter
     def contact(self, contact):
         self._contact = contact
-    
+
     def __str__(self):
         return "Speaker name: {0}, contact: {1}".format(self._name, self._contact)

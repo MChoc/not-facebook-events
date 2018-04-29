@@ -2,10 +2,12 @@ from Session import *
 from Event import *
 class Seminar(Event):
 
-    def __init__(self, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
-        Event.__init__(self, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo)
+    def __init__(self, id, name, status, date, time, location, attendeeList, maxAttendees, deRegWindow, abstractInfo):
+        Event.__init__(self, id, name, status, date, time, location, attendeeList, maxAttendees, deRegWindow, abstractInfo)
         self._session = []
 
+
+##
     # return list[session]
     @property
     def sessions(self):

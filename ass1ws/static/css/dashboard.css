@@ -95,13 +95,13 @@
 	left:0vw;
 }
 
-#userdashboardwelcomemsg,#EnrolledEventswelcomemsg{
-	font-size:100px;
+#userdashboardwelcomemsg,#EnrolledEventswelcomemsg,#createeventmsg{
+	font-size:50px;
 	color:white;
 	font-family:Arial;
 	position:absolute;
 	top:20vh;
-	left:10vw;
+	left:30vw;
 }
 
 #CreateEvent{
@@ -113,8 +113,42 @@
 	left:200vw;
 }
 #EnrolledEventswelcomemsg{
-	top:30vh;
+	top:20vh;
 }
+
+#userdashboardwelcomemsg{
+	font-weight:500;
+}
+
+input[type=submit] {
+    padding:15px 30px; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+	position:absolute; 
+}
+
+#pasteventsbutton,#currenteventsbutton{
+	bottom:30vh;
+}
+
+#pasteventsbutton:hover,#currenteventsbutton:hover{
+	background-color:black;
+	color:white;
+}
+#pasteventsbutton{
+	left:30vw; 
+	background-color:rgba(255, 255, 69   ,1);
+}
+
+#currenteventsbutton{
+	left:50vw; 
+	background-color:rgba(255, 255, 69   ,1);
+	
+}
+
+
 
 #panel_createEvent,#panel_enrolledEvents{
 	position:absolute;

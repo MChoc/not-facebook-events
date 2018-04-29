@@ -1,5 +1,0 @@
-COMP1911
-COMP1521
-COMP1531
-somecourse
-anothercourse

@@ -1,2 +1,0 @@
-date = stuff
-time = stuff

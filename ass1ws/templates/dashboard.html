@@ -42,21 +42,32 @@
 		
 		
 		<div id="userdashboard" class="SCREEN_PUBLICFACE_PAGES">
-			<p id ="userdashboardwelcomemsg"> Good evening, {{loggedinas}}</p>
+			<h1 id ="userdashboardwelcomemsg"> Good {{timeofday}}, {{loggedinas}}.</h1>
 			
 			<form action="/pastevents/{{loggedinas}}">
-				<input type="submit" style="position:absolute; left:50vw; top:10vh;">
+				<input type="submit" value="{{loggedinas}}'s Past Events" id= "pasteventsbutton">
+				
 			</form>
+			
+			<form action="/currentevents/{{loggedinas}}">
+				<input type="submit" value="{{loggedinas}}'s Current Events" id="currenteventsbutton">
+				
+			</form>
+			
+			
 			
 		</div>
 
 		
 						
 			<div id="CreateEvent" class="SCREEN_PUBLICFACE_PAGES">
+			
+				<p id ="createeventmsg">Create New Event</p>
+			
 				<div id="panel_createEvent">
 					<form method = "post" action="/createevent">
 					
-						<p>Create New Event Here</p>
+						
 					
 						<input name = "date" placeholder="Event Date" type = "text" id = "CreateEvent_date" class = "panel_createEvent_input">
 						<input name = "time" placeholder="Event Time" type = "text" id = "CreateEvent_time" class = "panel_createEvent_input">

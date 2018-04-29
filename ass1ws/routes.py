@@ -1,6 +1,7 @@
 from server import app, valid_time
 from flask import request, render_template, redirect, url_for
 from validatePass import *
+from gettimeofday import *
 
 @app.route('/', methods=['POST', 'GET'])
 def landingPage():
@@ -18,8 +19,19 @@ def landingPage():
 
 @app.route('/dashboard/<name>', methods=['POST', 'GET'])
 def dashboard(name):
+	string_time = phaseoftheday()
 
-	return render_template('dashboard.html',loggedinas= name)
+	
+	pix = 0
+	
+	if(string_time == "Morning"):
+		pix = 'morningtime.jpg'
+	elif(string_time=="Afternoon"):
+		pix = 'afternoontime.jpg'
+	elif(string_time=="Evening"):
+		pix = 'nighttime.jpg'
+	
+	return render_template('dashboard.html',loggedinas= name,timeofday= string_time,dashboardpicture=pix)
 
 @app.route('/createevent', methods=['POST', 'GET'])
 def createvent():
@@ -35,19 +47,44 @@ def createvent():
 		
 @app.route('/pastevents/<username>', methods=['POST', 'GET'])
 def pastevents(username):
-	
-	f = open("pastevents--admin_1.txt","r")
+
+	filePath = r"databases\Users\%s\Past.txt" % (username)
+	f = open(filePath,"r")
 	
 	superstring = ""
 	
 	for i in f:
-		superstring = superstring+i+"		"
+		superstring = superstring+i+"<br>"
+	
+	return superstring	
+
+@app.route('/currentevents/<username>', methods=['POST', 'GET'])
+def currentevents(username):
+
+	filePath = r"databases\Users\%s\Current.txt" % (username)
+	f = open(filePath,"r")
+	
+	superstring = ""
+	
+	for i in f:
+		superstring = superstring+i+"<br>"
 	
 	return superstring	
 	
 @app.route('/searchevents/<eventname>', methods=['POST', 'GET'])
 def searchevents(eventname):
 
-	return render_template("eventtemplate.html",eventname = eventname)
+	filePath = r"databases\Events\%s.txt" % (eventname)
+	
+	f = open(filePath,"r")
+	
+	superstring = ""
+	
+	for i in f:
+		superstring = superstring+i+"<br>"
+		
+	return superstring	
+	
+	#return render_template("eventtemplate.html",eventname = eventname)
 	
 #pass9588

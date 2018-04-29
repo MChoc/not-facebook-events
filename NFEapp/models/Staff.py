@@ -44,15 +44,18 @@ class Staff(UNSWMember):
         if event.get_type() == "course":
             for attendee in event.get_attendeeList():
                 #error happens there
-                attendee._currentEvents.remove(event)
-                attendee._pastEvents.append(event)
+                for e in attendee._currentEvents:
+                    if e.get_name() == event.get_name():
+                        attendee._currentEvents.remove(event)
+                        attendee._pastEvents.append(event)
         elif event.get_type() == "seminar":
             for s in event.get_all_session():
                 s.set_sessionStatus(status)
                 for attendee in s.get_attendeeList():
-                    for event in attendee._currentEvents:
-                        attendee._currentEvents.remove(event)
-                        attendee._pastEvents.append(event)
+                    for e in attendee._currentEvents:
+                        if e.get_name() == event.get_name():
+                            attendee._currentEvents.remove(event)
+                            attendee._pastEvents.append(event)
 
     def change_session_status(self, seminar, session, status):
         if self.avoid_creator(seminar) == True:

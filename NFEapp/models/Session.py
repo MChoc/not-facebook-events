@@ -8,7 +8,6 @@ class Session(Event):
     def __init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo, speaker):
         Event.__init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo)
         self._speaker = speaker
-        self._attendeeList = []
 
 ##
     # return str: speaker for session
@@ -22,6 +21,3 @@ class Session(Event):
     def speaker(self, speaker):
         self._speaker = speaker
 ##
-    @property
-    def attendeeList(self):
-        return self._attendeeList

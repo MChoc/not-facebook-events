@@ -41,11 +41,6 @@ event1 = system.getOpenEvent('acct')
 print('systems open event: {0}'.format(system._openEvent))
 print(event1.name)
 
-#change status of event:acct
-#staff.changeStatus(event1, 'closed', system)
-print('current post: {0}'.format(staff.currentPostEvent))
-print('systems open event: {0}'.format(system._openEvent))
-
 #register for an event:acct test
 student = system.getUNSWMember('name6119989')
 print('current enroll: {0}'.format(student.currentEvents)) #which is null
@@ -55,7 +50,7 @@ print(student.registerCourse(event1))
 print('current enroll: {0}'.format(student.currentEvents))
 
 print('attendee: {0}'.format(event1.attendeeList))
-#staff.changeCourseStatus(event1, 'closed', system)
+staff.changeCourseStatus(event1, 'closed', system)
 print(event1.status)
 
 #register event:acct again to check duplication
@@ -77,6 +72,10 @@ for e in staff.currentEvents:
 
 print("current post event:")
 for e in staff.currentPostEvent:
+    print(e.name)
+
+print("past post event:")
+for e in staff.pastPostEvent:
     print(e.name)
 
 #staff.get_attendeeList(event1)
@@ -155,7 +154,7 @@ for s in student.get_current_session(seminar1):
 
 
 #deregister from seminar and thus all sessions in that seminar
-student.deRegisterSeminar(seminar1)
+#student.deRegisterSeminar(seminar1)
 print(student.currentEvents)
 print(student.get_current_session(seminar1))
 
@@ -170,7 +169,7 @@ print(student.currentEvents)
 print(student.get_current_session(seminar1))
 
 #deregister from last session
-student.deRegisterSession(seminar1, session3)
+#student.deRegisterSession(seminar1, session3)
 print(student.pastEvents)
 print(student.get_current_session(seminar1))
 

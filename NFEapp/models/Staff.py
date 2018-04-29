@@ -31,6 +31,7 @@ class Staff(UNSWMember):
 
     
     #change status of seminars or courses, not sessions
+    #used for changeCourseStatus or changeSeminarStatus, not for individual use
     def changeStatus(self, event, status, system):
         if self.avoid_creator(event) == True:
             return False
@@ -44,26 +45,6 @@ class Staff(UNSWMember):
             self._pastPostEvent.append(event)
             system.removeOpenEvent(event)
 
-        #to get rid of type
-        '''
-        if event.get_type() == "course":
-            for attendee in event.get_attendeeList():
-                #error happens there
-                for e in attendee._currentEvents:
-                    if e.name == event.name:
-                        attendee._currentEvents.remove(event)
-                        attendee._pastEvents.append(event)
-        elif event.get_type() == "seminar":
-            for s in event.get_all_session():
-                s.set_sessionStatus(status)
-                for attendee in s.get_attendeeList():
-                    for e in attendee._currentEvents:
-                        if e.name == event.name:
-                            attendee._currentEvents.remove(event)
-                            attendee._pastEvents.append(event)
-        '''
-
-    ##need test!!!!!!!!!!!
     def changeCourseStatus(self, course, status, system):
         self.changeStatus(course, status, system)
         for attendee in course.attendeeList:

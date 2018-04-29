@@ -47,6 +47,7 @@ class Event:
     valid_statuses = ['open', 'closed', 'cancelled']
     @status.setter
     def status(self, status):
+        valid_statuses = ['open', 'closed', 'cancelled']
         if status not in valid_statuses:
             return 0
         else:

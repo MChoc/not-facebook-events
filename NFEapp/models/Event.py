@@ -30,7 +30,7 @@ class Event:
     # Email to be send when any setter is called?
     # arg1 str: "open", "closed" or "cancelled"
     # return int: 0 - failed (invalid status), 1 - success
-    valid_statuses = ["open", "closed", "cancelled"]
+    valid_statuses = ['open', 'closed', 'cancelled']
     @status.setter
     def status(self, status):
         if status not in valid_statuses:
@@ -40,33 +40,50 @@ class Event:
             return 1
 ##
 ##
-    # return int: "datetime.date"
+    # return: datetime.date
     @property
     def date(self):
         return self._date
 
     def valid_date(input_date):
-    try:
-        datetime.datetime.strptime(date_text, '%Y-%m-%d')
-    except InputError:
-        return 0
-    return 1
+        try:
+            datetime.datetime.strptime(input_date, '%Y-%m-%d')
+        except InputError:
+            return 0
+        return 1
 
     # arg1: date string in datetime format %Y-%m-%d
-    # return int: 0 - failed (invalid date), 1 - success
+    # return int: 0 - failed (invalid date string), 1 - success
     @date.setter
     def date(self, date):
         if valid_date(date):
             self._date = date
+            return 1
         else:
             return 0
 ##
 ##
-    def get_time(self):
+    # return: datetime.time
+    @property
+    def time(self):
         return self._time
 
-    def set_time(self, time):
-        self._time = time
+    def valid_time(input_time):
+        try:
+            datetime.datetime.strptime(input_time, '%H:%M')
+        except InputError:
+            return 0
+        return 1
+
+    # arg1: time string in datetime format %H:%M
+    # return int: 0 - failed (invalid time string), 1 - success
+    @time.setter
+    def time(self, time):
+        if valid_time(time):
+            self._time = time
+            return 1
+        else:
+            return 0
 ##
 ##
     def get_location(self):

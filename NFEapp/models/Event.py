@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class Event:
 
     def __init__(self, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
@@ -19,15 +21,15 @@ class Event:
     @name.setter
     def name(self):
 ##
-    # returns: "open", "closed" or "cancelled"
+    # returns str: "open", "closed" or "cancelled"
     @property
     def status(self):
         return self._status
 
     # TODO: add debugging
     # Email to be send when any setter is called?
-    # arg1: string that is "open", "closed" or "cancelled"
-    # return: failed to set (0) or set success (1)
+    # arg1 str: "open", "closed" or "cancelled"
+    # return int: 0 - failed (invalid status), 1 - success
     valid_statuses = ["open", "closed", "cancelled"]
     @status.setter
     def status(self, status):
@@ -38,11 +40,26 @@ class Event:
             return 1
 ##
 ##
-    def get_date(self):
+    # return int: "datetime.date"
+    @property
+    def date(self):
         return self._date
 
-    def set_date(self, date):
-        self._date = date
+    def valid_date(input_date):
+    try:
+        datetime.datetime.strptime(date_text, '%Y-%m-%d')
+    except InputError:
+        return 0
+    return 1
+
+    # arg1: date string in datetime format %Y-%m-%d
+    # return int: 0 - failed (invalid date), 1 - success
+    @date.setter
+    def date(self, date):
+        if valid_date(date):
+            self._date = date
+        else:
+            return 0
 ##
 ##
     def get_time(self):

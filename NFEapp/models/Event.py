@@ -2,7 +2,8 @@ from datetime import datetime
 
 class Event:
 
-    def __init__(self, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
+    def __init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
+        self._id = id
         self._name = name
         self._status = status
         self._date = date
@@ -15,13 +16,26 @@ class Event:
 
 
 ##
+    # Do not allow users to change the id of events
+    # handled by the system
+    @property
+    def id(self):
+        return self._id
+##
+##
+    # return str: name of event
     @property
     def name(self):
-        return name
+        return self._name
+
+    # sets/changes name of event
+    # arg1 str: name to change to
     @name.setter
-    def name(self):
+    def name(self, name):
+        self._name = name
 ##
-    # returns str: "open", "closed" or "cancelled"
+##
+    # return str: "open", "closed" or "cancelled"
     @property
     def status(self):
         return self._status

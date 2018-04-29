@@ -4,7 +4,7 @@ class Speaker(object):
         self._name = name
         self._contact = contact #email
 
-     @property
+    @property
     def name(self):
         return self._name
 

@@ -25,7 +25,7 @@ class EMS:
     
     def getOpenEvent(self, name):
         for event in self._openEvent:
-            if event.get_name() == name:
+            if event.name == name:
                 return event
         return None
     

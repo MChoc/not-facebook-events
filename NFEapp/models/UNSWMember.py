@@ -52,26 +52,34 @@ class UNSWMember(object):
     def __str__(self):
         return "Attdenee detail: \nname: {0}, email: {1}".format(self._name, self._email)
     
-    def get_current_event(self):
+    @property
+    def currentEvents(self):
         return self._currentEvents
 
-    def get_past_event(self):
-        for event in self._currentEvents:
-            if event.get_status == "closed":
-                self._pastEvents.append(event)
-                self._currentEvents.remove(event)
+    #need to test
+    @property
+    def pastEvents(self):
         return self._pastEvents
         
+    
     def get_current_session(self, seminar):
+        '''
         current_session = []
-        for event in self._currentEvents:
-            if seminar.get_name() == event.get_name():
+        for event in self.currentEvents:
+            if seminar.name == event.name:
                 for session in event.get_all_session():
                     for attendee in session.get_attendeeList():
-                        if self._name == attendee.name:
+                        if self.name == attendee.name:
                             current_session.append(session)
         return current_session
-    
+        '''
+        current_session = []
+        if seminar in self.currentEvents:
+            for session in seminar.get_all_session():
+                if self in session.attendeeList:
+                    current_session.append(session)
+        return current_session        
+        
     #register for courses
     def registerCourse(self, course):
         if self.avoid_closed_status(course) == False:
@@ -89,7 +97,7 @@ class UNSWMember(object):
     def registerSeminar(self, seminar, session):
         if self.avoid_closed_status(seminar) == False:
             return False
-        if session.get_sessionStatus() == "closed":
+        if session.status == "closed":
             return False
         
         if self.avoid_fake_session(seminar, session) != True:
@@ -109,28 +117,29 @@ class UNSWMember(object):
     #check against registration history to avoid duplicated registeration for events
     def avoid_dup(self, event):
         for e in self._currentEvents:
-            if event.get_name() == e.get_name():
+            if event.name == e.name:
                 return False
         return True 
 
     #check aganinst session history to avoid duplicated registration for sessions 
     def avoid_dup_session(self, seminar, session):
-        s = seminar.get_one_session(session.get_name())
-        for user in s.get_attendeeList():
-            if self._name == user.name:
+        s = seminar.get_one_session(session.name)
+        for user in s.attendeeList:
+            if self.name == user.name:
                 return False
         return True
 
     def avoid_closed_status(self, event):
-        if event.get_status() == 'closed':
+        if event.status == 'closed':
             return False
 
     def avoid_fake_session(self, seminar, session):
         for s in seminar.get_all_session():
-            if session.get_name() == s.get_name():
+            if session.name == s.name:
                 return True
 
-
+    #to get rid of type
+    '''
     #deregister from courses and sessions
     def deRegister(self, event):
         if self.check_registration(event) != True:
@@ -142,25 +151,45 @@ class UNSWMember(object):
             #deregister from every sessions
             for session in event.get_all_session():
                 for attendee in session.get_attendeeList():
-                    if self._name == attendee.name:
+                    if self.name == attendee.name:
                         session.remove_attendee(self)
                         break
             self._currentEvents.remove(event)
+    '''
 
-        #if the session deregistered is the only session registered in a seminar before,
-        #then deregistering this session will remove this seminar from the current event list
-        #if not, deregistering will only remove the session, not the whole seminar 
+    def deRegisterCourse(self, course):
+        if self.check_registration(event) != True:
+            return False
+        
+        self._currentEvents.remove(event)
+        event.remove_attendee(self)
+
+    def deRegisterSeminar(self, seminar):
+        if self.check_registration(event) != True:
+            return False
+        
+        #deregister from every sessions
+        for session in event.get_all_session():
+            for attendee in session.attendeeList:
+                if self.name == attendee.name:
+                    session.remove_attendee(self)
+                    break
+        self._currentEvents.remove(event)
+
+    #if the session deregistered is the only session registered in a seminar before,
+    #then deregistering this session will remove this seminar from the current event list
+    #if not, deregistering will only remove the session, not the whole seminar 
     
     def deRegisterSession(self, seminar, session):
         if self.check_registration(seminar) != True:
             return False
-        for attendee in session.get_attendeeList():
-            if self._name == attendee.name:
+        for attendee in session.attendeeList:
+            if self.name == attendee.name:
                 session.remove_attendee(self)
                 flag = 0
                 for session in seminar.get_all_session():
-                    for attendee in session.get_attendeeList():
-                        if self._name == attendee.name:
+                    for attendee in session.attendeeList:
+                        if self.name == attendee.name:
                             flag = 1
                             break
                     if flag == 1:
@@ -175,5 +204,5 @@ class UNSWMember(object):
     #check that intended deregistered event is registered before
     def check_registration(self, event):
         for e in self._currentEvents:
-            if e.get_name() == event.get_name():
+            if e.name == event.name:
                 return True

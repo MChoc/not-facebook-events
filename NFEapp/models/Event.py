@@ -1,6 +1,7 @@
 class Event:
 
-    def __init__(self, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
+    def __init__(self, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
+        self._name = name
         self._status = status
         self._date = date
         self._time = time
@@ -10,14 +11,31 @@ class Event:
         self._deRegWindow = deRegWindow
         self._abstractInfo = abstractInfo
 
+
 ##
-    def get_status(self):
+    @property
+    def name(self):
+        return name
+    @name.setter
+    def name(self):
+##
+    # returns: "open", "closed" or "cancelled"
+    @property
+    def status(self):
         return self._status
 
     # TODO: add debugging
     # Email to be send when any setter is called?
-    def set_status(self, status):
-        self._status = status
+    # arg1: string that is "open", "closed" or "cancelled"
+    # return: failed to set (0) or set success (1)
+    valid_statuses = ["open", "closed", "cancelled"]
+    @status.setter
+    def status(self, status):
+        if status not in valid_statuses:
+            return 0
+        else:
+            self._status = status
+            return 1
 ##
 ##
     def get_date(self):

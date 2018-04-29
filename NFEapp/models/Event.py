@@ -86,16 +86,25 @@ class Event:
             return 0
 ##
 ##
-    def get_location(self):
+    # return str: location of event
+    @property
+    def location(self):
         return self._location
 
-    def set_location(self, location):
+    # arg1 str: location of event
+    @location.setter
+    def location(self, location):
         self._location = location
 ##
 ##
-    def get_attendeesList(self):
+    # return list[UNSWMember]
+    @property
+    def attendeesList(self):
         return self._attendeeList
 
+    # appends a UNSWMember onto attendeeList
+    # arg1 UNSWMember
+    # return int: 0 - fail, 1 - success
     def add_attendee(self, attendee):
         if attendee not in self._attendeeList:
             self._attendeeList.append(attendee)
@@ -103,6 +112,9 @@ class Event:
         else:
             return 0
 
+    # removes specified attendee from attendeeList
+    # arg1 UNSWMember
+    # return int: 0 - fail, 1 - success
     def remove_attendee(self, attendee):
         if attendee in self._attendeeList:
             self._attendeeList.remove(attendee)

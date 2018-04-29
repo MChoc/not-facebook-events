@@ -84,6 +84,7 @@ class Event:
             return 1
         else:
             return 0
+        return 0
 ##
 ##
     # return str: location of event
@@ -104,42 +105,66 @@ class Event:
 
     # appends a UNSWMember onto attendeeList
     # arg1 UNSWMember
-    # return int: 0 - fail, 1 - success
+    # return int: 0 - failed, 1 - success
     def add_attendee(self, attendee):
         if attendee not in self._attendeeList:
             self._attendeeList.append(attendee)
             return 1
         else:
             return 0
+        return 0
 
     # removes specified attendee from attendeeList
     # arg1 UNSWMember
-    # return int: 0 - fail, 1 - success
+    # return int: 0 - failed, 1 - success
     def remove_attendee(self, attendee):
         if attendee in self._attendeeList:
             self._attendeeList.remove(attendee)
             return 1
         else:
             return 0
+        return 0
 ##
 ##
-    def get_maxAttendees(self):
+    # return int: maxAttendees
+    @property
+    def maxAttendees(self):
         return self._maxAttendees
 
-    def set_maxAttendees(self, maxAttendees):
-        self._maxAttendees = maxAttendees
+    # sets max number of attendees for an event
+    # arg1 int
+    # return int: 0 - failed, 1 - success
+    @maxAttendees.setter
+    def maxAttendees(self, maxAttendees):
+        if maxAttendees < 0:
+            return 0
+        else:
+            self._maxAttendees = maxAttendees
+            return 1
+        return 0
 ##
 ##
-    def get_deRegWindow(self):
+    # return int: deRegWindow
+    @property
+    def deRegWindow(self):
         return self._deRegWindow
 
-    def set_deRegWindow(self, deRegWindow):
+    # sets deRegistration window
+    # arg1 int
+    @deRegWindow.setter
+    def deRegWindow(self, deRegWindow):
         self._deRegWindow = deRegWindow
 ##
 ##
-    def get_abstractInfo(self):
+    # return str: Information of event
+    @property
+    def abstractInfo(self):
         return self._abstractInfo
 
-    def set_abstractInfo(self, abstractInfo):
+    # sets information for event
+    # arg1 str: event information
+    # return int: 0 - failed, 1 - success
+    @abstractInfo.setter
+    def abstractInfo(self, abstractInfo):
         self._abstractInfo = abstractInfo
 ##

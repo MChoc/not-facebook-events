@@ -1,3 +1,6 @@
+from Event import *
+
+# attendeeList for Seminar should be None
 class Seminar(Event):
 
     def __init__(self, id, name, status, date, time, location, attendeeList, maxAttendees, deRegWindow, abstractInfo):

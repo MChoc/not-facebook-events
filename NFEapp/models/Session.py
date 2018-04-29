@@ -1,3 +1,5 @@
+from Event import *
+
 class Session(Event):
 
     def __init__(self, id, name, status, date, time, location, attendeeList, maxAttendees, deRegWindow, abstractInfo, speaker):

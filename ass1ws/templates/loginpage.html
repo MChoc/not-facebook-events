@@ -5,7 +5,7 @@
 
 <html>
 	<head>
-
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/commoncss.css') }}">
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/loginpage.css') }}">
 		<link rel="icon" type="image/png" href="p4img1.jpg">
 		
@@ -24,20 +24,26 @@
 		</div>
 		
 		<div id= "logo">
-			
+			<a href="/">
+				<span></span>
+			</a>
 		</div>
 		
 		
 		<div id="loginpanel">
 			<form method = "post">
-				<input name = "username" type = "text" id = "username" autocomplete="off">
-				<input name = "password" type = "password" id = "password" autocomplete="off">
+				<input name = "username" placeholder = "COMP1531 Student" type = "text" id = "username" >
+				<input name = "password" placeholder = "Password" type = "password" id = "password" autocomplete="off">
 				<input type = "submit" id = "submitbutton">
 
 			</form>
 		</div>
-		
 
+		{% if error_code != 100 %}
+		<div id = "messages">
+			<p id = "message_errormessage">{{error_code}}</p>
+		</div>
+		{% endif%}
 
 	</body>
 

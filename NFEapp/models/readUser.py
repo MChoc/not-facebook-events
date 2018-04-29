@@ -29,13 +29,13 @@ print(current.__str__())
 staff2 = system.getUNSWMember('name4119997')
 
 #below are tests for courses
-'''
+
 #create event test
 staff = current
 print(staff.currentPostEvent)
 
-#(name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo, type)
-staff.createCourse(Course('acct','open',04.19,19.00,'unsw',15,'24hr','new'),system)
+#self, id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo
+staff.createCourse(Course(3, 'acct','open','2018-04-19','19:00','unsw',15,'24hr','new'),system)
 print('current post: {0}'.format(staff.currentPostEvent))
 event1 = system.getOpenEvent('acct')
 print('systems open event: {0}'.format(system._openEvent))
@@ -82,23 +82,25 @@ for e in staff.currentPostEvent:
 #staff.get_attendeeList(event1)
 
 #print(staff2.get_attendeeList(event1))
-'''
 
+'''
 #below are tests for seminar and sessions
 #create a seminar
 staff = current
-staff.createSeminar(Seminar('infs', 'open', 04.20, 17.00, 'mel', 14, '12hr', 'good'), Session('infs2608', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Tom', 'hello@gmail.com')), system)
-staff2.createSeminar(Seminar('fins', 'open', 04.20, 17.00, 'mel', 14, '12hr', 'good'), Session('fins1613', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Tom', 'hello@gmail.com')), system)
+#def __init__(self, id, name, status, date, time, location, attendeeList, maxAttendees, deRegWindow, abstractInfo, speaker):
+#        Event.__init__(self, id, name, status, date, time, location, attendeeList, maxAttendees, deRegWindow, abstractInfo)
+staff.createSeminar(Seminar(4, 'infs', 'open', '2018-04-29', '17:00', 'mel', 14, '12hr', 'good'), Session(3, 'infs2608', 'open', '2018-04-29', '17:00', 'asb', 5, '5hr', 'database', Speaker('Tom', 'hello@gmail.com')), system)
+staff2.createSeminar(Seminar(3, 'fins', 'open', '2018-04-20', '17:00', 'mel', 14, '12hr', 'good'), Session(5, 'fins1613', 'open', '2018-04-29', '17:00', 'asb', 5, '5hr', 'database', Speaker('Tom', 'hello@gmail.com')), system)
 
 
 seminar1 = system.getOpenEvent('infs')
 seminar2 = system.getOpenEvent('fins')
 
-staff.createSeminar(seminar1,Session('infs2609', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Jaze', 'hi@gmail.com')), system)
-staff.createSeminar(seminar1,Session('infs2605', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Jaze', 'hi@gmail.com')), system)
+staff.createSeminar(seminar1,Session(5, 'infs2609', 'open', '2018-04-25', '17:00', 'asb', 5, '5hr', 'database', Speaker('Jaze', 'hi@gmail.com')), system)
+staff.createSeminar(seminar1,Session(1, 'infs2605', 'open', '2018-04-25', '17:00', 'asb', 5, '5hr', 'database', Speaker('Jaze', 'hi@gmail.com')), system)
 print(seminar1.sessions)
 
-staff.createCourse(Course('acct','open',04.19,19.00,'unsw',15,'24hr','new'),system)
+staff.createCourse(Course(7, 'acct','open','2018-04-29', '17:00','unsw',15,'24hr','new'),system)
 event1 = system.getOpenEvent('acct')
 print('current post: {0}'.format(staff.currentPostEvent))
 
@@ -180,3 +182,4 @@ print(session2.attendeeList)
 print("staff2 info:")
 print(staff2.currentPostEvent)
 print(staff2.currentEvents)
+'''

@@ -140,7 +140,7 @@ class Event:
 ##
     # return list[UNSWMember]
     @property
-    def attendeesList(self):
+    def attendeeList(self):
         return self._attendeeList
 
     # appends a UNSWMember onto attendeeList

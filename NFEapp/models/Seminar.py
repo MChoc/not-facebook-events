@@ -2,8 +2,8 @@ from Session import *
 from Event import *
 class Seminar(Event):
 
-    def __init__(self, id, name, status, date, time, location, attendeeList, maxAttendees, deRegWindow, abstractInfo):
-        Event.__init__(self, id, name, status, date, time, location, attendeeList, maxAttendees, deRegWindow, abstractInfo)
+    def __init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
+        Event.__init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo)
         self._session = []
 
 

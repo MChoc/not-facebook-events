@@ -1,7 +1,7 @@
 class Session(Event):
 
     def __init__(self, id, name, status, date, time, location, attendeeList, maxAttendees, deRegWindow, abstractInfo, speaker):
-        Seminar.__init__(self, status, date, time, location, attendeeList, maxAttendees, deRegWindow, abstractInfo)
+        Event.__init__(self, id, name, status, date, time, location, attendeeList, maxAttendees, deRegWindow, abstractInfo)
         self._speaker = speaker
 
 

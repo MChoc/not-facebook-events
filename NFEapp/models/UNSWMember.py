@@ -63,22 +63,16 @@ class UNSWMember(object):
         
     
     def get_current_session(self, seminar):
-        '''
+        if self.avoid_dup(seminar) == True:
+            return False       
+        
         current_session = []
-        for event in self.currentEvents:
-            if seminar.name == event.name:
-                for session in event.get_all_session():
-                    for attendee in session.get_attendeeList():
-                        if self.name == attendee.name:
-                            current_session.append(session)
-        return current_session
-        '''
-        current_session = []
-        if seminar in self.currentEvents:
-            for session in seminar.get_all_session():
-                if self in session.attendeeList:
+        for session in seminar.sessions:
+            for attendee in session.attendeeList:
+                if self.name == attendee.name:
                     current_session.append(session)
-        return current_session        
+        return current_session
+
         
     #register for courses
     def registerCourse(self, course):
@@ -116,10 +110,15 @@ class UNSWMember(object):
 
     #check against registration history to avoid duplicated registeration for events
     def avoid_dup(self, event):
-        for e in self._currentEvents:
+        flag = 0
+        for e in self.currentEvents:
             if event.name == e.name:
-                return False
-        return True 
+                flag = 1
+                break
+        if flag == 1:
+            return False
+        else:
+            return True 
 
     #check aganinst session history to avoid duplicated registration for sessions 
     def avoid_dup_session(self, seminar, session):
@@ -134,47 +133,28 @@ class UNSWMember(object):
             return False
 
     def avoid_fake_session(self, seminar, session):
-        for s in seminar.get_all_session():
+        for s in seminar.sessions:
             if session.name == s.name:
                 return True
 
-    #to get rid of type
-    '''
-    #deregister from courses and sessions
-    def deRegister(self, event):
-        if self.check_registration(event) != True:
-            return False
-        if event.get_type() == "course":
-            self._currentEvents.remove(event)
-            event.remove_attendee(self)
-        elif event.get_type() == "seminar":
-            #deregister from every sessions
-            for session in event.get_all_session():
-                for attendee in session.get_attendeeList():
-                    if self.name == attendee.name:
-                        session.remove_attendee(self)
-                        break
-            self._currentEvents.remove(event)
-    '''
-
     def deRegisterCourse(self, course):
-        if self.check_registration(event) != True:
+        if self.check_registration(course) != True:
             return False
         
-        self._currentEvents.remove(event)
-        event.remove_attendee(self)
+        self._currentEvents.remove(course)
+        course.remove_attendee(self)
 
     def deRegisterSeminar(self, seminar):
-        if self.check_registration(event) != True:
+        if self.check_registration(seminar) != True:
             return False
         
         #deregister from every sessions
-        for session in event.get_all_session():
+        for session in seminar.sessions:
             for attendee in session.attendeeList:
                 if self.name == attendee.name:
                     session.remove_attendee(self)
                     break
-        self._currentEvents.remove(event)
+        self._currentEvents.remove(seminar)
 
     #if the session deregistered is the only session registered in a seminar before,
     #then deregistering this session will remove this seminar from the current event list
@@ -187,7 +167,7 @@ class UNSWMember(object):
             if self.name == attendee.name:
                 session.remove_attendee(self)
                 flag = 0
-                for session in seminar.get_all_session():
+                for session in seminar.sessions:
                     for attendee in session.attendeeList:
                         if self.name == attendee.name:
                             flag = 1

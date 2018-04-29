@@ -1,14 +1,13 @@
-from UNSWStaff import *
+from Staff import *
 from Speaker import *
 #for seminars
 
 class Convenor(Staff):
+    pass
+    '''
     def __init__ (self, name, zID, email, password, role):
         super().__init__(name, zID, email, password, role)
-    '''  
-    def set_speaker(self, speaker, session):
-        session.set_speaker(speaker)
-    '''
+    
     def create_session(status, date, time, location, maxAttendees, deRegWindow, abstractInfo, name, contact, seminar):
         speaker = Speaker(name, contact)
         session = Session(status, date, time, location, maxAttendees, deRegWindow, abstractInfo, speaker)
@@ -19,3 +18,4 @@ class Convenor(Staff):
 
     def change_session_status(session, status):
         session.set_sessionStatus(status)
+    '''

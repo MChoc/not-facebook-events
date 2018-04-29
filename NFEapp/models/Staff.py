@@ -66,7 +66,7 @@ class Staff(UNSWMember):
     ##need test!!!!!!!!!!!
     def changeCourseStatus(self, course, status, system):
         self.changeStatus(course, status, system)
-        for attendee in course.get_attendeeList():
+        for attendee in course.attendeeList:
             for e in attendee._currentEvents:
                 if e.name == course.name:
                     attendee._currentEvents.remove(course)
@@ -90,21 +90,28 @@ class Staff(UNSWMember):
             return False
         session.status = status
 
-
+    '''
     #pass in a course or a session
     def get_attendeeList(self, event):
         if self.avoid_creator(event) == True:
             return False
         for attendee in event.get_attendeeList():
             print(attendee.__str__())
-        
+    '''       
     #check that the event creator cannnot register for this event
     #check that person who want to get the attendee list is the creator
     def avoid_creator(self, event):
-        for e in self._currentPostEvent:
+        flag = 0
+        for e in self.currentPostEvent:
             if event.name == e.name:
-                return False
-        return True
+                flag = 1
+                break
+        #not the creator will return true
+        if flag == 0:
+            return True
+        elif flag == 1:     
+            return False
+
     
     def registerCourse(self, event):
         if self.avoid_creator(event) == True:

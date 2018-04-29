@@ -9,7 +9,6 @@ class Event:
         self._maxAttendees = maxAttendees
         self._deRegWindow = deRegWindow
         self._abstractInfo = abstractInfo
-        #self._type = type
         self._attendeeList = []
 
     @property
@@ -117,28 +116,31 @@ class Event:
         self._abstractInfo = abstractInfo
 ##
     
-    
-    #def get_type(self):
-    #	return self._type
-    
     valid_statuses = ['open', 'closed', 'cancelled']
-    
     @status.setter
     def status(self, status):
-        '''
         if status not in valid_statuses:
             return 0
         else:
             self._status = status
             return 1
-        '''
-        self._status = status
     
-    def add_attendee(self, member):
-        pass
+    def add_attendee(self, attendee):
+        if attendee not in self._attendeeList:
+            self._attendeeList.append(attendee)
+            return 1
+        else:
+            return 0
+        return 0
     
-    def remove_attendee(self, member):
-        pass
+    def remove_attendee(self, attendee):
+        if attendee in self._attendeeList:
+            self._attendeeList.remove(attendee)
+            return 1
+        else:
+            return 0
+        return 0
     
-    def get_attendeeList(self):
-        pass
+    @property
+    def attendeeList(self):
+        return self._attendeeList

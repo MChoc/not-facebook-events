@@ -7,10 +7,14 @@ class Seminar(Event):
         self._session = []
         self._attendeeList = []
 
+    def add_session(self, session):
+        self._session.append(session)
+    
+    '''
     def add_session(self, name, date, time, location, maxAttendees, deRegWindow, abstractInfo, sessionStatus, speaker):
         session = Session(name, date, time, location, maxAttendees, deRegWindow, abstractInfo, sessionStatus, speaker)
         self._session.append(session)
-
+    '''
     def get_all_session(self):
         return self._session
     

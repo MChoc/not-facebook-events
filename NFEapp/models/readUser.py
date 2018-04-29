@@ -35,7 +35,7 @@ staff = current
 print(staff.get_current_post_event())
 
 #(name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo, type)
-staff.createEvent('acct','open',04.19,19.00,'unsw',15,'24hr','new','course',system)
+staff.createCourse(Course('acct','open',04.19,19.00,'unsw',15,'24hr','new','course'),system)
 print('current post: {0}'.format(staff.get_current_post_event()))
 event1 = system.getOpenEvent('acct')
 print('systems open event: {0}'.format(system._openEvent))
@@ -84,22 +84,28 @@ for e in staff.get_current_post_event():
 #below are tests for seminar and sessions
 #create a seminar
 staff = current
-staff.createEvent('infs', 'open', 04.20, 17.00, 'mel', 14, '12hr', 'good', 'seminar',system)
-staff2.createEvent('fins', 'open', 04.20, 17.00, 'mel', 14, '12hr', 'good', 'seminar',system)
-print('current post: {0}'.format(staff.get_current_post_event()))
+staff.createSeminar(Seminar('infs', 'open', 04.20, 17.00, 'mel', 14, '12hr', 'good', 'seminar'), Session('infs2608', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Tom', 'hello@gmail.com')), system)
+staff2.createSeminar(Seminar('fins', 'open', 04.20, 17.00, 'mel', 14, '12hr', 'good', 'seminar'), Session('fins1613', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Tom', 'hello@gmail.com')),system)
 
-#add a session into the seminar
-    #name, date, time, location, maxAttendees, deRegWindow, abstractInfo, sessionStatus, speaker
+
 seminar1 = system.getOpenEvent('infs')
 seminar2 = system.getOpenEvent('fins')
 
-seminar1.add_session('infs2608', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Tom', 'hello@gmail.com'))
-seminar1.add_session('infs2609', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Jaze', 'hi@gmail.com'))
-seminar1.add_session('infs2605', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Jaze', 'hi@gmail.com'))
-seminar2.add_session('fins1613', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Tom', 'hello@gmail.com'))
+staff.createSeminar(seminar1,Session('infs2609', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Jaze', 'hi@gmail.com')), system)
+staff.createSeminar(seminar1,Session('infs2605', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Jaze', 'hi@gmail.com')), system)
+print(seminar1.get_all_session())
 
-for session in seminar1.get_all_session():
-    print(session.get_speaker())
+staff.createCourse(Course('acct','open',04.19,19.00,'unsw',15,'24hr','new','course'),system)
+event1 = system.getOpenEvent('acct')
+print('current post: {0}'.format(staff.get_current_post_event()))
+
+print(system.get_all_open_event())
+
+
+#seminar1.add_session('infs2608', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Tom', 'hello@gmail.com'))
+#seminar1.add_session('infs2609', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Jaze', 'hi@gmail.com'))
+#seminar1.add_session('infs2605', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Jaze', 'hi@gmail.com'))
+#seminar2.add_session('fins1613', 04.25, 16.00, 'asb', 5, '5hr', 'database','open', Speaker('Tom', 'hello@gmail.com'))
 
 student = system.getUNSWMember('name6119989')
 session1 = seminar1.get_one_session('infs2608')
@@ -107,7 +113,8 @@ session2 = seminar1.get_one_session('infs2609')
 session3 = seminar1.get_one_session('infs2605')
 session4 = seminar2.get_one_session('fins1613')
 
-staff.change_session_status(seminar1, session1, 'closed')
+print("other people trying changing")
+print(staff2.change_session_status(seminar1, session1, 'closed'))
 
 print(staff.get_current_post_event())
 print(staff.get_past_post_event())
@@ -116,11 +123,16 @@ print(student.registerSeminar(seminar1, session1))
 student.registerSeminar(seminar1, session2)
 student.registerSeminar(seminar1, session3)
 #print(student.registerSeminar(seminar1, session1)) #return false
+student.registerCourse(event1)
 
-for seminar in student.get_current_event():
-    print(seminar.get_name())
+for event in student.get_current_event():
+    print(event.get_name())
+    print(event.get_type())
 
-#staff.changeStatus(seminar1, 'closed', system)
+print("staff trying changing")
+print(staff.changeStatus(seminar1, 'closed', system))
+print(staff.changeStatus(event1, 'closed', system))
+
 print(student.get_current_event())
 print(student.get_past_event())
 
@@ -129,7 +141,11 @@ print('session name: ')
 for session in student.get_current_session(seminar1):
     print (session.get_name())
 
+print(staff.get_attendeeList(event1))
+print(staff2.get_attendeeList(event1))
 
+
+'''
 #deregister from seminar and thus all sessions in that seminar
 #student.deRegister(seminar1)
 #print(student.get_current_event())
@@ -158,3 +174,4 @@ print(session2.get_attendeeList())
 print("staff2 info:")
 print(staff2.get_current_post_event())
 print(staff2.get_current_event())
+'''

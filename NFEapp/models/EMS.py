@@ -28,3 +28,6 @@ class EMS:
             if event.get_name() == name:
                 return event
         return None
+    
+    def get_all_open_event(self):
+        return self._openEvent

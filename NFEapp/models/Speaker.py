@@ -9,6 +9,6 @@ class Speaker(object):
 
     def get_contact(self):
         return self._contact
-    
+
     def __str__(self):
         return "Speaker name: {0}, contact: {1}".format(self._name, self._contact)

@@ -9,7 +9,7 @@ class Event:
         self._name = name
         self._status = status
         self._date = datetime.strptime(date, '%Y-%m-%d')
-        self._time = time
+        self._time = datetime.strptime(time, '%H:%M')
         self._location = location
         self._maxAttendees = maxAttendees
         self._deRegWindow = deRegWindow
@@ -93,8 +93,8 @@ class Event:
 
     def valid_time(input_time):
         try:
-            datetime.datetime.strptime(input_time, '%H:%M')
-        except InputError:
+            datetime.strptime(input_time, '%H:%M')
+        except ValueError:
             return 0
         return 1
 

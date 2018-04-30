@@ -33,7 +33,6 @@ class UNSWMember(object):
         return self._role
 
     #setters
-    #do we need setters???
     @name.setter
     def name(self, name):
         self._name = name
@@ -56,12 +55,14 @@ class UNSWMember(object):
     def currentEvents(self):
         return self._currentEvents
 
-    #need to test
     @property
     def pastEvents(self):
         return self._pastEvents
         
-    
+    #return current sessions that the user registered for in a seminar
+    #pass in a seminar object
+    #need to check that this user has registered for this seminar before
+    #return false if not successful
     def get_current_session(self, seminar):
         if self.avoid_dup(seminar) == True:
             return False       
@@ -75,6 +76,10 @@ class UNSWMember(object):
 
         
     #register for courses
+    #pass in a course that the user intends to register for
+    #need to check that the status of the course is not closed
+    #need to check that this user has not registered for this course before
+    #return false is not successful
     def registerCourse(self, course):
         if self.avoid_closed_status(course) == False:
             return False
@@ -85,9 +90,16 @@ class UNSWMember(object):
         else:
             return False
 
+    #pass in a session that the user intends to register for
+    #used inside registerSeminar method, not for individual use
     def registerSession(self, session):
         session.add_attendee(self)
 
+    #register for seminar
+    #pass in a seminar and a session of the seminar that the user intends to register for
+    #need to check that status of the seminar and the session is not closed
+    #need to check that this session belongs to this semianr
+    #return false if unsuccessful
     def registerSeminar(self, seminar, session):
         if self.avoid_closed_status(seminar) == False:
             return False
@@ -128,15 +140,21 @@ class UNSWMember(object):
                 return False
         return True
 
+    #check that the status of the event is not closed
     def avoid_closed_status(self, event):
         if event.status == 'closed':
             return False
 
+    #check that the session does belong to this seminar
+    #return ture if the session belongs to this seminar
     def avoid_fake_session(self, seminar, session):
         for s in seminar.sessions:
             if session.name == s.name:
                 return True
 
+    #deregister for course
+    #pass in a course that the user intends to deregister for
+    #need to check that this user has registered for this course before
     def deRegisterCourse(self, course):
         if self.check_registration(course) != True:
             return False
@@ -144,6 +162,10 @@ class UNSWMember(object):
         self._currentEvents.remove(course)
         course.remove_attendee(self)
 
+    #deregister for semianr
+    #pass in a semianr that the user intends to deregister for
+    #thus deregister from all sessions in the seminar
+    #need to check that this user has registered for this seminar before
     def deRegisterSeminar(self, seminar):
         if self.check_registration(seminar) != True:
             return False
@@ -159,9 +181,12 @@ class UNSWMember(object):
     #if the session deregistered is the only session registered in a seminar before,
     #then deregistering this session will remove this seminar from the current event list
     #if not, deregistering will only remove the session, not the whole seminar 
-    
+    #need to check that this user has registered for this seminar before
+    #need to check that this session belongs to this seminar
     def deRegisterSession(self, seminar, session):
         if self.check_registration(seminar) != True:
+            return False
+        if self.avoid_fake_session(seminar, session) != True:
             return False
         for attendee in session.attendeeList:
             if self.name == attendee.name:

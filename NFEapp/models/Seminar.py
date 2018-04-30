@@ -1,7 +1,6 @@
 class Seminar:
 
     def __init__(self, id, name, status, attendeeList, abstractInfo):
-        Event.__init__(self, id, name, status, attendeeList, deRegWindow, abstractInfo)
         self._session = []
         # special case: self._attendeeList = list[list[UNSWMember]]
 

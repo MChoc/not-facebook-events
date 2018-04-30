@@ -1,9 +1,10 @@
 from datetime import datetime
 
 class Event:
+    __id = -1
 
-    def __init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
-        self._id = id
+    def __init__(self, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
+        self._id = self._generate_id()
         self._name = name
         self._status = status
         self._date = date
@@ -14,6 +15,12 @@ class Event:
         self._abstractInfo = abstractInfo
         self._attendeeList = []
 
+    def get_id(self):
+        return str(self._id)
+
+    def _generate_id(self):
+        Event.__id += 1
+        return Event.__id
 
 ##
     # Do not allow users to change the id of events

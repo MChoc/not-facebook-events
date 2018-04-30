@@ -1,15 +1,7 @@
-from Event import *
+class Seminar:
 
-# attendeeList for Seminar should be None
-class Seminar(Event):
-
-    def __init__(self, id, name, status, date, time, location, attendeeList, maxAttendees, deRegWindow, abstractInfo):
-        Event.__init__(self, id, name, status, date, time, location, attendeeList, maxAttendees, deRegWindow, abstractInfo)
-        self._date = None
-        self._time = None
-        self._location = None
-        self._maxAttendees = None
-        self._deRegWindow = None
+    def __init__(self, id, name, status, attendeeList, abstractInfo):
+        Event.__init__(self, id, name, status, attendeeList, deRegWindow, abstractInfo)
         self._session = []
         # special case: self._attendeeList = list[list[UNSWMember]]
 
@@ -24,4 +16,14 @@ class Seminar(Event):
     # arg1 session
     def add_session(self, session):
         self._session.append(session)
+
+    # removes input session from list of sessions
+    # arg1 session
+    # return int: 0 - failed, 1 - success
+    def remove_session(self, session):
+        if session in self._session:
+            self._session.remove(session)
+            return 1
+        else:
+            return 0
 ##

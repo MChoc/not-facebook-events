@@ -5,7 +5,13 @@ class Seminar(Event):
 
     def __init__(self, id, name, status, date, time, location, attendeeList, maxAttendees, deRegWindow, abstractInfo):
         Event.__init__(self, id, name, status, date, time, location, attendeeList, maxAttendees, deRegWindow, abstractInfo)
+        self._date = None
+        self._time = None
+        self._location = None
+        self._maxAttendees = None
+        self._deRegWindow = None
         self._session = []
+        # special case: self._attendeeList = list[list[UNSWMember]]
 
 
 ##

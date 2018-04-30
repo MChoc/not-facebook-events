@@ -1,13 +1,14 @@
 from datetime import datetime
 
 class Event:
-    __id = -1
+    #__id = -1
 
-    def __init__(self, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
-        self._id = self._generate_id()
+    def __init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
+        self._id = id
+        #self._id = self._generate_id()
         self._name = name
         self._status = status
-        self._date = date
+        self._date = datetime.strptime(date, '%Y-%m-%d')
         self._time = time
         self._location = location
         self._maxAttendees = maxAttendees
@@ -15,13 +16,14 @@ class Event:
         self._abstractInfo = abstractInfo
         self._attendeeList = []
 
+    '''
     def get_id(self):
         return str(self._id)
 
     def _generate_id(self):
         Event.__id += 1
         return Event.__id
-
+    '''
 ##
     # Do not allow users to change the id of events
     # handled by the system
@@ -68,8 +70,8 @@ class Event:
 
     def valid_date(input_date):
         try:
-            datetime.datetime.strptime(input_date, '%Y-%m-%d')
-        except InputError:
+            datetime.strptime(input_date, '%Y-%m-%d')
+        except ValueError:
             return 0
         return 1
 

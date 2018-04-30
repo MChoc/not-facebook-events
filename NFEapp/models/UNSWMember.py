@@ -2,7 +2,7 @@
 from Event import *
 from Course import *
 from Seminar import *
-
+from datetime import datetime
 
 class UNSWMember(object):
 
@@ -155,7 +155,10 @@ class UNSWMember(object):
     #deregister for course
     #pass in a course that the user intends to deregister for
     #need to check that this user has registered for this course before
+    #need to check time that allow for deregister is not passed
     def deRegisterCourse(self, course):
+        if self.check_time_validation(course.deRegWindow) == False:
+            return False
         if self.check_registration(course) != True:
             return False
         
@@ -166,7 +169,10 @@ class UNSWMember(object):
     #pass in a semianr that the user intends to deregister for
     #thus deregister from all sessions in the seminar
     #need to check that this user has registered for this seminar before
+    ##need to check time that allow for deregister is not passed
     def deRegisterSeminar(self, seminar):
+        #if self.check_time_validation(course.deRegWindow) == False:
+        #    return False
         if self.check_registration(seminar) != True:
             return False
         
@@ -183,11 +189,15 @@ class UNSWMember(object):
     #if not, deregistering will only remove the session, not the whole seminar 
     #need to check that this user has registered for this seminar before
     #need to check that this session belongs to this seminar
+    #need to check time that allow for deregister is not passed
     def deRegisterSession(self, seminar, session):
         if self.check_registration(seminar) != True:
             return False
         if self.avoid_fake_session(seminar, session) != True:
             return False
+        if self.check_time_validation(session.deRegWindow) == False:
+            return False
+
         for attendee in session.attendeeList:
             if self.name == attendee.name:
                 session.remove_attendee(self)
@@ -211,3 +221,15 @@ class UNSWMember(object):
         for e in self._currentEvents:
             if e.name == event.name:
                 return True
+    
+    #compare current time and deregDate
+    #check that deregister is allowed
+    #return true if time is valid(deregister is allowed)
+    def check_time_validation(self, deRegDate):
+        deRegDate = datetime.strptime(deRegDate, '%Y-%m-%d')
+        currentDate = datetime.now()
+        if currentDate > deRegDate:
+            print("time passed")
+            return False
+        else:
+            return True

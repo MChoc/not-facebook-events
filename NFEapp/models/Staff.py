@@ -64,7 +64,7 @@ class Staff(UNSWMember):
         #status of all sessions in the seminar
     def changeSeminarStatus(self, seminar, status, system):
         self.changeStatus(seminar, status, system)
-        for s in seminar.get_all_session():
+        for s in seminar.sessions:
             s.status = status
             for attendee in s.attendeeList:
                 for e in attendee.currentEvents:
@@ -85,15 +85,7 @@ class Staff(UNSWMember):
         if seminar.status == "closed":
             return False
         session.status = status
-
-    '''
-    #pass in a course or a session
-    def get_attendeeList(self, event):
-        if self.avoid_creator(event) == True:
-            return False
-        for attendee in event.get_attendeeList():
-            print(attendee.__str__())
-    '''       
+    
     #check that the event creator cannnot register for this event
     #check that person who want to get the attendee list is the creator
     #if the person is not the event creator, will return true
@@ -111,7 +103,10 @@ class Staff(UNSWMember):
         elif flag == 1:     
             return False
 
-    
+    #staff register course
+    #inherited from UNSWMember
+    #need to check that the staff who wants to registers for this course
+        #is not the one who created it
     def registerCourse(self, event):
         if self.avoid_creator(event) == True:
             if super().registerCourse(event) == False: 
@@ -119,6 +114,10 @@ class Staff(UNSWMember):
         else:
             return False
     
+    #staff register seminar
+    #inherited from UNSWMember
+    #need to check that the staff who wants to registers for this seminar
+        #is not the one who created it
     def registerSeminar(self, seminar, session):
         if self.avoid_creator(seminar) == True:
             if UNSWMember.registerSeminar(self, seminar, session) == True:

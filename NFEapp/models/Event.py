@@ -47,7 +47,6 @@ class Event:
     def status(self):
         return self._status
 
-    # TODO: add debugging
     # Email to be send when any setter is called?
     # arg1 str: "open", "closed" or "cancelled"
     # return int: 0 - failed (invalid status), 1 - success

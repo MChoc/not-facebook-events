@@ -220,15 +220,7 @@ class UNSWMember(object):
                 break
             else:
                 return False
-    '''
-    #used for deRegistration
-    #check that intended deregistered event is registered before
-    #return true if this event has been registered for before
-    def check_registration(self, event):
-        for e in self._currentEvents:
-            if e.name == event.name:
-                return True
-    '''
+
     #compare current time and deregDate
     #check that deregister is allowed
     #return true if time is valid(deregister is allowed)

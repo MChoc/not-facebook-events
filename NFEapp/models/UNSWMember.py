@@ -9,9 +9,9 @@ from abc import ABC, abstractmethod
 class UNSWMember(UserMixin, ABC):
     __id = -1
 
-    def __init__ (self, username, zID, email, password, role):
+    def __init__ (self, name, zID, email, password, role):
         self._id = self._generate_id()
-        self._username = username
+        self._name = name
         self._zID = zID
         self._email = email
         self._password = password
@@ -23,12 +23,12 @@ class UNSWMember(UserMixin, ABC):
 ##
     # flask_login
     @property
-    def username(self)
+    def name(self)
 
     #getters
     @property
-    def username(self):
-        return self._username
+    def name(self):
+        return self._name
 
     @property
     def zID(self):
@@ -43,9 +43,9 @@ class UNSWMember(UserMixin, ABC):
         return self._role
 
     #setters
-    @username.setter
-    def username(self, username):
-        self._username = username
+    @name.setter
+    def name(self, name):
+        self._name = name
 
     @email.setter
     def email(self, email):
@@ -65,7 +65,7 @@ class UNSWMember(UserMixin, ABC):
         return self._password == password
 
     def __str__(self):
-        return "Attdenee detail: \nusername: {0}, email: {1}".format(self._username, self._email)
+        return "Attdenee detail: \nname: {0}, email: {1}".format(self._name, self._email)
 
     @property
     def currentEvents(self):
@@ -86,7 +86,7 @@ class UNSWMember(UserMixin, ABC):
         current_session = []
         for session in seminar.sessions:
             for attendee in session.attendeeList:
-                if self.user == attendee.user:
+                if self.name == attendee.name:
                     current_session.append(session)
         return current_session
 

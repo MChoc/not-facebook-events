@@ -87,14 +87,14 @@ for e in staff.pastPostEvent:
 #below are tests for seminar and sessions
 #create a seminar
 staff = current
-staff.createSeminar(Seminar(4, 'infs', 'open', 'good'), Session(3, 'infs2608', 'open', '2018-04-29', '17:00', 'asb', 5, '2018-05-01', 'database', Speaker('Tom', 'hello@gmail.com')), system)
-staff2.createSeminar(Seminar(3, 'fins', 'open', 'good'), Session(5, 'fins1613', 'open', '2018-04-29', '17:00', 'asb', 5, '2018-04-28', 'database', Speaker('Tom', 'hello@gmail.com')), system)
+staff.createSeminar(Seminar(4, 'infs', 'open', 'good'), Session(3, 'infs2608', 'open', '2018-04-29', '17:00', 'asb', 5, '2018-05-02', 'database', Speaker('Tom', 'hello@gmail.com')), system)
+staff2.createSeminar(Seminar(3, 'fins', 'open', 'good'), Session(5, 'fins1613', 'open', '2018-05-02', '17:00', 'asb', 5, '2018-04-28', 'database', Speaker('Tom', 'hello@gmail.com')), system)
 
 seminar1 = system.getOpenEvent('infs')
 seminar2 = system.getOpenEvent('fins')
 
-staff.createSeminar(seminar1,Session(5, 'infs2609', 'open', '2018-04-25', '17:00', 'asb', 5, '2018-05-01', 'database', Speaker('Jaze', 'hi@gmail.com')), system)
-staff.createSeminar(seminar1,Session(1, 'infs2605', 'open', '2018-04-25', '17:00', 'asb', 5, '2018-04-25', 'database', Speaker('Jaze', 'hi@gmail.com')), system)
+staff.createSeminar(seminar1,Session(5, 'infs2609', 'open', '2018-04-25', '17:00', 'asb', 5, '2018-05-02', 'database', Speaker('Jaze', 'hi@gmail.com')), system)
+staff.createSeminar(seminar1,Session(1, 'infs2605', 'open', '2018-04-25', '17:00', 'asb', 5, '2018-05-02', 'database', Speaker('Jaze', 'hi@gmail.com')), system)
 
 staff.createCourse(Course(7, 'acct','open','2018-04-29', '17:00','unsw',15,'24hr','new'),system)
 event1 = system.getOpenEvent('acct')
@@ -109,7 +109,7 @@ session2 = seminar1.get_one_session('infs2609')
 session3 = seminar1.get_one_session('infs2605')
 session4 = seminar2.get_one_session('fins1613')
 
-'''
+
 #print("other people trying changing")
 #print(staff2.change_session_status(seminar1, session1, 'closed'))
 
@@ -139,7 +139,6 @@ print(student.get_current_session(seminar1))
 for s in student.get_current_session(seminar1):
     print (s.name)
 
-
 #deregister from seminar and thus all sessions in that seminar
 #student.deRegisterSeminar(seminar1)
 #print(student.currentEvents)
@@ -158,9 +157,10 @@ print(student.get_current_session(seminar1))
 
 #deregister from last session
 student.deRegisterSession(seminar1, session3)
+print(student.currentEvents)
 print(student.pastEvents)
 print(student.get_current_session(seminar1))
-
+'''
 print("check")
 print(staff.registerSeminar(seminar1, session2))
 print(staff2.registerSeminar(seminar1, session2))

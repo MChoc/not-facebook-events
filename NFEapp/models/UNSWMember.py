@@ -121,6 +121,8 @@ class UNSWMember:
                 return False
 
     #check against registration history to avoid duplicated registeration for events
+    #return false if the person has registerer for this event before
+    #return true if the person has not registered before
     def avoid_dup(self, event):
         flag = 0
         for e in self.currentEvents:
@@ -133,6 +135,7 @@ class UNSWMember:
             return True
 
     #check aganinst session history to avoid duplicated registration for sessions
+    #return false if this person has registered for this session before
     def avoid_dup_session(self, seminar, session):
         s = seminar.get_one_session(session.name)
         for user in s.attendeeList:
@@ -141,6 +144,7 @@ class UNSWMember:
         return True
 
     #check that the status of the event is not closed
+    #return false if the event is already closed
     def avoid_closed_status(self, event):
         if event.status == 'closed':
             return False
@@ -159,10 +163,11 @@ class UNSWMember:
     def deRegisterCourse(self, course):
         if self.check_time_validation(course.deRegWindow) == False:
             return False
-        if self.check_registration(course) != True:
+        if self.avoid_dup(course) == True:
             return False
 
         self._currentEvents.remove(course)
+        self._pastEvents.append(course)
         course.remove_attendee(self)
 
     #deregister for semianr
@@ -173,7 +178,7 @@ class UNSWMember:
     def deRegisterSeminar(self, seminar):
         #if self.check_time_validation(course.deRegWindow) == False:
         #    return False
-        if self.check_registration(seminar) != True:
+        if self.avoid_dup(seminar) == True:
             return False
 
         #deregister from every sessions
@@ -191,7 +196,7 @@ class UNSWMember:
     #need to check that this session belongs to this seminar
     #need to check time that allow for deregister is not passed
     def deRegisterSession(self, seminar, session):
-        if self.check_registration(seminar) != True:
+        if self.avoid_dup(seminar) == True:
             return False
         if self.avoid_fake_session(seminar, session) != True:
             return False
@@ -211,6 +216,7 @@ class UNSWMember:
                         break
                 if flag == 0:
                     self._currentEvents.remove(seminar)
+                    self._pastEvents.append(seminar)
                 break
             else:
                 return False
@@ -222,6 +228,7 @@ class UNSWMember:
             if e.name == event.name:
                 return True
 
+
     #compare current time and deregDate
     #check that deregister is allowed
     #return true if time is valid(deregister is allowed)
@@ -229,7 +236,6 @@ class UNSWMember:
         deRegDate = datetime.strptime(deRegDate, '%Y-%m-%d')
         currentDate = datetime.now()
         if currentDate > deRegDate:
-            print("time passed")
             return False
         else:
             return True

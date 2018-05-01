@@ -108,7 +108,7 @@ class Event:
     @location.setter
     def location(self, location):
         self._location = location
-    
+
     @property
     def maxAttendees(self):
         return self._maxAttendees
@@ -124,7 +124,7 @@ class Event:
             self._maxAttendees = maxAttendees
             return 1
         return 0
-   
+
     @property
     def deRegWindow(self):
         return self._deRegWindow

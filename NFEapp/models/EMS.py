@@ -13,6 +13,7 @@ class EMS:
 
     def __init__(self):
         self._openEvent = []
+        self._openEventCounter = 0
         self._UNSWMember = []
 
     @property
@@ -29,10 +30,11 @@ class EMS:
 
     def addOpenEvent(self, event):
         self._openEvent.append(event)
-    
+        self._openEventCounter += 1
+
     def removeOpenEvent(self,event):
         self._openEvent.remove(event)
-    
+
     def addUNSWMember(self, member):
         self._UNSWMember.append(member)
     
@@ -41,7 +43,7 @@ class EMS:
             if person.username == username:
                 return person
         return None
-    
+
     def getOpenEvent(self, name):
         for event in self._openEvent:
             if event.name == name:

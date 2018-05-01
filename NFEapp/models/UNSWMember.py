@@ -3,8 +3,11 @@ from Event import *
 from Course import *
 from Seminar import *
 from datetime import datetime
+from flask_login import UserMixin
+from abc import ABC, abstractmethod
 
-class UNSWMember(object):
+class UNSWMember(UserMixin, ABC):
+    __id = -1
 
     def __init__ (self, username, zID, email, password, role):
         self._username = username
@@ -14,7 +17,12 @@ class UNSWMember(object):
         self._role = role
         self._currentEvents = []
         self._pastEvents = []
-    
+
+##
+    # flask_login
+    @property
+    def name(self)
+
     #getters
     @property
     def username(self):
@@ -41,13 +49,19 @@ class UNSWMember(object):
     def email(self, email):
         self._email = email
 
+
+    valid_role = ['trainer', 'trainee']
     @role.setter
     def role(self, role):
-        self._role = role
+        if role in valid_role:
+            self._role = role
+            return 1
+        else:
+            return 0
 
     def validate_password(self, password):
         return self._password == password
-    
+
     def __str__(self):
         return "Attdenee detail: \nname: {0}, email: {1}".format(self._username, self._email)
     
@@ -58,7 +72,7 @@ class UNSWMember(object):
     @property
     def pastEvents(self):
         return self._pastEvents
-        
+
     #return current sessions that the user registered for in a seminar
     #pass in a seminar object
     #need to check that this user has registered for this seminar before
@@ -74,7 +88,7 @@ class UNSWMember(object):
                     current_session.append(session)
         return current_session
 
-        
+
     #register for courses
     #pass in a course that the user intends to register for
     #need to check that the status of the course is not closed
@@ -105,7 +119,7 @@ class UNSWMember(object):
             return False
         if session.status == "closed":
             return False
-        
+
         if self.avoid_fake_session(seminar, session) != True:
             return False
 
@@ -132,9 +146,9 @@ class UNSWMember(object):
         if flag == 1:
             return False
         else:
-            return True 
+            return True
 
-    #check aganinst session history to avoid duplicated registration for sessions 
+    #check aganinst session history to avoid duplicated registration for sessions
     #return false if this person has registered for this session before
     def avoid_dup_session(self, seminar, session):
         s = seminar.get_one_session(session.name)
@@ -180,7 +194,7 @@ class UNSWMember(object):
         #    return False
         if self.avoid_dup(seminar) == True:
             return False
-        
+
         #deregister from every sessions
         for session in seminar.sessions:
             for attendee in session.attendeeList:
@@ -191,7 +205,7 @@ class UNSWMember(object):
 
     #if the session deregistered is the only session registered in a seminar before,
     #then deregistering this session will remove this seminar from the current event list
-    #if not, deregistering will only remove the session, not the whole seminar 
+    #if not, deregistering will only remove the session, not the whole seminar
     #need to check that this user has registered for this seminar before
     #need to check that this session belongs to this seminar
     #need to check time that allow for deregister is not passed
@@ -220,6 +234,14 @@ class UNSWMember(object):
                 break
             else:
                 return False
+
+    #used for deRegistration
+    #check that intended deregistered event is registered before
+    def check_registration(self, event):
+        for e in self._currentEvents:
+            if e.name == event.name:
+                return True
+
 
     #compare current time and deregDate
     #check that deregister is allowed

@@ -10,7 +10,7 @@ class UNSWMember(UserMixin, ABC):
     __id = -1
 
     def __init__ (self, username, zID, email, password, role):
-        self._id = 0
+        self._id = self._generate_id()
         self._username = username
         self._zID = zID
         self._email = email
@@ -21,10 +21,26 @@ class UNSWMember(UserMixin, ABC):
 
 ##
     # flask_login
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
     def get_id(self):
-        """Required by Flask-login"""
         return str(self._id)
 
+    def _generate_id(self):
+        UNSWMember.__id = += 1
+
+    def validate_password(self, password):
+        return self._password == password
 
     #getters
     @property
@@ -47,11 +63,11 @@ class UNSWMember(UserMixin, ABC):
     @username.setter
     def username(self, username):
         self._username = username
-    
+
     @email.setter
     def email(self, email):
         self._email = email
-    
+
     @role.setter
     def role(self, role):
         valid_role = ['trainer', 'trainee']
@@ -66,7 +82,7 @@ class UNSWMember(UserMixin, ABC):
 
     def __str__(self):
         return "Attdenee detail: \nname: {0}, email: {1}".format(self._username, self._email)
-    
+
     @property
     def currentEvents(self):
         return self._currentEvents
@@ -81,7 +97,7 @@ class UNSWMember(UserMixin, ABC):
     #return false if not successful
     def get_current_session(self, seminar):
         if self.avoid_dup(seminar) == True:
-            return False       
+            return False
 
         current_session = []
         for session in seminar.session:

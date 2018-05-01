@@ -13,31 +13,30 @@ class EMS:
 
     def __init__(self):
         self._openEvent = []
-        self._openEventCounter = 0
         self._UNSWMember = []
 
     @property
     def openEvent(self):
         return self._openEvent
-    
+
     def _generate_id(self):
         EMS.__id += 1
         return EMS.__id
 
     def _generate_sid(self):
         EMS.__sid += 1
-        return EMS.__sid        
+        return EMS.__sid
 
     def addOpenEvent(self, event):
         self._openEvent.append(event)
-        self._openEventCounter += 1
+        EMS.
 
     def removeOpenEvent(self,event):
         self._openEvent.remove(event)
 
     def addUNSWMember(self, member):
         self._UNSWMember.append(member)
-    
+
     def getUNSWMember(self, username):
         for person in self._UNSWMember:
             if person.username == username:
@@ -49,7 +48,7 @@ class EMS:
             if event.name == name:
                 return event
         return None
-    
+
     def create_open_course(self, user, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
         id = self._generate_id()
         course = Course(id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo)
@@ -67,21 +66,21 @@ class EMS:
     def add_session(self, user, seminar, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sabstractInfo, sspeaker):
         if user.avoid_creator(seminar) == True:
             return False
-        
+
         sid = self._generate_sid()
         session = Session(sid, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sabstractInfo, sspeaker)
         user.addSession(seminar, session)
-    
+
     def change_course_status(self, user, course, status):
         if user.changeCourseStatus(course, status) == False:
             return False
         self.removeOpenEvent(course)
-    
+
     def change_seminar_status(self, user, seminar, status):
         if user.changeSeminarStatus(seminar, status) == False:
             return False
         self.removeOpenEvent(seminar)
-    
+
     def change_session_status(self, user, seminar, session, status):
         if user.changeSessionStatus(seminar, session, status) == False:
             return False
@@ -89,7 +88,7 @@ class EMS:
     def register_course(self, user, course):
         if user.registerCourse(course) == False:
             return False
-    
+
     def register_seminar(self, user, seminar, session):
         if user.registerSeminar(seminar, session) == False:
             return False
@@ -97,15 +96,15 @@ class EMS:
     def deRegister_course(self, user, course):
         if user.deRegisterCourse(course) == False:
             return False
-    
+
     def deRegister_seminar(self, user, seminar):
         if user.deRegisterSeminar(seminar) == False:
             return False
-    
+
     def deRegister_session(self, user, seminar, session):
         if user.deRegisterSession(seminar, session) == False:
             return False
-    
+
     def get_current_session(self, user, seminar):
         if user.get_current_session(seminar) == False:
             return False

@@ -5,7 +5,7 @@ class Seminar:
         self._name = name
         self._status = status
         self._abstractInfo = abstractInfo
-        self._session = []
+        self._sessions = []
         # special case: self._attendeeList = list[list[UNSWMember]]
         self._attendeeList = []
 
@@ -71,7 +71,7 @@ class Seminar:
     # arg1 session
     def add_session(self, session):
         self._session.append(session)
-    
+
     def get_one_session(self, name):
         for session in self._session:
             if session.name == name:

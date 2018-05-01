@@ -3,11 +3,15 @@ from Event import *
 from Course import *
 from Seminar import *
 from datetime import datetime
+from flask_login import UserMixin
+from abc import ABC, abstractmethod
 
-class UNSWMember:
+class UNSWMember(UserMixin, ABC):
+    __id = -1
 
-    def __init__ (self, name, zID, email, password, role):
-        self._name = name
+    def __init__ (self, username, zID, email, password, role):
+        self._id = self._generate_id()
+        self._username = username
         self._zID = zID
         self._email = email
         self._password = password
@@ -15,10 +19,16 @@ class UNSWMember:
         self._currentEvents = []
         self._pastEvents = []
 
+
+##
+    # flask_login
+    @property
+    def username(self)
+
     #getters
     @property
-    def name(self):
-        return self._name
+    def username(self):
+        return self._username
 
     @property
     def zID(self):
@@ -33,23 +43,29 @@ class UNSWMember:
         return self._role
 
     #setters
-    @name.setter
-    def name(self, name):
-        self._name = name
+    @username.setter
+    def username(self, username):
+        self._username = username
 
     @email.setter
     def email(self, email):
         self._email = email
 
+
+    valid_role = ['trainer', 'trainee']
     @role.setter
     def role(self, role):
-        self._role = role
+        if role in valid_role:
+            self._role = role
+            return 1
+        else:
+            return 0
 
     def validate_password(self, password):
         return self._password == password
 
     def __str__(self):
-        return "Attdenee detail: \nname: {0}, email: {1}".format(self._name, self._email)
+        return "Attdenee detail: \nusername: {0}, email: {1}".format(self._username, self._email)
 
     @property
     def currentEvents(self):
@@ -70,7 +86,7 @@ class UNSWMember:
         current_session = []
         for session in seminar.sessions:
             for attendee in session.attendeeList:
-                if self.name == attendee.name:
+                if self.user == attendee.user:
                     current_session.append(session)
         return current_session
 

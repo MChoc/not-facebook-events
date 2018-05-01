@@ -23,7 +23,16 @@ class UNSWMember(UserMixin, ABC):
 ##
     # flask_login
     @property
-    def name(self)
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
 
     #getters
     @property

@@ -6,8 +6,8 @@ from datetime import datetime
 
 class UNSWMember(object):
 
-    def __init__ (self, name, zID, email, password, role):
-        self._name = name
+    def __init__ (self, username, zID, email, password, role):
+        self._username = username
         self._zID = zID
         self._email = email
         self._password = password
@@ -17,8 +17,8 @@ class UNSWMember(object):
     
     #getters
     @property
-    def name(self):
-        return self._name
+    def username(self):
+        return self._username
 
     @property
     def zID(self):
@@ -33,9 +33,9 @@ class UNSWMember(object):
         return self._role
 
     #setters
-    @name.setter
-    def name(self, name):
-        self._name = name
+    @username.setter
+    def username(self, username):
+        self._username = username
     
     @email.setter
     def email(self, email):
@@ -49,7 +49,7 @@ class UNSWMember(object):
         return self._password == password
     
     def __str__(self):
-        return "Attdenee detail: \nname: {0}, email: {1}".format(self._name, self._email)
+        return "Attdenee detail: \nname: {0}, email: {1}".format(self._username, self._email)
     
     @property
     def currentEvents(self):
@@ -66,11 +66,11 @@ class UNSWMember(object):
     def get_current_session(self, seminar):
         if self.avoid_dup(seminar) == True:
             return False       
-        
+
         current_session = []
         for session in seminar.sessions:
             for attendee in session.attendeeList:
-                if self.name == attendee.name:
+                if self.username == attendee.username:
                     current_session.append(session)
         return current_session
 
@@ -139,7 +139,7 @@ class UNSWMember(object):
     def avoid_dup_session(self, seminar, session):
         s = seminar.get_one_session(session.name)
         for user in s.attendeeList:
-            if self.name == user.name:
+            if self.username == user.username:
                 return False
         return True
 
@@ -165,7 +165,7 @@ class UNSWMember(object):
             return False
         if self.avoid_dup(course) == True:
             return False
-        
+
         self._currentEvents.remove(course)
         self._pastEvents.append(course)
         course.remove_attendee(self)
@@ -184,7 +184,7 @@ class UNSWMember(object):
         #deregister from every sessions
         for session in seminar.sessions:
             for attendee in session.attendeeList:
-                if self.name == attendee.name:
+                if self.username == attendee.username:
                     session.remove_attendee(self)
                     break
         self._currentEvents.remove(seminar)
@@ -204,12 +204,12 @@ class UNSWMember(object):
             return False
 
         for attendee in session.attendeeList:
-            if self.name == attendee.name:
+            if self.username == attendee.username:
                 session.remove_attendee(self)
                 flag = 0
                 for session in seminar.sessions:
                     for attendee in session.attendeeList:
-                        if self.name == attendee.name:
+                        if self.username == attendee.username:
                             flag = 1
                             break
                     if flag == 1:

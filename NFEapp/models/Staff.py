@@ -1,8 +1,8 @@
 from UNSWMember import *
 
 class Staff(UNSWMember):
-    def __init__ (self, name, zID, email, password, role):
-        UNSWMember.__init__(self, name, zID, email, password, role)
+    def __init__ (self, username, zID, email, password, role):
+        UNSWMember.__init__(self, username, zID, email, password, role)
         self._currentPostEvent = []
         self._pastPostEvent = []
         self._cancelledEvent = []
@@ -16,24 +16,33 @@ class Staff(UNSWMember):
         return self._pastPostEvent
     
     #create a new course
-    def createCourse(self, course, system):
+    def createCourse(self, course):
         self._currentPostEvent.append(course)
-        system.addOpenEvent(course)
 
+    '''
     #create a new seminar or a new sesssion in the semianr
-    def createSeminar(self, seminar, session, system):
+    def createSeminar(self, seminar, session):
         for s in self._currentPostEvent:
             if s.name == seminar.name:
                 seminar.add_session(session)
                 return True
         self._currentPostEvent.append(seminar)
-        system.addOpenEvent(seminar)
         seminar.add_session(session)
-        
+    '''
+
+    def createSeminar(self, seminar, session):
+        self._currentPostEvent.append(seminar)
+        seminar.add_session(session)
+    
+    def addSession(self, seminar, session):
+        for s in self.currentPostEvent:
+            if s.name == seminar.name:
+                seminar.add_session(session)
+                return True
     
     #change status of seminars or courses, not sessions
     #used for changeCourseStatus or changeSeminarStatus, not for individual use
-    def changeStatus(self, event, status, system):
+    def changeStatus(self, event, status):
         if self.avoid_creator(event) == True:
             return False
         event.status = status
@@ -41,16 +50,15 @@ class Staff(UNSWMember):
         #don't worry about cancelling events now
         if status == "cancelled":
             self._cancelledEvent.append(event)
-            system.removeOpenEvent(event)
         if status == "closed":
             self._pastPostEvent.append(event)
-            system.removeOpenEvent(event)
 
     #change the status of a course
     #need to check that the person who wants to change the status
         #must be person who create this course
-    def changeCourseStatus(self, course, status, system):
-        self.changeStatus(course, status, system)
+    def changeCourseStatus(self, course, status):
+        if self.changeStatus(course, status) == False:
+            return False
         for attendee in course.attendeeList:
             for e in attendee._currentEvents:
                 if e.name == course.name:
@@ -62,8 +70,9 @@ class Staff(UNSWMember):
         #must be person who create this seminar
     #change the status of the seminar will sequentially change
         #status of all sessions in the seminar
-    def changeSeminarStatus(self, seminar, status, system):
-        self.changeStatus(seminar, status, system)
+    def changeSeminarStatus(self, seminar, status):
+        if self.changeStatus(seminar, status) == False:
+            return False
         for s in seminar.sessions:
             s.status = status
             for attendee in s.attendeeList:
@@ -77,7 +86,7 @@ class Staff(UNSWMember):
         #must the person who create the seminar
     #return false if unsuccessful
     #return false if the session has already closed
-    def change_session_status(self, seminar, session, status):
+    def changeSessionStatus(self, seminar, session, status):
         if self.avoid_creator(seminar) == True:
             return False
         if self.avoid_fake_session(seminar, session) != True:

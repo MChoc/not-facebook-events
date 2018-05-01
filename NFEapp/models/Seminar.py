@@ -42,6 +42,7 @@ class Seminar:
     valid_statuses = ['open', 'closed', 'cancelled']
     @status.setter
     def status(self, status):
+        valid_statuses = ['open', 'closed', 'cancelled']
         if status not in valid_statuses:
             return 0
         else:
@@ -70,6 +71,13 @@ class Seminar:
     # arg1 session
     def add_session(self, session):
         self._session.append(session)
+    
+    def get_one_session(self, name):
+        for session in self._session:
+            if session.name == name:
+                return session
+        return None
+
 
     # removes input session from list of sessions
     # arg1 session

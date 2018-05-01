@@ -1,4 +1,6 @@
+from Staff import *
+#not using
 class Presenter(Staff):
+    pass
 
-    def __init__(self, name, zID, contact, password, postHistory):
-        Staff.__init__(self, name, zID, contact, password, postHistory)
+#do we actually need convenor and presenter

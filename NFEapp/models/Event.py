@@ -1,20 +1,29 @@
 from datetime import datetime
 
 class Event:
+    #__id = -1
 
     def __init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
         self._id = id
+        #self._id = self._generate_id()
         self._name = name
         self._status = status
-        self._date = date
-        self._time = time
-        self._location = _location
-        self._attendeeList = []
+        self._date = datetime.strptime(date, '%Y-%m-%d')
+        self._time = datetime.strptime(time, '%H:%M')
+        self._location = location
         self._maxAttendees = maxAttendees
         self._deRegWindow = deRegWindow
         self._abstractInfo = abstractInfo
+        self._attendeeList = []
 
+    '''
+    def get_id(self):
+        return str(self._id)
 
+    def _generate_id(self):
+        Event.__id += 1
+        return Event.__id
+    '''
 ##
     # Do not allow users to change the id of events
     # handled by the system
@@ -46,6 +55,7 @@ class Event:
     valid_statuses = ['open', 'closed', 'cancelled']
     @status.setter
     def status(self, status):
+        valid_statuses = ['open', 'closed', 'cancelled']
         if status not in valid_statuses:
             return 0
         else:
@@ -60,8 +70,8 @@ class Event:
 
     def valid_date(input_date):
         try:
-            datetime.datetime.strptime(input_date, '%Y-%m-%d')
-        except InputError:
+            datetime.strptime(input_date, '%Y-%m-%d')
+        except ValueError:
             return 0
         return 1
 
@@ -83,8 +93,8 @@ class Event:
 
     def valid_time(input_time):
         try:
-            datetime.datetime.strptime(input_time, '%H:%M')
-        except InputError:
+            datetime.strptime(input_time, '%H:%M')
+        except ValueError:
             return 0
         return 1
 
@@ -109,11 +119,37 @@ class Event:
     @location.setter
     def location(self, location):
         self._location = location
+    
+    @property
+    def maxAttendees(self):
+        return self._maxAttendees
+
+    # sets max number of attendees for an event
+    # arg1 int
+    # return int: 0 - failed, 1 - success
+    @maxAttendees.setter
+    def maxAttendees(self, maxAttendees):
+        if maxAttendees < 0:
+            return 0
+        else:
+            self._maxAttendees = maxAttendees
+            return 1
+        return 0
+   
+    @property
+    def deRegWindow(self):
+        return self._deRegWindow
+
+    # sets deRegistration window
+    # arg1 int
+    @deRegWindow.setter
+    def deRegWindow(self, deRegWindow):
+        self._deRegWindow = deRegWindow
 ##
 ##
     # return list[UNSWMember]
     @property
-    def attendeesList(self):
+    def attendeeList(self):
         return self._attendeeList
 
     # appends a UNSWMember onto attendeeList

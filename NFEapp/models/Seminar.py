@@ -5,7 +5,7 @@ class Seminar:
         self._name = name
         self._status = status
         self._abstractInfo = abstractInfo
-        self._sessions = []
+        self._session = []
         # special case: self._attendeeList = list[list[UNSWMember]]
         self._attendeeList = []
 
@@ -64,7 +64,7 @@ class Seminar:
 ##
     # return list[session]
     @property
-    def sessions(self):
+    def session(self):
         return self._session
 
     # adds session to session list in Seminar

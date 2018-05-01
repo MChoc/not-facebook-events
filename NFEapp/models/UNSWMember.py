@@ -10,6 +10,7 @@ class UNSWMember(UserMixin, ABC):
     __id = -1
 
     def __init__ (self, username, zID, email, password, role):
+        self._id = 0
         self._username = username
         self._zID = zID
         self._email = email
@@ -20,6 +21,11 @@ class UNSWMember(UserMixin, ABC):
 
 ##
     # flask_login
+    def get_id(self):
+        """Required by Flask-login"""
+        return str(self._id)
+
+
     #getters
     @property
     def username(self):
@@ -78,7 +84,7 @@ class UNSWMember(UserMixin, ABC):
             return False       
 
         current_session = []
-        for session in seminar.sessions:
+        for session in seminar.session:
             for attendee in session.attendeeList:
                 if self.username == attendee.username:
                     current_session.append(session)
@@ -162,7 +168,7 @@ class UNSWMember(UserMixin, ABC):
     #check that the session does belong to this seminar
     #return ture if the session belongs to this seminar
     def avoid_fake_session(self, seminar, session):
-        for s in seminar.sessions:
+        for s in seminar.session:
             if session.name == s.name:
                 return True
 
@@ -192,7 +198,7 @@ class UNSWMember(UserMixin, ABC):
             return False
 
         #deregister from every sessions
-        for session in seminar.sessions:
+        for session in seminar.session:
             for attendee in session.attendeeList:
                 if self.username == attendee.username:
                     session.remove_attendee(self)
@@ -217,7 +223,7 @@ class UNSWMember(UserMixin, ABC):
             if self.username == attendee.username:
                 session.remove_attendee(self)
                 flag = 0
-                for session in seminar.sessions:
+                for session in seminar.session:
                     for attendee in session.attendeeList:
                         if self.username == attendee.username:
                             flag = 1

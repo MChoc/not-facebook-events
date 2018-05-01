@@ -73,7 +73,7 @@ class Staff(UNSWMember):
     def changeSeminarStatus(self, seminar, status):
         if self.changeStatus(seminar, status) == False:
             return False
-        for s in seminar.sessions:
+        for s in seminar.session:
             s.status = status
             for attendee in s.attendeeList:
                 for e in attendee.currentEvents:

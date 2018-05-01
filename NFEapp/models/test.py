@@ -6,7 +6,7 @@ staff1 = system.getUNSWMember('name4119998')
 print(staff1.__str__())
 staff2 = system.getUNSWMember('name4119997')
 
-'''
+
 system.create_open_seminar(staff1, 'infs', 'open', 'good', 'infs2608', 'open', '2018-04-29', '17:00', 'asb', 5, '2018-05-02', 'database', Speaker('Tom', 'hello@gmail.com'))
 system.create_open_seminar(staff2, 'fins', 'open', 'good', 'fins1613', 'open', '2018-05-02', '17:00', 'asb', 5, '2018-04-28', 'database', Speaker('Tom', 'hello@gmail.com'))
 system.create_open_course(staff1, 'acct','open','2018-04-29', '17:00','unsw',15,'24hr','new')
@@ -68,12 +68,12 @@ print(system.get_current_session(student, seminar1))
 
 
 #deregister from one session again
-system.deRegister_session(student, seminar1, session2)
+#system.deRegister_session(student, seminar1, session2)
 print(student.currentEvents)
 print(system.get_current_session(student, seminar1))
 
 #deregister from last session
-system.deRegister_session(student, seminar1, session3)
+#system.deRegister_session(student, seminar1, session3)
 print(student.currentEvents)
 print(student.pastEvents)
 print(system.get_current_session(student, seminar1))
@@ -86,10 +86,11 @@ print(session2.attendeeList)
 print("staff2 info:")
 print(staff2.currentPostEvent)
 print(staff2.currentEvents)
-'''
 
+
+print(system.get_current_session(student, seminar1))
 #below are tests for courses
-
+'''
 #create event test
 #self, id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo
 system.create_open_course(staff1, 'acct','open','2018-04-19','19:00','unsw',15,'2018-05-10','new')
@@ -134,7 +135,4 @@ for e in staff1.currentPostEvent:
 print("past post event:")
 for e in staff1.pastPostEvent:
     print(e.name)
-
-#staff.get_attendeeList(event1)
-
-#print(staff2.get_attendeeList(event1))
+'''

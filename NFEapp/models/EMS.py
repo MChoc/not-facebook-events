@@ -29,7 +29,6 @@ class EMS:
 
     def addOpenEvent(self, event):
         self._openEvent.append(event)
-        EMS.
 
     def removeOpenEvent(self,event):
         self._openEvent.remove(event)

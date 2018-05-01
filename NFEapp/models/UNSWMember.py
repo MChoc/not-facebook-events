@@ -37,7 +37,7 @@ class UNSWMember(UserMixin, ABC):
         return str(self._id)
 
     def _generate_id(self):
-        UNSWMember.__id = += 1
+        UNSWMember.__id += 1
 
     def validate_password(self, password):
         return self._password == password

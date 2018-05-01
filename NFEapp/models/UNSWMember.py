@@ -10,6 +10,7 @@ class UNSWMember(UserMixin, ABC):
     __id = -1
 
     def __init__ (self, username, zID, email, password, role):
+        self._id = self._generate_id()
         self._username = username
         self._zID = zID
         self._email = email
@@ -31,6 +32,15 @@ class UNSWMember(UserMixin, ABC):
     @property
     def is_anonymous(self):
         return False
+
+    def get_id(self):
+        return str(self._id)
+
+    def _generate_id(self):
+        UNSWMember.__id = += 1
+
+    def validate_password(self, password):
+        return self._password == password
 
     #getters
     @property

@@ -9,16 +9,14 @@ from abc import ABC, abstractmethod
 class UNSWMember(UserMixin, ABC):
     __id = -1
 
-    def __init__ (self, name, zID, email, password, role):
-        self._id = self._generate_id()
-        self._name = name
+    def __init__ (self, username, zID, email, password, role):
+        self._username = username
         self._zID = zID
         self._email = email
         self._password = password
         self._role = role
         self._currentEvents = []
         self._pastEvents = []
-
 
 ##
     # flask_login
@@ -36,8 +34,8 @@ class UNSWMember(UserMixin, ABC):
 
     #getters
     @property
-    def name(self):
-        return self._name
+    def username(self):
+        return self._username
 
     @property
     def zID(self):
@@ -52,18 +50,17 @@ class UNSWMember(UserMixin, ABC):
         return self._role
 
     #setters
-    @name.setter
-    def name(self, name):
-        self._name = name
+    @username.setter
+    def username(self, username):
+        self._username = username
 
     @email.setter
     def email(self, email):
         self._email = email
 
-
-    valid_role = ['trainer', 'trainee']
     @role.setter
     def role(self, role):
+        valid_role = ['trainer', 'trainee']
         if role in valid_role:
             self._role = role
             return 1
@@ -74,7 +71,7 @@ class UNSWMember(UserMixin, ABC):
         return self._password == password
 
     def __str__(self):
-        return "Attdenee detail: \nname: {0}, email: {1}".format(self._name, self._email)
+        return "Attdenee detail: \nname: {0}, email: {1}".format(self._username, self._email)
 
     @property
     def currentEvents(self):
@@ -95,7 +92,7 @@ class UNSWMember(UserMixin, ABC):
         current_session = []
         for session in seminar.sessions:
             for attendee in session.attendeeList:
-                if self.name == attendee.name:
+                if self.username == attendee.username:
                     current_session.append(session)
         return current_session
 
@@ -164,7 +161,7 @@ class UNSWMember(UserMixin, ABC):
     def avoid_dup_session(self, seminar, session):
         s = seminar.get_one_session(session.name)
         for user in s.attendeeList:
-            if self.name == user.name:
+            if self.username == user.username:
                 return False
         return True
 
@@ -209,7 +206,7 @@ class UNSWMember(UserMixin, ABC):
         #deregister from every sessions
         for session in seminar.sessions:
             for attendee in session.attendeeList:
-                if self.name == attendee.name:
+                if self.username == attendee.username:
                     session.remove_attendee(self)
                     break
         self._currentEvents.remove(seminar)
@@ -229,12 +226,12 @@ class UNSWMember(UserMixin, ABC):
             return False
 
         for attendee in session.attendeeList:
-            if self.name == attendee.name:
+            if self.username == attendee.username:
                 session.remove_attendee(self)
                 flag = 0
                 for session in seminar.sessions:
                     for attendee in session.attendeeList:
-                        if self.name == attendee.name:
+                        if self.username == attendee.username:
                             flag = 1
                             break
                     if flag == 1:

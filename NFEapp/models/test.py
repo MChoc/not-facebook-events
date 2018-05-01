@@ -5,6 +5,7 @@ system = bootstrap_system()
 staff1 = system.getUNSWMember('name4119998')
 print(staff1.__str__())
 staff2 = system.getUNSWMember('name4119997')
+
 '''
 system.create_open_seminar(staff1, 'infs', 'open', 'good', 'infs2608', 'open', '2018-04-29', '17:00', 'asb', 5, '2018-05-02', 'database', Speaker('Tom', 'hello@gmail.com'))
 system.create_open_seminar(staff2, 'fins', 'open', 'good', 'fins1613', 'open', '2018-05-02', '17:00', 'asb', 5, '2018-04-28', 'database', Speaker('Tom', 'hello@gmail.com'))

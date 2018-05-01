@@ -20,9 +20,6 @@ class UNSWMember(UserMixin, ABC):
 
 ##
     # flask_login
-    @property
-    def name(self)
-
     #getters
     @property
     def username(self):
@@ -48,11 +45,10 @@ class UNSWMember(UserMixin, ABC):
     @email.setter
     def email(self, email):
         self._email = email
-
-
-    valid_role = ['trainer', 'trainee']
+    
     @role.setter
     def role(self, role):
+        valid_role = ['trainer', 'trainee']
         if role in valid_role:
             self._role = role
             return 1

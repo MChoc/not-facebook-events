@@ -163,10 +163,11 @@ class UNSWMember(object):
     def deRegisterCourse(self, course):
         if self.check_time_validation(course.deRegWindow) == False:
             return False
-        if self.check_registration(course) != True:
+        if self.avoid_dup(course) == True:
             return False
         
         self._currentEvents.remove(course)
+        self._pastEvents.append(course)
         course.remove_attendee(self)
 
     #deregister for semianr
@@ -177,7 +178,7 @@ class UNSWMember(object):
     def deRegisterSeminar(self, seminar):
         #if self.check_time_validation(course.deRegWindow) == False:
         #    return False
-        if self.check_registration(seminar) != True:
+        if self.avoid_dup(seminar) == True:
             return False
         
         #deregister from every sessions
@@ -195,7 +196,7 @@ class UNSWMember(object):
     #need to check that this session belongs to this seminar
     #need to check time that allow for deregister is not passed
     def deRegisterSession(self, seminar, session):
-        if self.check_registration(seminar) != True:
+        if self.avoid_dup(seminar) == True:
             return False
         if self.avoid_fake_session(seminar, session) != True:
             return False
@@ -215,10 +216,11 @@ class UNSWMember(object):
                         break
                 if flag == 0:
                     self._currentEvents.remove(seminar)
+                    self._pastEvents.append(seminar)
                 break
             else:
                 return False
-    
+    '''
     #used for deRegistration
     #check that intended deregistered event is registered before
     #return true if this event has been registered for before
@@ -226,7 +228,7 @@ class UNSWMember(object):
         for e in self._currentEvents:
             if e.name == event.name:
                 return True
-    
+    '''
     #compare current time and deregDate
     #check that deregister is allowed
     #return true if time is valid(deregister is allowed)
@@ -234,7 +236,6 @@ class UNSWMember(object):
         deRegDate = datetime.strptime(deRegDate, '%Y-%m-%d')
         currentDate = datetime.now()
         if currentDate > deRegDate:
-            print("time passed")
             return False
         else:
             return True

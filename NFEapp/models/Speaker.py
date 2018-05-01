@@ -1,4 +1,4 @@
-class Speaker(object):
+class Speaker:
 
     def __init__(self, name, contact):
         self._name = name

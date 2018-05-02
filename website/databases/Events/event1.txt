@@ -1,5 +1,0 @@
-name = intro to python
-
-time = now
-
-date = today

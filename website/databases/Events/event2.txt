@@ -1,5 +1,0 @@
-name: event1
-
-time: 6pm
-
-date: yesterday

@@ -68,12 +68,12 @@ print(system.get_current_session(student, seminar1))
 
 
 #deregister from one session again
-system.deRegister_session(student, seminar1, session2)
+#system.deRegister_session(student, seminar1, session2)
 print(student.currentEvents)
 print(system.get_current_session(student, seminar1))
 
 #deregister from last session
-system.deRegister_session(student, seminar1, session3)
+#system.deRegister_session(student, seminar1, session3)
 print(student.currentEvents)
 print(student.pastEvents)
 print(system.get_current_session(student, seminar1))
@@ -86,6 +86,8 @@ print(session2.attendeeList)
 print("staff2 info:")
 print(staff2.currentPostEvent)
 print(staff2.currentEvents)
+
+print(system.get_current_session(student, seminar1))
 '''
 
 #below are tests for courses
@@ -135,6 +137,3 @@ print("past post event:")
 for e in staff1.pastPostEvent:
     print(e.name)
 
-#staff.get_attendeeList(event1)
-
-#print(staff2.get_attendeeList(event1))

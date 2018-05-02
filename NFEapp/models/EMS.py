@@ -6,6 +6,7 @@ from Staff import *
 from Student import *
 from Speaker import *
 from Session import *
+from Member import *
 
 class EMS:
     __id = -1  #course/event id
@@ -19,6 +20,10 @@ class EMS:
     def openEvent(self):
         return self._openEvent
 
+    @property
+    def UNSWMember(self):
+        return self._UNSWMember
+    
     def _generate_id(self):
         EMS.__id += 1
         return EMS.__id
@@ -28,22 +33,22 @@ class EMS:
         return EMS.__sid
 
     def addOpenEvent(self, event):
-        self._openEvent.append(event)
+        self.openEvent.append(event)
 
     def removeOpenEvent(self,event):
-        self._openEvent.remove(event)
+        self.openEvent.remove(event)
 
     def addUNSWMember(self, member):
-        self._UNSWMember.append(member)
+        self.UNSWMember.append(member)
 
     def getUNSWMember(self, username):
-        for person in self._UNSWMember:
+        for person in self.UNSWMember:
             if person.username == username:
                 return person
         return None
 
     def getOpenEvent(self, name):
-        for event in self._openEvent:
+        for event in self.openEvent:
             if event.name == name:
                 return event
         return None

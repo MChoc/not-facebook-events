@@ -57,7 +57,7 @@ class Event:
     def date(self):
         return self._date
 
-    def valid_date(input_date):
+    def _valid_date(input_date):
         try:
             datetime.strptime(input_date, '%Y-%m-%d')
         except ValueError:
@@ -68,7 +68,7 @@ class Event:
     # return int: 0 - failed (invalid date string), 1 - success
     @date.setter
     def date(self, date):
-        if valid_date(date):
+        if _valid_date(date):
             self._date = date
             return 1
         else:
@@ -80,7 +80,7 @@ class Event:
     def time(self):
         return self._time
 
-    def valid_time(input_time):
+    def _valid_time(input_time):
         try:
             datetime.strptime(input_time, '%H:%M')
         except ValueError:
@@ -91,7 +91,7 @@ class Event:
     # return int: 0 - failed (invalid time string), 1 - success
     @time.setter
     def time(self, time):
-        if valid_time(time):
+        if _valid_time(time):
             self._time = time
             return 1
         else:

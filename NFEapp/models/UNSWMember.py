@@ -5,7 +5,8 @@ from datetime import datetime
 
 class UNSWMember:
 
-    def __init__ (self, zID, email, role):
+    def __init__ (self, username, zID, email, password, role):
+        super().__init__(username, password)
         self._zID = zID
         self._email = email
         self._role = role

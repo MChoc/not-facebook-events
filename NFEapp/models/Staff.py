@@ -93,7 +93,7 @@ class Staff(UNSWMember):
     def changeSessionStatus(self, seminar, session, status):
         if self.avoid_creator(seminar) == True:
             return False
-        if self.avoid_fake_session(seminar, session) != True:
+        if self._avoid_fake_session(seminar, session) != True:
             return False
         if seminar.status == "closed":
             return False

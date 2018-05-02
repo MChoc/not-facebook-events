@@ -2,8 +2,8 @@ from Event import *
 from Course import *
 from Seminar import *
 from datetime import datetime
-
-class UNSWMember:
+from Member import *
+class UNSWMember(Member):
 
     def __init__ (self, username, zID, email, password, role):
         super().__init__(username, password)
@@ -77,7 +77,7 @@ class UNSWMember:
             return False
         if self.avoid_dup(course) == True:
             course.add_attendee(self)
-            self._currentEvents.append(course)
+            self.currentEvents.append(course)
             return True
         else:
             return False
@@ -103,7 +103,7 @@ class UNSWMember:
 
         if self.avoid_dup(seminar) == True:
             self.registerSession(session)
-            self._currentEvents.append(seminar)
+            self.currentEvents.append(seminar)
             return True
         else:
             if self.avoid_dup_session(seminar, session) == True:
@@ -158,8 +158,8 @@ class UNSWMember:
         if self.avoid_dup(course) == True:
             return False
 
-        self._currentEvents.remove(course)
-        self._pastEvents.append(course)
+        self.currentEvents.remove(course)
+        self.pastEvents.append(course)
         course.remove_attendee(self)
 
     #deregister for semianr
@@ -179,7 +179,7 @@ class UNSWMember:
                 if self.username == attendee.username:
                     session.remove_attendee(self)
                     break
-        self._currentEvents.remove(seminar)
+        self.currentEvents.remove(seminar)
 
     #if the session deregistered is the only session registered in a seminar before,
     #then deregistering this session will remove this seminar from the current event list
@@ -207,8 +207,8 @@ class UNSWMember:
                     if flag == 1:
                         break
                 if flag == 0:
-                    self._currentEvents.remove(seminar)
-                    self._pastEvents.append(seminar)
+                    self.currentEvents.remove(seminar)
+                    self.pastEvents.append(seminar)
                 break
             else:
                 return False
@@ -216,7 +216,7 @@ class UNSWMember:
     #used for deRegistration
     #check that intended deregistered event is registered before
     def check_registration(self, event):
-        for e in self._currentEvents:
+        for e in self.currentEvents:
             if e.name == event.name:
                 return True
 

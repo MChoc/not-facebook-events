@@ -15,9 +15,13 @@ class Staff(UNSWMember):
     def pastPostEvent(self):
         return self._pastPostEvent
     
+    @property
+    def cancelledEvent(self):
+        return self._cancelledEvent
+
     #create a new course
     def createCourse(self, course):
-        self._currentPostEvent.append(course)
+        self.currentPostEvent.append(course)
 
     '''
     #create a new seminar or a new sesssion in the semianr
@@ -31,7 +35,7 @@ class Staff(UNSWMember):
     '''
 
     def createSeminar(self, seminar, session):
-        self._currentPostEvent.append(seminar)
+        self.currentPostEvent.append(seminar)
         seminar.add_session(session)
     
     def addSession(self, seminar, session):
@@ -46,12 +50,12 @@ class Staff(UNSWMember):
         if self.avoid_creator(event) == True:
             return False
         event.status = status
-        self._currentPostEvent.remove(event)
+        self.currentPostEvent.remove(event)
         #don't worry about cancelling events now
         if status == "cancelled":
-            self._cancelledEvent.append(event)
+            self.cancelledEvent.append(event)
         if status == "closed":
-            self._pastPostEvent.append(event)
+            self.pastPostEvent.append(event)
 
     #change the status of a course
     #need to check that the person who wants to change the status
@@ -62,8 +66,8 @@ class Staff(UNSWMember):
         for attendee in course.attendeeList:
             for e in attendee._currentEvents:
                 if e.name == course.name:
-                    attendee._currentEvents.remove(course)
-                    attendee._pastEvents.append(course)
+                    attendee.currentEvents.remove(course)
+                    attendee.pastEvents.append(course)
     
     #change the status of a seminar
     #need to check that the person who wants to change the status
@@ -78,8 +82,8 @@ class Staff(UNSWMember):
             for attendee in s.attendeeList:
                 for e in attendee.currentEvents:
                     if e.name == seminar.name:
-                        attendee._currentEvents.remove(seminar)
-                        attendee._pastEvents.append(seminar)
+                        attendee.currentEvents.remove(seminar)
+                        attendee.pastEvents.append(seminar)
     
     #change status of a session
     #need to check that the person who wants to change the status

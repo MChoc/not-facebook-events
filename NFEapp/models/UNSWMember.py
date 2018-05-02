@@ -1,52 +1,19 @@
-#from abc import ABC, abstractmethod
 from Event import *
 from Course import *
 from Seminar import *
 from datetime import datetime
-from flask_login import UserMixin
-from abc import ABC, abstractmethod
 
-class UNSWMember(UserMixin, ABC):
-    __id = -1
+class UNSWMember:
 
     def __init__ (self, username, zID, email, password, role):
-        self._id = self._generate_id()
-        self._username = username
+        super().__init__(username, password)
         self._zID = zID
         self._email = email
-        self._password = password
         self._role = role
         self._currentEvents = []
         self._pastEvents = []
 
-##
-    # flask_login
-    @property
-    def is_authenticated(self):
-        return True
-
-    @property
-    def is_active(self):
-        return True
-
-    @property
-    def is_anonymous(self):
-        return False
-
-    def get_id(self):
-        return str(self._id)
-
-    def _generate_id(self):
-        UNSWMember.__id += 1
-
-    def validate_password(self, password):
-        return self._password == password
-
     #getters
-    @property
-    def username(self):
-        return self._username
-
     @property
     def zID(self):
         return self._zID
@@ -60,10 +27,6 @@ class UNSWMember(UserMixin, ABC):
         return self._role
 
     #setters
-    @username.setter
-    def username(self, username):
-        self._username = username
-
     @email.setter
     def email(self, email):
         self._email = email
@@ -76,9 +39,6 @@ class UNSWMember(UserMixin, ABC):
             return 1
         else:
             return 0
-
-    def validate_password(self, password):
-        return self._password == password
 
     def __str__(self):
         return "Attdenee detail: \nname: {0}, email: {1}".format(self._username, self._email)

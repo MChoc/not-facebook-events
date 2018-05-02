@@ -4,4 +4,3 @@ class Student(UNSWMember):
 
     def __init__(self, username, zID, email, password, role):
         UNSWMember.__init__(self, username, zID, email, password, role)
-

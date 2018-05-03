@@ -19,8 +19,10 @@ def login():
         else:
             print("logging in...")
             login_user(valid_user)
+            print(valid_user)
+            # fail=False
             return redirect(url_for('open_events'))
-    return render_template('login.html')
+    return render_template('login.html', fail=request.args.get('fail'))
 
 
 @app.route('/logout')
@@ -37,9 +39,12 @@ def page_not_found(e=None):
 
 
 @app.route('/open_events')
+@login_required
 def open_events():
+    print(current_user)
     return render_template('open_events.html')
 
 @app.route('/dashboard')
+@login_required
 def dashboard():
     return render_template('dashboard.html')

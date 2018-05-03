@@ -9,9 +9,9 @@
     <a href="{{ url_for('open_events') }}">Home</a>
     <a href="{{ url_for('dashboard') }}">Dashboard</a>
 
-    {{ if current_user.is_admin }}
+    {% if current_user.is_admin() %}
     <a href="{{ url_for('create event') }}">Create Event</a>
-    {{ endif }}
+    {% endif %}
 
     <a href="{{ url_for('logout') }}">Logout</a>
 

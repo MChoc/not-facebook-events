@@ -148,6 +148,10 @@ class UNSWMember(Member):
             if session.name == s.name:
                 return True
 
+
+    def _avoid_full(self, event):
+        pass
+
     #deregister for course
     #pass in a course that the user intends to deregister for
     #need to check that this user has registered for this course before

@@ -16,5 +16,5 @@ def bootstrap_system():
                 system.addUNSWMember(Staff(username, zID, email, password, role))
             elif role == 'trainee':
                 system.addUNSWMember(Student(username, zID, email, password, role))
-        
+
     return system

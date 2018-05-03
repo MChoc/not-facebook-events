@@ -14,6 +14,11 @@ class Event:
         self._abstractInfo = abstractInfo
         self._attendeeList = []
 
+
+##
+    # prints out information about the event
+    def __str__(self):
+        return "{}".format(self._name)
 ##
     # Do not allow users to change the id of events
     # handled by the system

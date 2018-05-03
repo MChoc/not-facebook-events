@@ -42,7 +42,7 @@ def page_not_found(e=None):
 @app.route('/open_events')
 @login_required
 def open_events():
-    return render_template('open_events.html')
+    return render_template('open_events.html', events=system.openEvent)
 
 
 @app.route('/dashboard')

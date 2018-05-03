@@ -19,7 +19,6 @@ def login():
         else:
             print("logging in...")
             login_user(valid_user)
-            print(valid_user)
             fail=False
             return redirect(url_for('open_events'))
     return render_template('login.html', fail=request.args.get('fail'))

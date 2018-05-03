@@ -122,7 +122,6 @@ class EMS:
 
     def get_user_by_id(self, user_id):
         for c in self._UNSWMember:
-            print(c.get_id())
             if c.get_id() == user_id:
                 return c
         return None

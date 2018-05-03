@@ -2,11 +2,6 @@
 {% block body %}
 <h1>Open Events</h1>
 
-<!-- {% for event in events %}
-{{ event.__str__() }}
-<br />
-{% endfor %} -->
-
 {% for e in event %}
     {% if e in course %}
         <li><a href="{{url_for('event', event_name = e.name)}}">{{e.name}}</a> {{e.status}}

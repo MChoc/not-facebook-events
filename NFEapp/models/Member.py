@@ -31,6 +31,7 @@ class Member(UserMixin, ABC):
 
     def _generate_id(self):
         Member.__id += 1
+        return Member.__id
 
     def check_password(self, password):
         return check_password_hash(self._password, password)

@@ -8,7 +8,7 @@ staff2 = system.getUNSWMember('name4119997')
 
 system.create_open_seminar(staff1, 'infs', 'open', 'good', 'infs2608', 'open', '2018-04-29', '17:00', 'asb', 5, '2018-05-02', 'database', Speaker('Tom', 'hello@gmail.com'))
 system.create_open_seminar(staff2, 'fins', 'open', 'good', 'fins1613', 'open', '2018-05-02', '17:00', 'asb', 5, '2018-04-28', 'database', Speaker('Tom', 'hello@gmail.com'))
-system.create_open_course(staff1, 'acct','open','2018-04-29', '17:00','unsw',15,'24hr','new')
+system.create_open_course(staff1, 'acct','open','2018-04-29', '17:00','unsw', 0 ,'24hr','new')
 
 seminar1 = system.getOpenEvent('infs')
 seminar2 = system.getOpenEvent('fins')
@@ -37,11 +37,15 @@ print(system.register_seminar(student, seminar1, session1))
 system.register_seminar(student, seminar1, session2)
 system.register_seminar(student, seminar1, session3)
 print(system.register_seminar(student, seminar1, session3)) #return false
-system.register_course(student, event1)
+
+print(system.register_course(student, event1))
+
+
+
 
 #for event in student.currentEvents:
 #    print(event.name)
-
+'''
 print("staff trying changing status")
 #print(system.change_seminar_status(staff1, seminar1, 'closed'))
 #print(system.change_course_status(staff1, event1, 'closed'))
@@ -88,7 +92,7 @@ print(staff2.currentPostEvent)
 print(staff2.currentEvents)
 
 print(system.get_current_session(student, seminar1))
-
+'''
 
 #below are tests for courses
 '''

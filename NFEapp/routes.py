@@ -1,90 +1,37 @@
-from server import app, valid_time
-from flask import request, render_template, redirect, url_for
-from validatePass import *
-from gettimeofday import *
+from flask import render_template, request, redirect, url_for, abort
+from flask_login import current_user, login_required, login_user, logout_user
+from server import app, system
+from datetime import datetime
 
-@app.route('/', methods=['POST', 'GET'])
-def landingPage():
-	if (request.method == 'POST'):
-		username = request.form["username"]
-		password = request.form["password"]
-		attempt = validateUser(username, password)
 
-		if(attempt == 100):
-			return redirect(url_for("dashboard",name=username))
-		else:
-			return render_template("loginpage.html", error_code = attempt)
-		
-	return render_template('loginpage.html')
+@app.route('/', methods=['GET', 'POST'])
+@app.rout('/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form["username"]
+        password = request.form["password"]
+        valid_user = system.validate_login(username, password)
+        if valid_user is None:
+            return redirect(url_for('login', fail=True))
+        else:
+            print("logging in...")
+            login_user(valid_user)
+            return redirect(url_for('open_events'))
+    return render_template('login.html', fail=request.args.get('fail'))
 
-@app.route('/dashboard/<name>', methods=['POST', 'GET'])
-def dashboard(name):
-	string_time = phaseoftheday()
 
-	
-	pix = 0
-	
-	if(string_time == "Morning"):
-		pix = 'morningtime.jpg'
-	elif(string_time=="Afternoon"):
-		pix = 'afternoontime.jpg'
-	elif(string_time=="Evening"):
-		pix = 'nighttime.jpg'
-	
-	return render_template('dashboard.html',loggedinas= name,timeofday= string_time,dashboardpicture=pix)
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
-@app.route('/createevent', methods=['POST', 'GET'])
-def createvent():
-	if (request.method == 'POST'):
-		date= request.form["date"]
-		time= request.form["time"]
-		location= request.form["location"]
-		max_attendees= request.form["max_attendees"]
-		deregister_timeWindow= request.form["deregister_timeWindow"]
-		description= request.form["description"]
-		
-		return date, time
-		
-@app.route('/pastevents/<username>', methods=['POST', 'GET'])
-def pastevents(username):
 
-	filePath = r"databases\Users\%s\Past.txt" % (username)
-	f = open(filePath,"r")
-	
-	superstring = ""
-	
-	for i in f:
-		superstring = superstring+i+"<br>"
-	
-	return superstring	
+@app.route('404')
+@app.errorhandler(404)
+def page_not_found(e=None):
+    return render_template('404.html'), 404
 
-@app.route('/currentevents/<username>', methods=['POST', 'GET'])
-def currentevents(username):
-
-	filePath = r"databases\Users\%s\Current.txt" % (username)
-	f = open(filePath,"r")
-	
-	superstring = ""
-	
-	for i in f:
-		superstring = superstring+i+"<br>"
-	
-	return superstring	
-	
-@app.route('/searchevents/<eventname>', methods=['POST', 'GET'])
-def searchevents(eventname):
-
-	filePath = r"databases\Events\%s.txt" % (eventname)
-	
-	f = open(filePath,"r")
-	
-	superstring = ""
-	
-	for i in f:
-		superstring = superstring+i+"<br>"
-		
-	return superstring	
-	
-	#return render_template("eventtemplate.html",eventname = eventname)
-	
-#pass9588
+@app.route('/open_events', methods=['POST', 'GET'])
+def open_events():
+    return render_template('open_events.html')

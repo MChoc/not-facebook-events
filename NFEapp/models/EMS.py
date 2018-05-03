@@ -1,12 +1,12 @@
-from UNSWMember import *
-from Event import *
-from Course import *
-from Seminar import *
-from Staff import *
-from Student import *
-from Speaker import *
-from Session import *
-from Member import *
+from .UNSWMember import *
+from .Event import *
+from .Course import *
+from .Seminar import *
+from .Staff import *
+from .Student import *
+from .Speaker import *
+from .Session import *
+from .Member import *
 
 class EMS:
     __id = -1  #course/event id
@@ -23,7 +23,7 @@ class EMS:
     @property
     def UNSWMember(self):
         return self._UNSWMember
-    
+
     def _generate_id(self):
         EMS.__id += 1
         return EMS.__id
@@ -113,3 +113,9 @@ class EMS:
         if user.get_current_session(seminar) == False:
             return False
         return user.get_current_session(seminar)
+
+    def validate_login(self, username, password):
+        for c in self._UNSWMember:
+            if c.username == username and c.valid_password(password):
+                return c
+        return None

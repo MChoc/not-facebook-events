@@ -1,0 +1,18 @@
+{% extends from 'base.html' %}
+{% block body %}
+<h1>Open Events</h1>
+{% for oe in open_events %}
+
+<a>{{ oe.name <b>}}</a>
+{{ oe.date<b> }}
+{{ oe.time<b> }}
+{{ oe.location<b> }}
+{{ oe.deRegWindow<b> }}
+{{ oe.abstractInfo<b> }}
+<b>
+{% endfor %}
+
+
+
+
+{% end block %}

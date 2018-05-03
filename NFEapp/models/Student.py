@@ -1,4 +1,4 @@
-from UNSWMember import *
+from .UNSWMember import *
 
 class Student(UNSWMember):
 

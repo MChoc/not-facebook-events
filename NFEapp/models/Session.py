@@ -1,6 +1,6 @@
-from Seminar import *
-from Speaker import *
-from Event import *
+from .Seminar import *
+from .Speaker import *
+from .Event import *
 
 
 class Session(Event):

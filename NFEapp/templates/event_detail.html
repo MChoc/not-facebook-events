@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block body %}
+<h1>{{event.name}} detail</h1>
+<div>
+    <form method="POST">
+    {{event.name}}
+    {{event.status}}
+    {{event.abstractInfo}}
+
+    {% if type == 'course'%}
+        {{event.date}}
+        {{event.time}}
+        {{event.location}}
+        <div>
+            <button name="register_course" type="submit">Register</button>
+        </div>
+    {% else %}
+        {% for session in event.session %}
+            {{session.name}}
+            {{session.status}}
+            {{session.time}}
+            {{session.location}}
+            {{session.abstractInfo}}
+        <div>
+            <button name="register_session" type="submit">Register Session</button>
+        </div>
+        {% endfor %}
+    {% endif %}
+   
+    </form>
+</div>
+{% endblock %}

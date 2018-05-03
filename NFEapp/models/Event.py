@@ -5,9 +5,10 @@ class Event:
     def __init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
         self._id = id
         self._name = name
+        #should we set event status be open as default??
         self._status = status
-        self._date = datetime.strptime(date, '%Y-%m-%d')
-        self._time = datetime.strptime(time, '%H:%M')
+        self._date = date
+        self._time = time
         self._location = location
         self._maxAttendees = maxAttendees
         self._deRegWindow = deRegWindow

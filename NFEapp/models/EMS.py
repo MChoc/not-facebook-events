@@ -116,6 +116,13 @@ class EMS:
 
     def validate_login(self, username, password):
         for c in self._UNSWMember:
-            if c.username == username and c.check_password(password):
+            if c.username == username and c.validate_password(password):
+                return c
+        return None
+
+    def get_user_by_id(self, user_id):
+        for c in self._UNSWMember:
+            print(c.get_id())
+            if c.get_id() == user_id:
                 return c
         return None

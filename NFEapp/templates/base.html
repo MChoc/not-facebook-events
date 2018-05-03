@@ -6,13 +6,16 @@
 </head>
 
 <body>
-    {% if current_user.is_anonymous %}
-    <a href="{{ url_for('login') }}">Login</a>
-    {% else %}
-    <a href="{{ url_for('home') }}">Dashboard</a>
-    <a href="{{ url_for('cars') }}">Cars</a>
+    <a href="{{ url_for('open_events') }}">Home</a>
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+
+    {{ if current_user.is_admin }}
+    <a href="{{ url_for('create event') }}">Create Event</a>
+    {{ endif }}
+
     <a href="{{ url_for('logout') }}">Logout</a>
-    {% endif %}
-    <br>
+
     {% block body %}{% endblock %}
 </body>
+
+</html>

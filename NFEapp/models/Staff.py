@@ -137,3 +137,7 @@ class Staff(UNSWMember):
                 return True
         else:
             return False
+
+    # NEW 3.5.18
+    def is_admin(self):
+        return True

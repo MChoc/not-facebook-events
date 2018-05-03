@@ -4,7 +4,11 @@ from server import app, system
 from datetime import datetime
 
 
-@app.route('/login')
+@app.route('/')
+def landing_page():
+    return redirect(url_for('login'))
+
+@app.route('/login', methods=['GET','POST'])
 def login():
     if request.method == 'POST':
         username = request.form["username"]
@@ -16,14 +20,14 @@ def login():
             print("logging in...")
             login_user(valid_user)
             return redirect(url_for('open_events'))
-    return render_template('login.html', fail=request.args.get('fail'))
+    return render_template('login.html')
 
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('landing_page'))
 
 
 @app.route('/404')
@@ -31,6 +35,11 @@ def logout():
 def page_not_found(e=None):
     return render_template('404.html'), 404
 
-@app.route('/open_events', methods=['POST', 'GET'])
+
+@app.route('/open_events')
 def open_events():
     return render_template('open_events.html')
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')

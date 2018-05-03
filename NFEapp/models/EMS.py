@@ -116,6 +116,6 @@ class EMS:
 
     def validate_login(self, username, password):
         for c in self._UNSWMember:
-            if c.username == username and c.valid_password(password):
+            if c.username == username and c.check_password(password):
                 return c
         return None

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Not Facebook Events</title>
+</head>
+
+<body>
+    <a href="{{ url_for('open_events') }}">Home</a>
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+
+    {% if current_user.is_admin() %}
+    <a href="{{ url_for('create event') }}">Create Event</a>
+    {% endif %}
+
+    <a href="{{ url_for('logout') }}">Logout</a>
+
+    {% block body %}{% endblock %}
+</body>
+
+</html>

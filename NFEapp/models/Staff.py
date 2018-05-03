@@ -1,4 +1,4 @@
-from UNSWMember import *
+from .UNSWMember import *
 
 class Staff(UNSWMember):
     def __init__ (self, username, zID, email, password, role):
@@ -6,15 +6,15 @@ class Staff(UNSWMember):
         self._currentPostEvent = []
         self._pastPostEvent = []
         self._cancelledEvent = []
-    
+
     @property
     def currentPostEvent(self):
         return self._currentPostEvent
-    
+
     @property
     def pastPostEvent(self):
         return self._pastPostEvent
-    
+
     @property
     def cancelledEvent(self):
         return self._cancelledEvent
@@ -37,13 +37,13 @@ class Staff(UNSWMember):
     def createSeminar(self, seminar, session):
         self.currentPostEvent.append(seminar)
         seminar.add_session(session)
-    
+
     def addSession(self, seminar, session):
         for s in self.currentPostEvent:
             if s.name == seminar.name:
                 seminar.add_session(session)
                 return True
-    
+
     #change status of seminars or courses, not sessions
     #used for changeCourseStatus or changeSeminarStatus, not for individual use
     def changeStatus(self, event, status):
@@ -68,7 +68,7 @@ class Staff(UNSWMember):
                 if e.name == course.name:
                     attendee.currentEvents.remove(course)
                     attendee.pastEvents.append(course)
-    
+
     #change the status of a seminar
     #need to check that the person who wants to change the status
         #must be person who create this seminar
@@ -84,7 +84,7 @@ class Staff(UNSWMember):
                     if e.name == seminar.name:
                         attendee.currentEvents.remove(seminar)
                         attendee.pastEvents.append(seminar)
-    
+
     #change status of a session
     #need to check that the person who wants to change the status
         #must the person who create the seminar
@@ -98,7 +98,7 @@ class Staff(UNSWMember):
         if seminar.status == "closed":
             return False
         session.status = status
-    
+
     #check that the event creator cannnot register for this event
     #check that person who want to get the attendee list is the creator
     #if the person is not the event creator, will return true
@@ -113,7 +113,7 @@ class Staff(UNSWMember):
         #not the creator will return true
         if flag == 0:
             return True
-        elif flag == 1:     
+        elif flag == 1:
             return False
 
     #staff register course
@@ -122,11 +122,11 @@ class Staff(UNSWMember):
         #is not the one who created it
     def registerCourse(self, event):
         if self.avoid_creator(event) == True:
-            if super().registerCourse(event) == False: 
+            if super().registerCourse(event) == False:
                 return False
         else:
             return False
-    
+
     #staff register seminar
     #inherited from UNSWMember
     #need to check that the staff who wants to registers for this seminar
@@ -137,3 +137,7 @@ class Staff(UNSWMember):
                 return True
         else:
             return False
+
+    # NEW 3.5.18
+    def is_admin(self):
+        return True

@@ -9,7 +9,8 @@ class Member(UserMixin, ABC):
         self._id = self._generate_id()
         self._username = username
         self._password = generate_password_hash(password)
-    
+
+
     @property
     def username(self):
         return self._username
@@ -20,7 +21,7 @@ class Member(UserMixin, ABC):
 
     @property
     def is_active(self):
-        return False
+        return True
 
     @property
     def is_anonymous(self):
@@ -33,5 +34,12 @@ class Member(UserMixin, ABC):
         Member.__id += 1
         return Member.__id
 
+    # def validate_password(self, password):
+    #     return password == self._password
+
     def check_password(self, password):
         return check_password_hash(self._password, password)
+
+    @abstractmethod
+    def is_admin(self):
+        pass

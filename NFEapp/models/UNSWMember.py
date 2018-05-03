@@ -1,8 +1,8 @@
-from Event import *
-from Course import *
-from Seminar import *
+from .Event import *
+from .Course import *
+from .Seminar import *
+from .Member import *
 from datetime import datetime
-from Member import *
 class UNSWMember(Member):
 
     def __init__ (self, username, zID, email, password, role):

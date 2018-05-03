@@ -3,23 +3,28 @@
 <h1>Create Event</h1>
 
 <div>
-    <form method="POST">
-        <div>
-            Event Name: <input type="text" name="name"</input><br/>
-            Event Status: <input type="text" name="status"</input><br/>
-            Event Commence Date: <input type="date" name="date"</input><br/>
-            Event Commence Time: <input type="time" name="time"</input><br/>
-            Event Location: <input type="text" name="location"</input><br/>
-            Max Attendees: <input type="number" name="maxAttendees" min = "1" </input><br/>
-            Date allowed for deregister: <input type="date" name="deRegWindow"</input><br/>
-            Event Abstract Information: <input type="text" name="abstractInfo"</input><br/>
-        </div>
-        <div>
-            <button name="create" type="submit">Create Event</button>
-        </div>
-    
-    
-    </form>
+  <form method="POST">
+    <div>
+      Event Name: <input type="text" name="name"</input><br/>
+      Event Status:
+				<select>
+					<option value="Open">open</option>
+					<option value="Closed">closed</option>
+					<option value="Cancelled">Cancelled</option>
+				</select><br />
+      Event Commence Date: <input type="date" name="date"</input><br/>
+      Event Commence Time: <input type="time" name="time"</input><br/>
+      Event Location: <input type="text" name="location"</input><br/>
+      Max Attendees: <input type="number" name="maxAttendees" min = "1" </input><br/>
+      Date allowed for deregister: <input type="date" name="deRegWindow"</input><br/>
+      Event Abstract Information: <input type="text" name="abstractInfo"</input><br/>
+    </div>
+    <div>
+      <button name="create" type="submit">Create Event</button>
+    </div>
+
+
+  </form>
 </div>
 
 

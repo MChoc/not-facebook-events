@@ -2,11 +2,13 @@ from flask import render_template, request, redirect, url_for, abort
 from flask_login import current_user, login_required, login_user, logout_user
 from server import app, system
 from datetime import datetime
+from utils import admin_required
 
 
 @app.route('/')
 def landing_page():
     return redirect(url_for('login'))
+
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -40,10 +42,16 @@ def page_not_found(e=None):
 @app.route('/open_events')
 @login_required
 def open_events():
-    print(current_user)
     return render_template('open_events.html')
+
 
 @app.route('/dashboard')
 @login_required
 def dashboard():
     return render_template('dashboard.html')
+
+@app.route('/create_event')
+@login_required
+@admin_required
+def create_event():
+    return render_template('create_event.html')

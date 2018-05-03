@@ -70,11 +70,16 @@ class UNSWMember(Member):
     #register for courses
     #pass in a course that the user intends to register for
     #need to check that the status of the course is not closed
+    #need to check that this course is not full
     #need to check that this user has not registered for this course before
     #return false is not successful
     def registerCourse(self, course):
         if self._avoid_closed_status(course) == False:
             return False
+        
+        if self._avoid_full(course) == False:
+            return False
+        
         if self._avoid_dup(course) == True:
             course.add_attendee(self)
             self.currentEvents.append(course)
@@ -91,6 +96,7 @@ class UNSWMember(Member):
     #pass in a seminar and a session of the seminar that the user intends to register for
     #need to check that status of the seminar and the session is not closed
     #need to check that this session belongs to this semianr
+    #need to check that this session is not full
     #return false if unsuccessful
     def registerSeminar(self, seminar, session):
         if self._avoid_closed_status(seminar) == False:
@@ -99,6 +105,9 @@ class UNSWMember(Member):
             return False
 
         if self._avoid_fake_session(seminar, session) != True:
+            return False
+
+        if self._avoid_full(session) == False:
             return False
 
         if self._avoid_dup(seminar) == True:
@@ -147,6 +156,12 @@ class UNSWMember(Member):
         for s in seminar.session:
             if session.name == s.name:
                 return True
+
+
+    def _avoid_full(self, event):
+        if len(event.attendeeList) >= event.maxAttendees:
+            print("full")
+            return False
 
     #deregister for course
     #pass in a course that the user intends to deregister for

@@ -38,6 +38,16 @@ class EMS:
     def removeOpenEvent(self,event):
         self.openEvent.remove(event)
 
+    #search open events
+    #pass in key words
+    #return a list of events whose name contains that key words
+    def search_open_events(self, name):
+        current_list = []
+        for event in self.openEvent:
+            if name in event.name:
+                current_list.append(event)
+        return current_list
+    
     def addUNSWMember(self, member):
         self.UNSWMember.append(member)
 

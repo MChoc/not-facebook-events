@@ -1,8 +1,28 @@
 {% extends 'base.html' %}
 {% block body %}
 <h1>Open Events</h1>
-{% for event in events %}
+
+<!-- {% for event in events %}
 {{ event.__str__() }}
 <br />
+{% endfor %} -->
+
+{% for e in event %}
+    {% if e in course %}
+        <li><a href="{{url_for('event', event_name = e.name)}}">{{e.name}}</a> {{e.status}}
+            <br>{{e.abstractInfo}}
+        </li>
+    {% else %}
+        <li><a href="{{url_for('event', event_name = e.name)}}">{{e.name}}</a> {{e.status}}
+            <br>{{e.abstractInfo}}
+        </li>
+        sessions:
+        {% for session in e.session %}
+            {{session.name}}
+        {% endfor %}
+    {% endif %}
 {% endfor %}
+
+{{session.name}}
+
 {% endblock %}

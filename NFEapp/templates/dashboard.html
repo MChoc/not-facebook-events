@@ -1,4 +1,27 @@
 {% extends 'base.html' %}
 {% block body %}
 <h1>Dashboard</h1>
+<h2>{{user.username}}</h2>
+
+<div>
+    <h3>current events</h3>
+        {% for currentEvents in user.currentEvents %}
+            <li><a href="{{url_for('event', event_name = currentEvents.name)}}">{{currentEvents.name}}</a>
+            <button name="deregister" type="submit">DeRegister</button>
+        {% endfor %}
+</div>
+
+
+<div>
+    <form method="POST">
+        {% if user.is_admin %}
+            <h3>current post events</h3>
+            {% for currentPostEvent in user.currentPostEvent %}
+                <li><a href="{{url_for('event', event_name = currentPostEvent.name)}}">{{currentPostEvent.name}}</a>
+                <button name="close" type="submit">Close</button>
+            {% endfor %}
+        {% endif %}
+    </form>
+</div>
+
 {% endblock %}

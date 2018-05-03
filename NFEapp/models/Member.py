@@ -27,6 +27,10 @@ class Member(UserMixin, ABC):
     def is_anonymous(self):
         return False
 
+    @property
+    def id(self):
+        return self._id
+
     def get_id(self):
         return str(self._id)
 

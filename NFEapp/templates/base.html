@@ -3,6 +3,8 @@
 
 <head>
     <title>Not Facebook Events</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/faviconfb.ico') }}" />
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main2.css') }}" /> -->
 </head>
 
 <body>
@@ -16,6 +18,8 @@
     <a href="{{ url_for('logout') }}">Logout</a>
 
     {% block body %}{% endblock %}
+
+    <!-- <script src="{{ url_for('static', filename='js/main2.js') }}"></script> -->
 </body>
 
 </html>

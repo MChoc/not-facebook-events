@@ -1,3 +1,4 @@
-NFEapp/__pycache__/
-NFEapp/models/__pycache__/
+**/__pycache__/
 venv/
+templates/unsw_events.html
+static/images/icons/notfacebook.png

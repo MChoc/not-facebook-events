@@ -41,11 +41,11 @@ def page_not_found(e=None):
     return render_template('404.html'), 404
 
 
-@app.route('/open_events')
+@app.route('/open_events', methods=['GET','POST'])
 @login_required
 def open_events():
     # return render_template('open_events.html', events=system.openEvent)
-
+    
     course = []
     seminar = []
     for event in system.openEvent:
@@ -53,7 +53,11 @@ def open_events():
             course.append(event)
         elif isinstance(event, Seminar):
             seminar.append(event)
-
+    
+    if request.method == 'POST':
+        key_words = request.form['key_words']
+        return render_template('open_events.html', events = system.search_open_events(key_words), seminar=seminar, course=course)
+    
     return render_template('open_events.html', events=system.openEvent, seminar=seminar, course=course)
 
 
@@ -65,7 +69,6 @@ def dashboard():
 @app.route('/create_course', methods=['GET','POST'])
 @login_required
 @admin_required
-#create course
 def create_course():
     if request.method == 'POST':
         date_format = "%Y-%m-%d"
@@ -121,17 +124,27 @@ def event(event_id):
     elif isinstance(event, Seminar):
         type = 'seminar'
 
+    message = None
     if request.method == 'POST':
         if 'register_course' in request.form and type == 'course':
+            message = "confirm_register_course"
+        elif 'confirm_register_course' in request.form and type == 'course':
             system.register_course(current_user, event)
         elif 'close_course' in request.form:
+            message = "confirm_close_course"
+        elif 'confirm_close_course' in request.form:
             system.change_course_status(current_user, event, 'closed')
         elif 'close_seminar' in request.form:
+            message = "confirm_close_seminar"
+        elif 'confirm_close_seminar' in request.form:
             system.change_seminar_status(current_user, event, 'closed')
         elif 'deregister_course' in request.form:
-            print("deregister")
+            message = "confirm_deregister_course"
+        elif 'confirm_deregister_course' in request.form:
             system.deRegister_course(current_user, event)
         elif 'deregister_seminar' in request.form:
+            message = "confirm_deregister_seminar"
+        elif 'confirm_deregister_seminar' in request.form:
             system.deRegister_seminar(current_user, event)
         elif 'add_session' in request.form:
             return render_template('event_detail.html', event=event, type=type, user=current_user, register=False, add=True)
@@ -155,7 +168,7 @@ def event(event_id):
     else:
         register = False
 
-    return render_template('event_detail.html', event=event, type=type, user=current_user, register=register)
+    return render_template('event_detail.html', event=event, type=type, user=current_user, register=register, message = message)
 
 @app.route('/<seminar_id>/<session_name>', methods=['GET','POST'])
 @login_required
@@ -164,13 +177,19 @@ def session(seminar_id, session_name):
     for s in seminar.session:
         if session_name == s.name:
             session = s
-
+    message = None
     if request.method == 'POST':
         if 'register_session' in request.form:
+            message = "confirm_register_session"
+        elif 'confirm_register_session' in request.form:
             system.register_seminar(current_user, seminar, session)
         elif 'close' in request.form:
+            message = "confirm_close_session"
+        elif 'confirm_close_session' in request.form:
             system.change_session_status(current_user,seminar, session, 'closed')
         elif 'deregister_session' in request.form:
+            message = "confirm_deregister_session"
+        elif 'confirm_deregister_session' in request.form:
             system.deRegister_session(current_user, seminar, session)
 
     if seminar in current_user.currentEvents:
@@ -178,4 +197,4 @@ def session(seminar_id, session_name):
     else:
         register = False
 
-    return render_template('session_detail.html', seminar=seminar, user=current_user, session=session, register=register)
+    return render_template('session_detail.html', seminar=seminar, user=current_user, session=session, register=register, message = message)

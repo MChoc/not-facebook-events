@@ -17,12 +17,24 @@
             {% if user.is_admin() and user.avoid_creator(event) == False %}
                 {% if event.status == 'open' %}
                     <button name="close_course" type="submit">Close</button>
+                    {% if message == 'confirm_close_course' %}
+                        <h3>Do you wish to continue?</h3>
+                        <button name="confirm_close_course" type="submit">Continue</button>   
+                    {% endif %}
                 {% endif %}
             {% else %}
                 {% if event.status == 'open' and register == False %}
                     <button name="register_course" type="submit">Register</button>
+                    {% if message == 'confirm_register_course' %}
+                        <h3>Do you wish to continue?</h3>
+                        <button name="confirm_register_course" type="submit">Continue</button>   
+                    {% endif %}
                 {% elif event.status == 'open' and register == True %}
                     <button name="deregister_course" type="submit">deRegister</button>
+                    {% if message == 'confirm_deregister_course' %}
+                        <h3>Do you wish to continue?</h3>
+                        <button name="confirm_deregister_course" type="submit">Continue</button>   
+                    {% endif %}
                 {% endif %}
             {% endif %}
         </div>
@@ -31,10 +43,18 @@
         {% if user.is_admin() and user.avoid_creator(event) == False %}
             {% if event.status == 'open'%}
                 <button name="close_seminar" type="submit">Close</button>
+                {% if message == 'confirm_close_seminar' %}
+                    <h3>Do you wish to continue?</h3>
+                    <button name="confirm_close_seminar" type="submit">Continue</button>   
+                {% endif %}
             {% endif %}
         {% else %}
             {% if event.status == 'open' and register == True%}
                 <button name="deregister_seminar" type="submit">deRegister</button>
+                {% if message == 'confirm_deregister_seminar' %}
+                    <h3>Do you wish to continue?</h3>
+                    <button name="confirm_deregister_seminar" type="submit">Continue</button>   
+                {% endif %}
             {% endif %}
         {% endif %}
 
@@ -45,8 +65,6 @@
             {{session.time}}
             {{session.location}}
             {{session.abstractInfo}}
-            {{session.speaker.name}}
-            {{session.speaker.contact}}
         {% endfor %}
 
         {% if user.is_admin() %}
@@ -57,7 +75,6 @@
             {% endif %}
         {% endif %}
     {% endif %}
-<<<<<<< HEAD
    
     {% if add %}
     <div>
@@ -83,9 +100,6 @@
     </div>
     {% endif %}
     
-=======
-
->>>>>>> 804a8141ef2b48d1435e7c3e62a9219b2faffa7f
     </form>
 </div>
 {% endblock %}

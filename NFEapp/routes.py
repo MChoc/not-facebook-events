@@ -75,11 +75,12 @@ def create_course():
         time_format = "%H:%M"
         name = request.form['name']
         status = request.form['status']
-        date = datetime.strptime(request.form['date'], date_format)
-        time = datetime.strptime(request.form['time'], time_format)
+        date = datetime.strptime(request.form['date'], date_format).date()
+        time = datetime.strptime(request.form['time'], time_format).time()
+        
         location = request.form['location']
         maxAttendees = int(request.form['maxAttendees'])
-        deRegWindow = datetime.strptime(request.form['deRegWindow'], date_format)
+        deRegWindow = datetime.strptime(request.form['deRegWindow'], date_format).date()
         abstractInfo = request.form['abstractInfo']
 
     if 'create' in request.form:
@@ -100,11 +101,11 @@ def create_seminar():
     
         name = request.form['name']
         status = request.form['status']
-        date = datetime.strptime(request.form['date'], date_format)
-        time = datetime.strptime(request.form['time'], time_format)
+        date = datetime.strptime(request.form['date'], date_format).date()
+        time = datetime.strptime(request.form['time'], time_format).time()
         location = request.form['location']
         maxAttendees = int(request.form['maxAttendees'])
-        deRegWindow = datetime.strptime(request.form['deRegWindow'], date_format)
+        deRegWindow = datetime.strptime(request.form['deRegWindow'], date_format).date()
         abstractInfo = request.form['abstractInfo']
         speaker_name = request.form['speaker_name']
         email = request.form['email']
@@ -153,11 +154,11 @@ def event(event_id):
             time_format = "%H:%M"
             name = request.form['name']
             status = request.form['status']
-            date = datetime.strptime(request.form['date'], date_format)
-            time = datetime.strptime(request.form['time'], time_format)
+            date = datetime.strptime(request.form['date'], date_format).date()
+            time = datetime.strptime(request.form['time'], time_format).time()
             location = request.form['location']
             maxAttendees = int(request.form['maxAttendees'])
-            deRegWindow = datetime.strptime(request.form['deRegWindow'], date_format)
+            deRegWindow = datetime.strptime(request.form['deRegWindow'], date_format).date()
             abstractInfo = request.form['abstractInfo']
             speaker_name = request.form['speaker_name']
             email = request.form['email']

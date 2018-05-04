@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    <div>
     <a href="{{ url_for('open_events') }}">Home</a>
     <a href="{{ url_for('dashboard') }}">Dashboard</a>
 
@@ -16,10 +17,10 @@
     {% endif %}
 
     <a href="{{ url_for('logout') }}">Logout</a>
-
+    </div>
     {% block body %}{% endblock %}
 
-    <!-- <script src="{{ url_for('static', filename='js/main2.js') }}"></script> -->
+    <!-- <script src="{{ url_for('static', filename='js/main.js') }}"></script> -->
 </body>
 
 </html>

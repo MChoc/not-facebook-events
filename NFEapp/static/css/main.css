@@ -95,10 +95,6 @@ ul, li {
 	list-style-type: none;
 }
 
-body {
-	margin-left: 5px;
-}
-
 /*---------------------------------------------*/
 input {
 	outline: none;
@@ -629,4 +625,16 @@ input.input100 {
 	border-radius:15px;
 	padding:10px;
 	margin-bottom:5px;
+}
+
+.center {
+	margin: auto;
+	width: 600px;
+	padding: 10px;
+	background-color: white;
+}
+
+#grad1 {
+	height: 100%;
+	background: linear-gradient(grey, white);
 }

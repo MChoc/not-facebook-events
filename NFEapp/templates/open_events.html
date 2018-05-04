@@ -1,40 +1,37 @@
 {% extends 'base.html' %}
 {% block body %}
-<h1>Open Events</h1>
-
-{% for event in events %}
-
-	{% if event in course %}
-		<div class="event-row">
-			<div>
-				<h4>
-					<a href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a>
-				</h4>
-				Course
-				{{ event.date }}
-				{{ event.time }}
-				<br />
-				{{ event.abstractInfo }}
-			</div>
-		</div>
-	{% elif event in seminar %}
-		<div class="event-row">
-			<div>
-				<h4>
-					<a href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a>
-				</h4>
-				Session
-				{{ event.date }}
-				{{ event.time }}
-				<br />
-				{{ event.abstractInfo }}
-			</div>
-		</div>
-	{% endif %}
-
-
-
-{% endfor %}
-
-
+<div id="grad1">
+	<div class="center">
+		<h1>Open Events</h1>
+		{% for event in events %}
+			{% if event in course %}
+				<div class="event-row">
+					<div>
+						<h4>
+							<a href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a>
+						</h4>
+						Course
+						{{ event.date }}
+						{{ event.time }}
+						<br />
+						{{ event.abstractInfo }}
+					</div>
+				</div>
+			{% elif event in seminar %}
+				<div class="event-row">
+					<div>
+						<h4>
+							<a href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a>
+						</h4>
+							Session
+							{{ event.date }}
+							{{ event.time }}
+							<br />
+						{{ event.abstractInfo }}
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+</div>
 {% endblock %}

@@ -4,15 +4,15 @@
 <a href="{{url_for('dashboard')}}">Back</a>
 <div>
     <form method="POST">
-    event name: {{event.name}}<br>
-    event status: {{event.status}}<br>
-    abstract information: {{event.abstractInfo}}<br>
+    Event name: {{event.name}}<br>
+    Event status: {{event.status}}<br>
+    Abstract information: {{event.abstractInfo}}<br>
 
     {% if type == 'course' %}
         event date: {{event.date}}<br>
         event time: {{event.time}}<br>
         event location: {{event.location}}
-  
+
         <div>
             {% if user.is_admin() and user.avoid_creator(event) == False %}
                 {% if event.status == 'open' %}
@@ -23,7 +23,7 @@
                     <button name="register_course" type="submit">Register</button>
                 {% elif event.status == 'open' and register == True %}
                     <button name="deregister_course" type="submit">deRegister</button>
-                {% endif %}            
+                {% endif %}
             {% endif %}
         </div>
 
@@ -37,7 +37,7 @@
                 <button name="deregister_seminar" type="submit">deRegister</button>
             {% endif %}
         {% endif %}
-        
+
         <h2>sessions: </h2>
         {% for session in event.session %}
             <li><a href="{{url_for('session', seminar_id = event.id, session_name = session.name)}}">{{session.name}}</a>
@@ -57,6 +57,7 @@
             {% endif %}
         {% endif %}
     {% endif %}
+<<<<<<< HEAD
    
     {% if add %}
     <div>
@@ -82,6 +83,9 @@
     </div>
     {% endif %}
     
+=======
+
+>>>>>>> 804a8141ef2b48d1435e7c3e62a9219b2faffa7f
     </form>
 </div>
 {% endblock %}

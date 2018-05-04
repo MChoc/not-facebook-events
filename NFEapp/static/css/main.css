@@ -95,10 +95,6 @@ ul, li {
 	list-style-type: none;
 }
 
-body {
-	margin-left: 5px;
-}
-
 /*---------------------------------------------*/
 input {
 	outline: none;
@@ -623,10 +619,3 @@ input.input100 {
 }
 
 /*==========================================================*/
-.event-row {
-	width: 578px;
-	border:1px solid #ccc;
-	border-radius:15px;
-	padding:10px;
-	margin-bottom:5px;
-}

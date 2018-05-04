@@ -79,6 +79,15 @@ a:hover {
 
 /*==========================================================*/
 
+button {
+	font-family: Poppins-Regular, sans-serif;
+	padding: 0px 5px;
+	margin: 2px;
+}
+
+
+/*==========================================================*/
+
 .event-row {
 	width: 940px;
 	border:1px solid #ccc;
@@ -103,3 +112,16 @@ a:hover {
 #header_menu :hover{ color: #fff; }
 #header_menu .active{ background-color: #000; }
 #header_menu .active{ color: #fff; }
+
+.speaker {
+	margin-top: 20px;
+}
+
+.text-description {
+	font-size: 14px;
+}
+
+.event-link-title {
+	font-size: 16px;
+	color: #0000EE;
+}

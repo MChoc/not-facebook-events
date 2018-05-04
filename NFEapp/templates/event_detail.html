@@ -5,10 +5,10 @@
 		<h1>{{event.name}}</h1>
 	  <form method="POST">
 	  Event status: {{event.status}}<br>
-
 	  {% if type == 'course' %}
 	    event date: {{event.date}}<br>
 	    event time: {{event.time}}<br>
+<<<<<<< HEAD
 	    event location: {{event.location}}
 
         <div>
@@ -37,69 +37,98 @@
             {% endif %}
         </div>
 
+=======
+	    event location: {{event.location}}
+<!-- temp code -->
+      <div>
+      {% if user.is_admin() and user.avoid_creator(event) == False %}
+        {% if event.status == 'open' %}
+        	<button name="close_course" type="submit">Close</button>
+          {% if message == 'confirm_close_course' %}
+            <h3>Do you wish to continue?</h3>
+            <button name="confirm_close_course" type="submit">Continue</button>
+          {% endif %}
+        {% endif %}
+      {% else %}
+      	{% if event.status == 'open' and register == False %}
+        	<button name="register_course" type="submit">Register</button>
+        	{% if message == 'confirm_register_course' %}
+          	<h3>Do you wish to continue?</h3>
+          	<button name="confirm_register_course" type="submit">Continue</button>
+        	{% endif %}
+        {% elif event.status == 'open' and register == True %}
+        <button name="deregister_course" type="submit">deRegister</button>
+          {% if message == 'confirm_deregister_course' %}
+            <h3>Do you wish to continue?</h3>
+            <button name="confirm_deregister_course" type="submit">Continue</button>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      </div>
+>>>>>>> 6cd24c4f229aed8e990afe67193572a90cce06d6
     {% else %}
-        {% if user.is_admin() and user.avoid_creator(event) == False %}
-            {% if event.status == 'open'%}
-                <button name="close_seminar" type="submit">Close</button>
-                {% if message == 'confirm_close_seminar' %}
-                    <h3>Do you wish to continue?</h3>
-                    <button name="confirm_close_seminar" type="submit">Continue</button>
-                {% endif %}
-            {% endif %}
-        {% else %}
-            {% if event.status == 'open' and register == True%}
-                <button name="deregister_seminar" type="submit">deRegister</button>
-                {% if message == 'confirm_deregister_seminar' %}
-                    <h3>Do you wish to continue?</h3>
-                    <button name="confirm_deregister_seminar" type="submit">Continue</button>
-                {% endif %}
-            {% endif %}
+      {% if user.is_admin() and user.avoid_creator(event) == False %}
+        {% if event.status == 'open'%}
+        <button name="close_seminar" type="submit">Close</button>
+          {% if message == 'confirm_close_seminar' %}
+          <h3>Do you wish to continue?</h3>
+          <button name="confirm_close_seminar" type="submit">Continue</button>
+          {% endif %}
         {% endif %}
-
-        <h2>sessions: </h2>
-        {% for session in event.session %}
-            <li><a href="{{url_for('session', seminar_id = event.id, session_name = session.name)}}">{{session.name}}</a>
-            {{session.status}}
-            {{session.time}}
-            {{session.location}}
-            {{session.abstractInfo}}
-        {% endfor %}
-
-        {% if user.is_admin() %}
-            {% if user.avoid_creator(event) == False %}
-                {% if event.status == 'open'%}
-                    <br/><button name="add_session" type="submit">Add Session</button>
-                {% endif %}
-            {% endif %}
+      {% else %}
+        {% if event.status == 'open' and register == True%}
+          <button name="deregister_seminar" type="submit">deRegister</button>
+          {% if message == 'confirm_deregister_seminar' %}
+            <h3>Do you wish to continue?</h3>
+            <button name="confirm_deregister_seminar" type="submit">Continue</button>
+          {% endif %}
         {% endif %}
+      {% endif %}
+      <h2>Sessions: </h2>
+      {% for session in event.session %}
+        <li><a href="{{url_for('session', seminar_id = event.id, session_name = session.name)}}">{{session.name}}</a>
+        {{session.status}}
+        {{session.time}}
+        {{session.location}}
+        {{session.abstractInfo}}
+      {% endfor %}
+      {% if user.is_admin() %}
+        {% if user.avoid_creator(event) == False %}
+          {% if event.status == 'open'%}
+            <br/><button name="add_session" type="submit">Add Session</button>
+          {% endif %}
+        {% endif %}
+      {% endif %}
     {% endif %}
-
     {% if add %}
-    <div>
+    	<div>
         <h3>Add a session</h3>
-            Session Name: <input type="text" name="name"</input><br/>
-            Session Status:
-                <select name = "status">
-                  <option value="open">open</option>
-                  <option value="closed">closed</option>
-                  <option value="cancelled">cancelled</option>
-                </select><br />
-            Session Commence Date: <input type="date" name="date"</input><br/>
-            Seesion Commence Time: <input type="time" name="time"</input><br/>
-            Session Location: <input type="text" name="location"</input><br/>
-            Max Attendees: <input type="number" name="maxAttendees" min = "1" </input><br/>
-            Date allowed for deregister: <input type="date" name="deRegWindow"</input><br/>
-            Session Abstract Information: <input type="text" name="abstractInfo"</input><br/>
-            Speaker name: <input type="text" name="speaker_name"</input><br/>
-            Speaker email: <input type="text" name="email"</input><br/>
-    </div>
+        Session Name: <input type="text" name="name"</input><br/>
+        Session Status:
+        <select name = "status">
+          <option value="open">open</option>
+          <option value="closed">closed</option>
+          <option value="cancelled">cancelled</option>
+        </select><br />
+        Session Commence Date: <input type="date" name="date"</input><br/>
+        Seesion Commence Time: <input type="time" name="time"</input><br/>
+        Session Location: <input type="text" name="location"</input><br/>
+        Max Attendees: <input type="number" name="maxAttendees" min = "1" </input><br/>
+        Date allowed for deregister: <input type="date" name="deRegWindow"</input><br/>
+        Session Abstract Information: <input type="text" name="abstractInfo"</input><br/>
+        Speaker name: <input type="text" name="speaker_name"</input><br/>
+        Speaker email: <input type="text" name="email"</input><br/>
+    	</div>
     <div>
-        <button name="confirm" type="submit">Confirm</button>
+      <button name="confirm" type="submit">Confirm</button>
     </div>
     {% endif %}
-
     </form>
+<<<<<<< HEAD
 </div>
 
+=======
+	</div>
+>>>>>>> 6cd24c4f229aed8e990afe67193572a90cce06d6
 </div>
 {% endblock %}

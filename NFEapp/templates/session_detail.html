@@ -1,51 +1,47 @@
 {% extends 'base.html' %}
 {% block body %}
-<h1>seminar: {{seminar.name}}</h1>
-<a href="{{url_for('event', event_id = seminar.id)}}">Back</a>
 
-<h2>{{session.name}}</h2>
 
-<div>
-    <form method="POST">
-        {{session.name}}
-        {{session.status}}
-        {{session.date}}
-        {{session.time}}
-        {{session.abstractInfo}}
-        <h4>Speaker Information</h4>
-        {{session.speaker.name}}
-        {{session.speaker.contact}}
-
-        <div>
-            {% if user.is_admin() and user.avoid_creator(seminar) == False %}
-                {% if session.status == 'open'%}
-                    <button name="close" type="submit">Close</button>
-                    {% if message == 'confirm_close_session' %}
-                        <h3>Do you wish to continue?</h3>
-                        <button name="confirm_close_session" type="submit">Continue</button>   
-                    {% endif %}
-                {% endif %}
-            {% else %}
-                {% if session.status == 'open' and register == False %}
-                    <button name="register_session" type="submit">Register</button>
-                    {% if message == 'confirm_register_session' %}
-                        <h3>Do you wish to continue?</h3>
-                        <button name="confirm_register_session" type="submit">Continue</button>   
-                    {% endif %}
-                {% elif session.status == 'open' and register == True %}
-                    <button name="deregister_session" type="submit">deRegister</button>
-                    {% if message == 'confirm_deregister_session' %}
-                        <h3>Do you wish to continue?</h3>
-                        <button name="confirm_deregister_session" type="submit">Continue</button>   
-                    {% endif %}
-                {% endif %}
-            {% endif %}
-        </div>
-        
-    </form>
+<div id="grad1">
+	<div class="center">
+	  <h1>Seminar: {{seminar.name}}</h1>
+	  <h2>{{session.name}}</h2>
+	  <form method="POST">
+	    {{session.status}}
+	    {{session.date}}
+	    {{session.time}}<br />
+			{{session.abstractInfo}}
+			<div class="speaker">
+		    <h4>Speaker</h4>
+		    {{session.speaker.name}}<br />
+		    {{session.speaker.contact}}
+		    <div>
+		      {% if user.is_admin() and user.avoid_creator(seminar) == False %}
+		        {% if session.status == 'open'%}
+		          <button name="close" type="submit">Close</button>
+		          {% if message == 'confirm_close_session' %}
+		            <h3>Do you wish to continue?</h3>
+		            <button name="confirm_close_session" type="submit">Continue</button>
+		          {% endif %}
+		        {% endif %}
+		      {% else %}
+		        {% if session.status == 'open' and register == False %}
+		          <button name="register_session" type="submit">Register</button>
+		          {% if message == 'confirm_register_session' %}
+		            <h3>Do you wish to continue?</h3>
+		            <button name="confirm_register_session" type="submit">Continue</button>
+		          {% endif %}
+		        {% elif session.status == 'open' and register == True %}
+		          <button name="deregister_session" type="submit">deRegister</button>
+		          {% if message == 'confirm_deregister_session' %}
+		            <h3>Do you wish to continue?</h3>
+		            <button name="confirm_deregister_session" type="submit">Continue</button>
+		          {% endif %}
+		        {% endif %}
+		      {% endif %}
+		    </div>
+			</div>
+	  </form>
+	</div>
 </div>
-
-
-
-
 {% endblock %}

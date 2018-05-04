@@ -13,24 +13,24 @@
 				<div class="event-row">
 					<div>
 						<h4>
-							<a href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a>
+							<a class="event-link-title" href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a>
 						</h4>
 						Course
 						{{ event.date }}
 						{{ event.time }}
 						<br />
-						{{ event.abstractInfo }}
+						<div class="text-description">{{ event.abstractInfo }}</div>
 					</div>
 				</div>
 			{% elif event in seminar %}
 				<div class="event-row">
 					<div>
 						<h4>
-							<a href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a>
+							<a class="event-link-title" href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a>
 						</h4>
 							Seminar
 							<br />
-						{{ event.abstractInfo }}
+						<div class="text-description">{{ event.abstractInfo }}</div>
 					</div>
 				</div>
 			{% endif %}

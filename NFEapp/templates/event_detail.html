@@ -53,7 +53,7 @@
           {% endif %}
         {% endif %}
       {% endif %}
-      <h2>sessions: </h2>
+      <h2>Sessions: </h2>
       {% for session in event.session %}
         <li><a href="{{url_for('session', seminar_id = event.id, session_name = session.name)}}">{{session.name}}</a>
         {{session.status}}

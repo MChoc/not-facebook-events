@@ -7,7 +7,7 @@
 			<input type="text" name="key_words"</input>
 			<button name="search" type="submit">Search</button>
 		</form>
-		
+
 		{% for event in events %}
 			{% if event in course %}
 				<div class="event-row">
@@ -28,9 +28,7 @@
 						<h4>
 							<a href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a>
 						</h4>
-							Session
-							{{ event.date }}
-							{{ event.time }}
+							Seminar
 							<br />
 						{{ event.abstractInfo }}
 					</div>

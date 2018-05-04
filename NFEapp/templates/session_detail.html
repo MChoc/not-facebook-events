@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block body %}
+<h1>seminar: {{seminar.name}}</h1>
+<a href="{{url_for('event', event_id = seminar.id)}}">Back</a>
+
+<h2>{{session.name}}</h2>
+
+<div>
+    <form method="POST">
+        {{session.name}}
+        {{session.status}}
+        {{session.date}}
+        {{session.time}}
+        {{session.abstractInfo}}
+
+        <div>
+            {% if user.is_admin() %}
+                {% if user.avoid_creator(seminar) == False %}
+                    {% if session.status == 'open'%}
+                        <button name="close" type="submit">Close</button>
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                {% if session.status == 'open' and register == False %}
+                    <button name="register_session" type="submit">Register</button>
+                {% elif session.status == 'open' and register == True %}
+                    <button name="deregister_session" type="submit">deRegister</button>
+                {% endif %}
+            {% endif %}
+        </div>
+        
+    </form>
+</div>
+
+
+
+
+{% endblock %}

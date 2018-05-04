@@ -4,7 +4,7 @@ from server import app, system
 from datetime import datetime
 from utils import admin_required
 from models.Staff import Staff
-
+from models.bootstrap_system import *
 
 @app.route('/')
 def landing_page():
@@ -48,27 +48,17 @@ def open_events():
     course =[]
     seminar = []
     for event in system.openEvent:
-        try:
-            session1 = event.session
-        except AttributeError:
-            session1 = None
-
-        if not session1:
+        if isinstance(event, Course):
             course.append(event)
-        else:
+        elif isinstance(event, Seminar):
             seminar.append(event)
 
     return render_template('open_events.html', event = system.openEvent, seminar = seminar, course = course)
 
 
-@app.route('/dashboard', methods=['GET','POST'])
+@app.route('/dashboard')
 @login_required
 def dashboard():
-    print(current_user.currentEvents)
-    if request.method == 'POST':
-        if 'close' in request.form:
-            print("close")
-            # system.change_course_status(currentPostEvent)
     return render_template('dashboard.html', user = current_user)
 
 @app.route('/create_event', methods=['GET','POST'])
@@ -94,23 +84,56 @@ def create_event():
         return redirect(url_for('dashboard'))
     return render_template('create_event.html')
 
-@app.route('/<event_name>', methods=['GET','POST'])
+@app.route('/<event_id>', methods=['GET','POST'])
 @login_required
-def event(event_name):
-    event = system.getOpenEvent(event_name)
-    try:
-        session1 = event.session
-    except AttributeError:
-        session1 = []
-
-    if session1:
-        type = 'seminar'
-    else:
+def event(event_id):
+    event = system.getAllEvent(int(event_id))
+    
+    if isinstance(event, Course):
         type = 'course'
+    elif isinstance(event, Seminar):
+        type = 'seminar'
+
     if request.method == 'POST':
         if 'register_course' in request.form and type == 'course':
             system.register_course(current_user, event)
-        elif 'register_session' in request.form and type == 'seminar':
-            system.register_seminar(current_user, event, session1[0])
+        elif 'close_course' in request.form:
+            system.change_course_status(current_user, event, 'closed')
+        elif 'close_seminar' in request.form:
+            system.change_seminar_status(current_user, event, 'closed')
+        elif 'deregister_course' in request.form:
+            print("deregister")
+            system.deRegister_course(current_user, event)
+        elif 'deregister_seminar' in request.form:
+            system.deRegister_seminar(current_user, event)
 
-    return render_template('event_detail.html', event = event, type = type)
+
+    if event in current_user.currentEvents:
+        register = True
+    else:
+        register = False
+
+    return render_template('event_detail.html', event = event, type = type, user = current_user, register = register)
+
+@app.route('/<seminar_id>/<session_name>', methods=['GET','POST'])
+@login_required
+def session(seminar_id, session_name):
+    seminar = system.getAllEvent(int(seminar_id))
+    for s in seminar.session:
+        if session_name == s.name:
+            session = s
+    
+    if request.method == 'POST':
+        if 'register_session' in request.form:
+            system.register_seminar(current_user, seminar, session)
+        elif 'close' in request.form:
+            system.change_session_status(current_user,seminar, session, 'closed')
+        elif 'deregister_session' in request.form:
+            system.deRegister_session(current_user, seminar, session)
+
+    if seminar in current_user.currentEvents:
+        register = True
+    else:
+        register = False
+
+    return render_template('session_detail.html', seminar = seminar, user = current_user, session = session, register = register)

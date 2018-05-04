@@ -14,12 +14,17 @@ class EMS:
 
     def __init__(self):
         self._openEvent = []
+        self._closeEvent = []
         self._UNSWMember = []
 
     @property
     def openEvent(self):
         return self._openEvent
 
+    @property
+    def closeEvent(self):
+        return self._closeEvent
+    
     @property
     def UNSWMember(self):
         return self._UNSWMember
@@ -63,6 +68,15 @@ class EMS:
                 return event
         return None
 
+    def getAllEvent(self, id):
+        for event in self.openEvent:
+            if id == event.id:
+                print(event.name)
+                return event
+        for event in self.closeEvent:
+            if id == event.id:
+                return event
+
     def create_open_course(self, user, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
         id = self._generate_id()
         course = Course(id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo)
@@ -89,11 +103,13 @@ class EMS:
         if user.changeCourseStatus(course, status) == False:
             return False
         self.removeOpenEvent(course)
+        self.closeEvent.append(course)
 
     def change_seminar_status(self, user, seminar, status):
         if user.changeSeminarStatus(seminar, status) == False:
             return False
         self.removeOpenEvent(seminar)
+        self.closeEvent.append(seminar)
 
     def change_session_status(self, user, seminar, session, status):
         if user.changeSessionStatus(seminar, session, status) == False:

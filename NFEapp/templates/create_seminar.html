@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block body %}
+<h1>Create Seminar</h1>
+
+<div>
+  <form method="POST">
+    <div>
+      <a href="{{url_for('create_course')}}">Create Course</a><br>
+      Course Name: <input type="text" name="cname"</input><br/>
+      Course Status:
+				<select name="cstatus">
+					<option value="open">open</option>
+					<option value="closed">closed</option>
+					<option value="cancelled">cancelled</option>
+				</select><br/>
+      Course Abstract Information: <input type="text" name="cabstractInfo"</input><br/>
+    </div>
+    <div>
+      <h3>Add a session</h3>
+        Session Name: <input type="text" name="name"</input><br/>
+        Session Status:
+          <select name = "status">
+            <option value="open">open</option>
+            <option value="closed">closed</option>
+            <option value="cancelled">cancelled</option>
+          </select><br />
+        Session Commence Date: <input type="date" name="date"</input><br/>
+        Seesion Commence Time: <input type="time" name="time"</input><br/>
+        Session Location: <input type="text" name="location"</input><br/>
+        Max Attendees: <input type="number" name="maxAttendees" min = "1" </input><br/>
+        Date allowed for deregister: <input type="date" name="deRegWindow"</input><br/>
+        Session Abstract Information: <input type="text" name="abstractInfo"</input><br/>
+        Speaker name: <input type="text" name="speaker_name"</input><br/>
+        Speaker email: <input type="text" name="email"</input><br/>
+      </div>
+    <div>
+      <button name="create" type="submit">Create Seminar</button>
+    </div>
+
+
+  </form>
+</div>
+
+
+{% endblock %}

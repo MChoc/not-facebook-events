@@ -14,14 +14,12 @@
         event location: {{event.location}}
   
         <div>
-            {% if user.is_admin() %}
-                {% if user.avoid_creator(event) == False %}
-                    {% if event.status == 'open'%}
-                        <button name="close_course" type="submit">Close</button>
-                    {% endif %}
+            {% if user.is_admin() and user.avoid_creator(event) == False %}
+                {% if event.status == 'open' %}
+                    <button name="close_course" type="submit">Close</button>
                 {% endif %}
             {% else %}
-                {% if event.status == 'open' and register == False%}
+                {% if event.status == 'open' and register == False %}
                     <button name="register_course" type="submit">Register</button>
                 {% elif event.status == 'open' and register == True %}
                     <button name="deregister_course" type="submit">deRegister</button>
@@ -30,11 +28,9 @@
         </div>
 
     {% else %}
-        {% if user.is_admin() %}
-            {% if user.avoid_creator(event) == False %}
-                {% if event.status == 'open'%}
-                    <button name="close_seminar" type="submit">Close</button>
-                {% endif %}
+        {% if user.is_admin() and user.avoid_creator(event) == False %}
+            {% if event.status == 'open'%}
+                <button name="close_seminar" type="submit">Close</button>
             {% endif %}
         {% else %}
             {% if event.status == 'open' and register == True%}
@@ -49,9 +45,43 @@
             {{session.time}}
             {{session.location}}
             {{session.abstractInfo}}
+            {{session.speaker.name}}
+            {{session.speaker.contact}}
         {% endfor %}
+
+        {% if user.is_admin() %}
+            {% if user.avoid_creator(event) == False %}
+                {% if event.status == 'open'%}
+                    <br/><button name="add_session" type="submit">Add Session</button>
+                {% endif %}
+            {% endif %}
+        {% endif %}
     {% endif %}
    
+    {% if add %}
+    <div>
+        <h3>Add a session</h3>
+            Session Name: <input type="text" name="name"</input><br/>
+            Session Status:
+                <select name = "status">
+                  <option value="open">open</option>
+                  <option value="closed">closed</option>
+                  <option value="cancelled">cancelled</option>
+                </select><br />
+            Session Commence Date: <input type="date" name="date"</input><br/>
+            Seesion Commence Time: <input type="time" name="time"</input><br/>
+            Session Location: <input type="text" name="location"</input><br/>
+            Max Attendees: <input type="number" name="maxAttendees" min = "1" </input><br/>
+            Date allowed for deregister: <input type="date" name="deRegWindow"</input><br/>
+            Session Abstract Information: <input type="text" name="abstractInfo"</input><br/>
+            Speaker name: <input type="text" name="speaker_name"</input><br/>
+            Speaker email: <input type="text" name="email"</input><br/>
+    </div>
+    <div>
+        <button name="confirm" type="submit">Confirm</button>
+    </div>
+    {% endif %}
+    
     </form>
 </div>
 {% endblock %}

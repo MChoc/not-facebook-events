@@ -3,7 +3,6 @@ from flask_login import current_user, login_required, login_user, logout_user
 from server import app, system
 from datetime import datetime
 from utils import admin_required
-from models.Staff import Staff
 from models.bootstrap_system import *
 
 @app.route('/')
@@ -63,12 +62,11 @@ def open_events():
 def dashboard():
     return render_template('dashboard.html', user=current_user)
 
-@app.route('/create_event', methods=['GET','POST'])
+@app.route('/create_course', methods=['GET','POST'])
 @login_required
 @admin_required
-def create_event():
-    staff = current_user
-
+#create course
+def create_course():
     if request.method == 'POST':
         date_format = "%Y-%m-%d"
         time_format = "%H:%M"
@@ -82,9 +80,36 @@ def create_event():
         abstractInfo = request.form['abstractInfo']
 
     if 'create' in request.form:
-        system.create_open_course(staff, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo)
+        system.create_open_course(current_user, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo)
         return redirect(url_for('dashboard'))
-    return render_template('create_event.html')
+    return render_template('create_course.html')
+
+@app.route('/create_seminar', methods=['GET','POST'])
+@login_required
+@admin_required
+def create_seminar():
+    if request.method == 'POST':
+        date_format = "%Y-%m-%d"
+        time_format = "%H:%M"
+        cname = request.form['cname']
+        cstatus = request.form['cstatus']
+        cabstractInfo = request.form['cabstractInfo']
+    
+        name = request.form['name']
+        status = request.form['status']
+        date = datetime.strptime(request.form['date'], date_format)
+        time = datetime.strptime(request.form['time'], time_format)
+        location = request.form['location']
+        maxAttendees = int(request.form['maxAttendees'])
+        deRegWindow = datetime.strptime(request.form['deRegWindow'], date_format)
+        abstractInfo = request.form['abstractInfo']
+        speaker_name = request.form['speaker_name']
+        email = request.form['email']
+
+    if 'create' in request.form:
+        system.create_open_seminar(current_user, cname, cstatus, cabstractInfo, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo, Speaker(speaker_name, email))
+        return redirect(url_for('dashboard'))
+    return render_template('create_seminar.html')
 
 @app.route('/<event_id>', methods=['GET','POST'])
 @login_required
@@ -108,8 +133,23 @@ def event(event_id):
             system.deRegister_course(current_user, event)
         elif 'deregister_seminar' in request.form:
             system.deRegister_seminar(current_user, event)
-
-
+        elif 'add_session' in request.form:
+            return render_template('event_detail.html', event=event, type=type, user=current_user, register=False, add=True)
+        elif 'confirm' in request.form:
+            date_format = "%Y-%m-%d"
+            time_format = "%H:%M"
+            name = request.form['name']
+            status = request.form['status']
+            date = datetime.strptime(request.form['date'], date_format)
+            time = datetime.strptime(request.form['time'], time_format)
+            location = request.form['location']
+            maxAttendees = int(request.form['maxAttendees'])
+            deRegWindow = datetime.strptime(request.form['deRegWindow'], date_format)
+            abstractInfo = request.form['abstractInfo']
+            speaker_name = request.form['speaker_name']
+            email = request.form['email']
+            system.add_session(current_user, event, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo, Speaker(speaker_name, email))
+    
     if event in current_user.currentEvents:
         register = True
     else:

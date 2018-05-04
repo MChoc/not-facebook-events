@@ -80,7 +80,7 @@ a:hover {
 /*==========================================================*/
 
 .event-row {
-	width: 578px;
+	width: 940px;
 	border:1px solid #ccc;
 	border-radius:15px;
 	padding:10px;
@@ -89,7 +89,7 @@ a:hover {
 
 .center {
 	margin: auto;
-	width: 600px;
+	width: 960px;
 	padding: 10px;
 	background-color: white;
 }

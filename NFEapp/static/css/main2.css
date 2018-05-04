@@ -77,7 +77,6 @@ a:hover {
   color: #6675df;
 }
 
-
 /*==========================================================*/
 
 .event-row {
@@ -101,6 +100,6 @@ a:hover {
 }
 
 #header_menu :hover{ background-color: #000;}
-#header_menu :hover a{ color: #fff; }
-#header_menu ul li.active{ background-color: #000; }
-#header_menu ul li.active a{ color: #fff; }
+#header_menu :hover{ color: #fff; }
+#header_menu .active{ background-color: #000; }
+#header_menu .active{ color: #fff; }

@@ -1,57 +1,57 @@
 {% extends 'base.html' %}
 {% block body %}
-<h1>{{event.name}} detail</h1>
-<a href="{{url_for('dashboard')}}">Back</a>
-<div>
-    <form method="POST">
-    Event name: {{event.name}}<br>
-    Event status: {{event.status}}<br>
-    Abstract information: {{event.abstractInfo}}<br>
+<div id="grad1">
+	<div class="center">
+		<h1>{{event.name}}</h1>
+	  <form method="POST">
+	  Event status: {{event.status}}<br>
 
-    {% if type == 'course' %}
-        event date: {{event.date}}<br>
-        event time: {{event.time}}<br>
-        event location: {{event.location}}
+	  {% if type == 'course' %}
+	    event date: {{event.date}}<br>
+	    event time: {{event.time}}<br>
+	    event location: {{event.location}}
 
-        <div>
-            {% if user.is_admin() %}
-                {% if user.avoid_creator(event) == False %}
-                    {% if event.status == 'open'%}
-                        <button name="close_course" type="submit">Close</button>
-                    {% endif %}
-                {% endif %}
-            {% else %}
-                {% if event.status == 'open' and register == False%}
-                    <button name="register_course" type="submit">Register</button>
-                {% elif event.status == 'open' and register == True %}
-                    <button name="deregister_course" type="submit">deRegister</button>
-                {% endif %}
-            {% endif %}
-        </div>
+	    <div>
+	      {% if user.is_admin() %}
+	        {% if user.avoid_creator(event) == False %}
+	          {% if event.status == 'open'%}
+	            <button name="close_course" type="submit">Close</button>
+	          {% endif %}
+	        {% endif %}
+	    	{% else %}
+	        {% if event.status == 'open' and register == False%}
+	          <button name="register_course" type="submit">Register</button>
+	        {% elif event.status == 'open' and register == True %}
+	          <button name="deregister_course" type="submit">deRegister</button>
+	        {% endif %}
+	      {% endif %}
+	    </div>
 
-    {% else %}
-        {% if user.is_admin() %}
-            {% if user.avoid_creator(event) == False %}
-                {% if event.status == 'open'%}
-                    <button name="close_seminar" type="submit">Close</button>
-                {% endif %}
-            {% endif %}
-        {% else %}
-            {% if event.status == 'open' and register == True%}
-                <button name="deregister_seminar" type="submit">deRegister</button>
-            {% endif %}
-        {% endif %}
+	  {% else %}
+	    {% if user.is_admin() %}
+	      {% if user.avoid_creator(event) == False %}
+	        {% if event.status == 'open'%}
+	          <button name="close_seminar" type="submit">Close</button>
+	        {% endif %}
+	      {% endif %}
+	    {% else %}
+	      {% if event.status == 'open' and register == True%}
+	        <button name="deregister_seminar" type="submit">deRegister</button>
+	      {% endif %}
+	    {% endif %}
 
-        <h2>sessions: </h2>
-        {% for session in event.session %}
-            <li><a href="{{url_for('session', seminar_id = event.id, session_name = session.name)}}">{{session.name}}</a>
-            {{session.status}}
-            {{session.time}}
-            {{session.location}}
-            {{session.abstractInfo}}
-        {% endfor %}
-    {% endif %}
+	    <h2>sessions: </h2>
+	    {% for session in event.session %}
+	      <li><a href="{{url_for('session', seminar_id = event.id, session_name = session.name)}}">{{session.name}}</a>
+	      {{session.status}}
+	      {{session.time}}
+	      {{session.location}}
+	      {{session.abstractInfo}}
+	    {% endfor %}
+	  {% endif %}
 
-    </form>
+		{{event.abstractInfo}}<br>
+	  </form>
+	</div>
 </div>
 {% endblock %}

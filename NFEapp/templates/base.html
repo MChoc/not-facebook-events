@@ -2,25 +2,30 @@
 <html lang="en">
 
 <head>
-    <title>Not Facebook Events</title>
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.ico') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
+  <title>Not Facebook Events</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.ico') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main2.css') }}" />
 </head>
 
 <body>
-    <div>
-    <a href="{{ url_for('open_events') }}">Home</a>
-    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+	<div class="center">
+		<span>
+			<img height="70px" width="165px" typeof="foaf:Image" src="{{ url_for('static', filename='images/UNSW_0.png')}}" title="Home" />
+		</span>
+		<div id="header_menu">
+			<a href="{{ url_for('open_events') }}">Home</a>
+			<a href="{{ url_for('dashboard') }}">Dashboard</a>
 
-    {% if current_user.is_admin() %}
-    <a href="{{ url_for('create_event') }}">Create Event</a>
-    {% endif %}
+			{% if current_user.is_admin() %}
+			<a href="{{ url_for('create_event') }}">Create Event</a>
+			{% endif %}
 
-    <a href="{{ url_for('logout') }}">Logout</a>
-    </div>
-    {% block body %}{% endblock %}
+			<a href="{{ url_for('logout') }}">Logout</a>
+		</div>
+	</div>
+  {% block body %}{% endblock %}
 
-    <!-- <script src="{{ url_for('static', filename='js/main.js') }}"></script> -->
+  <!-- <script src="{{ url_for('static', filename='js/main.js') }}"></script> -->
 </body>
 
 </html>

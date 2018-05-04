@@ -3,6 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from server import app, system
 from datetime import datetime
 from utils import admin_required
+from models.Staff import Staff
 
 
 @app.route('/')
@@ -42,6 +43,8 @@ def page_not_found(e=None):
 @app.route('/open_events')
 @login_required
 def open_events():
+    # return render_template('open_events.html', events=system.openEvent)
+
     course =[]
     seminar = []
     for event in system.openEvent:
@@ -49,7 +52,7 @@ def open_events():
             session1 = event.session
         except AttributeError:
             session1 = None
-    
+
         if not session1:
             course.append(event)
         else:
@@ -65,7 +68,7 @@ def dashboard():
     if request.method == 'POST':
         if 'close' in request.form:
             print("close")
-            #system.change_course_status(currentPostEvent)
+            # system.change_course_status(currentPostEvent)
     return render_template('dashboard.html', user = current_user)
 
 @app.route('/create_event', methods=['GET','POST'])
@@ -99,7 +102,7 @@ def event(event_name):
         session1 = event.session
     except AttributeError:
         session1 = []
-    
+
     if session1:
         type = 'seminar'
     else:

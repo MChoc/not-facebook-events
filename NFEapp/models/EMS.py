@@ -47,7 +47,7 @@ class EMS:
             if name in event.name:
                 current_list.append(event)
         return current_list
-    
+
     def addUNSWMember(self, member):
         self.UNSWMember.append(member)
 

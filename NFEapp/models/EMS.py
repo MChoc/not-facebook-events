@@ -134,5 +134,4 @@ class EMS:
         for c in self.UNSWMember:
             if c.get_id() == user_id:
                 return c
-        print("return none")
         return None

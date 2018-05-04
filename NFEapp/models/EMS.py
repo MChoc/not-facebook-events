@@ -49,7 +49,7 @@ class EMS:
     def search_open_events(self, name):
         current_list = []
         for event in self.openEvent:
-            if name in event.name:
+            if name.lower() in event.name.lower():
                 current_list.append(event)
         return current_list
 

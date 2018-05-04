@@ -49,13 +49,18 @@ class Staff(UNSWMember):
     def changeStatus(self, event, status):
         if self.avoid_creator(event) == True:
             return False
-        event.status = status
         self.currentPostEvent.remove(event)
+        event.status = status
+    
         #don't worry about cancelling events now
         if status == "cancelled":
             self.cancelledEvent.append(event)
         if status == "closed":
+            print("closing")
             self.pastPostEvent.append(event)
+        
+        
+        print(self.pastPostEvent)
 
     #change the status of a course
     #need to check that the person who wants to change the status

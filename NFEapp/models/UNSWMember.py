@@ -168,13 +168,12 @@ class UNSWMember(Member):
     #need to check that this user has registered for this course before
     #need to check time that allow for deregister is not passed
     def deRegisterCourse(self, course):
-        if self._check_time_validation(course.deRegWindow) == False:
-            return False
+        #if self._check_time_validation(course.deRegWindow) == False:
+        #    return False
         if self._avoid_dup(course) == True:
             return False
 
         self.currentEvents.remove(course)
-        self.pastEvents.append(course)
         course.remove_attendee(self)
 
     #deregister for semianr
@@ -207,8 +206,8 @@ class UNSWMember(Member):
             return False
         if self._avoid_fake_session(seminar, session) != True:
             return False
-        if self._check_time_validation(session.deRegWindow) == False:
-            return False
+        #if self._check_time_validation(session.deRegWindow) == False:
+        #    return False
 
         for attendee in session.attendeeList:
             if self.username == attendee.username:
@@ -223,7 +222,6 @@ class UNSWMember(Member):
                         break
                 if flag == 0:
                     self.currentEvents.remove(seminar)
-                    self.pastEvents.append(seminar)
                 break
             else:
                 return False

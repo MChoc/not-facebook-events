@@ -6,22 +6,35 @@
 <div>
     <h3>current events</h3>
         {% for currentEvents in user.currentEvents %}
-            <li><a href="{{url_for('event', event_name = currentEvents.name)}}">{{currentEvents.name}}</a>
-            <button name="deregister" type="submit">DeRegister</button>
+            <li><a href="{{url_for('event', event_id = currentEvents.id)}}">{{currentEvents.name}}</a>
         {% endfor %}
 </div>
-
+<div>
+        <h3>past events</h3>
+            {% for pastEvents in user.pastEvents %}
+                <li><a href="{{url_for('event', event_id = pastEvents.id)}}">{{pastEvents.name}}</a>
+            {% endfor %}
+    </div>
+    
 
 <div>
-    <form method="POST">
-        {% if user.is_admin %}
-            <h3>current post events</h3>
-            {% for currentPostEvent in user.currentPostEvent %}
-                <li><a href="{{url_for('event', event_name = currentPostEvent.name)}}">{{currentPostEvent.name}}</a>
-                <button name="close" type="submit">Close</button>
-            {% endfor %}
-        {% endif %}
-    </form>
+    {% if user.is_admin() %}
+        <h3>current post events</h3>
+        {% for currentPostEvent in user.currentPostEvent %}
+            <li><a href="{{url_for('event', event_id = currentPostEvent.id)}}">{{currentPostEvent.name}}</a>
+        {% endfor %}
+    {% endif %}
 </div>
+
+<div>
+    {% if user.is_admin() %}
+        <h3>past post events</h3>
+        {% for pastPostEvent in user.pastPostEvent %}
+            <li><a href="{{url_for('event', event_id = pastPostEvent.id)}}">{{pastPostEvent.name}}</a>
+        {% endfor %}
+    {% endif %}
+
+</div>
+
 
 {% endblock %}

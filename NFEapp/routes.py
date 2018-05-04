@@ -70,7 +70,7 @@ def dashboard():
 
 @app.route('/create_event', methods=['GET','POST'])
 @login_required
-#@admin_required
+@admin_required
 def create_event():
     staff = current_user
 

@@ -13,7 +13,7 @@ def admin_required(f):
         # Need to get the instance of the user
         # manually as current_user is of
         # instance werkzeug.local.LocalProxy
-        user = system.get_user_by_id(current_user.id)
+        user = system.get_user_by_id(str(current_user.id))
         if not isinstance(user, Staff):
             return redirect(url_for('page_not_found'))
         return f(*args, **kwargs)

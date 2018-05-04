@@ -125,13 +125,14 @@ class EMS:
         return user.get_current_session(seminar)
 
     def validate_login(self, username, password):
-        for c in self._UNSWMember:
+        for c in self.UNSWMember:
             if c.username == username and c.check_password(password):
                 return c
         return None
 
     def get_user_by_id(self, user_id):
-        for c in self._UNSWMember:
+        for c in self.UNSWMember:
             if c.get_id() == user_id:
                 return c
+        print("return none")
         return None

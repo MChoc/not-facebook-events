@@ -2,22 +2,39 @@
 {% block body %}
 <h1>Open Events</h1>
 
-{% for e in event %}
-    {% if e in course %}
-        <li><a href="{{url_for('event', event_name = e.name)}}">{{e.name}}</a> {{e.status}}
-            <br>{{e.abstractInfo}}
-        </li>
-    {% else %}
-        <li><a href="{{url_for('event', event_name = e.name)}}">{{e.name}}</a> {{e.status}}
-            <br>{{e.abstractInfo}}
-        </li>
-        sessions:
-        {% for session in e.session %}
-            {{session.name}}
-        {% endfor %}
-    {% endif %}
+{% for event in events %}
+
+	{% if event in course %}
+		<div class="event-row">
+			<div>
+				<h4>
+					<a href="{{ url_for('event', event_name=event.name) }}">{{ event.name }}</a>
+				</h4>
+				Course
+				{{ event.date }}
+				{{ event.time }}
+				<br />
+				{{ event.abstractInfo }}
+			</div>
+		</div>
+	{% elif event in seminar %}
+		<div class="event-row">
+			<div>
+				<h4>
+					<a href="{{ url_for('event', event_name=event.name) }}">{{ event.name }}</a>
+				</h4>
+				Session
+				{{ event.date }}
+				{{ event.time }}
+				<br />
+				{{ event.abstractInfo }}
+			</div>
+		</div>
+	{% endif %}
+
+
+
 {% endfor %}
 
-{{session.name}}
 
 {% endblock %}

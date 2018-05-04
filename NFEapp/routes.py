@@ -13,6 +13,8 @@ def landing_page():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('open_events'))
     if request.method == 'POST':
         username = request.form["username"]
         password = request.form["password"]
@@ -45,7 +47,7 @@ def page_not_found(e=None):
 def open_events():
     # return render_template('open_events.html', events=system.openEvent)
 
-    course =[]
+    course = []
     seminar = []
     for event in system.openEvent:
         try:
@@ -58,7 +60,7 @@ def open_events():
         else:
             seminar.append(event)
 
-    return render_template('open_events.html', event = system.openEvent, seminar = seminar, course = course)
+    return render_template('open_events.html', events=system.openEvent, seminar=seminar, course=course)
 
 
 @app.route('/dashboard', methods=['GET','POST'])
@@ -69,7 +71,7 @@ def dashboard():
         if 'close' in request.form:
             print("close")
             # system.change_course_status(currentPostEvent)
-    return render_template('dashboard.html', user = current_user)
+    return render_template('dashboard.html', user=current_user)
 
 @app.route('/create_event', methods=['GET','POST'])
 @login_required
@@ -113,4 +115,4 @@ def event(event_name):
         elif 'register_session' in request.form and type == 'seminar':
             system.register_seminar(current_user, event, session1[0])
 
-    return render_template('event_detail.html', event = event, type = type)
+    return render_template('event_detail.html', event=event, type=type)

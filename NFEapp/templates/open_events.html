@@ -3,6 +3,11 @@
 <div id="grad1">
 	<div class="center">
 		<h1>Open Events</h1>
+		<form  method="POST">
+			<input type="text" name="key_words"</input>
+			<button name="search" type="submit">Search</button>
+		</form>
+		
 		{% for event in events %}
 			{% if event in course %}
 				<div class="event-row">

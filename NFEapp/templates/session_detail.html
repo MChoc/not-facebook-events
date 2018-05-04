@@ -12,19 +12,32 @@
         {{session.date}}
         {{session.time}}
         {{session.abstractInfo}}
+        <h4>Speaker Information</h4>
+        {{session.speaker.name}}
+        {{session.speaker.contact}}
 
         <div>
-            {% if user.is_admin() %}
-                {% if user.avoid_creator(seminar) == False %}
-                    {% if session.status == 'open'%}
-                        <button name="close" type="submit">Close</button>
+            {% if user.is_admin() and user.avoid_creator(seminar) == False %}
+                {% if session.status == 'open'%}
+                    <button name="close" type="submit">Close</button>
+                    {% if message == 'confirm_close_session' %}
+                        <h3>Do you wish to continue?</h3>
+                        <button name="confirm_close_session" type="submit">Continue</button>   
                     {% endif %}
                 {% endif %}
             {% else %}
                 {% if session.status == 'open' and register == False %}
                     <button name="register_session" type="submit">Register</button>
+                    {% if message == 'confirm_register_session' %}
+                        <h3>Do you wish to continue?</h3>
+                        <button name="confirm_register_session" type="submit">Continue</button>   
+                    {% endif %}
                 {% elif session.status == 'open' and register == True %}
                     <button name="deregister_session" type="submit">deRegister</button>
+                    {% if message == 'confirm_deregister_session' %}
+                        <h3>Do you wish to continue?</h3>
+                        <button name="confirm_deregister_session" type="submit">Continue</button>   
+                    {% endif %}
                 {% endif %}
             {% endif %}
         </div>

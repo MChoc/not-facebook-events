@@ -3,6 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from server import app, system
 from datetime import datetime
 from utils import admin_required
+from models.Staff import Staff
 
 
 @app.route('/')
@@ -67,12 +68,12 @@ def dashboard():
     if request.method == 'POST':
         if 'close' in request.form:
             print("close")
-            #system.change_course_status(currentPostEvent)
+            # system.change_course_status(currentPostEvent)
     return render_template('dashboard.html', user = current_user)
 
 @app.route('/create_event', methods=['GET','POST'])
 @login_required
-#@admin_required
+@admin_required
 def create_event():
     staff = current_user
 

@@ -1,40 +1,39 @@
 {% extends 'base.html' %}
 {% block body %}
-<h1>Dashboard</h1>
-<h2>{{user.username}}</h2>
+<div id="grad1">
+	<div class="center">
+		<h1>Dashboard</h1>
+		Welcome {{user.username}}!
 
-<div>
-    <h3>current events</h3>
-        {% for currentEvents in user.currentEvents %}
-            <li><a href="{{url_for('event', event_id = currentEvents.id)}}">{{currentEvents.name}}</a>
-        {% endfor %}
+		<h3>Current events</h3>
+		{% for currentEvents in user.currentEvents %}
+			<a href="{{url_for('event', event_id = currentEvents.id)}}">{{currentEvents.name}}</a>
+		{% else %}
+			Not currently participating in any events!
+		{% endfor %}
+
+		<h3>Past events</h3>
+		{% for pastEvents in user.pastEvents %}
+			<a href="{{url_for('event', event_id = pastEvents.id)}}">{{pastEvents.name}}</a>
+		{% else %}
+			No past events!
+		{% endfor %}
+
+		{% if user.is_admin() %}
+			<h3>Current posted events</h3>
+			{% for currentPostEvent in user.currentPostEvent %}
+				<a href="{{url_for('event', event_id = currentPostEvent.id)}}">{{currentPostEvent.name}}</a>
+			{% else %}
+				No active events posted by you!
+			{% endfor %}
+
+			<h3>Past posted events</h3>
+			{% for pastPostEvent in user.pastPostEvent %}
+				<a href="{{url_for('event', event_id = pastPostEvent.id)}}">{{pastPostEvent.name}}</a>
+			{% else %}
+				No past events posted by you!
+			{% endfor %}
+		{% endif %}
+	</div>
 </div>
-<div>
-        <h3>past events</h3>
-            {% for pastEvents in user.pastEvents %}
-                <li><a href="{{url_for('event', event_id = pastEvents.id)}}">{{pastEvents.name}}</a>
-            {% endfor %}
-    </div>
-    
-
-<div>
-    {% if user.is_admin() %}
-        <h3>current post events</h3>
-        {% for currentPostEvent in user.currentPostEvent %}
-            <li><a href="{{url_for('event', event_id = currentPostEvent.id)}}">{{currentPostEvent.name}}</a>
-        {% endfor %}
-    {% endif %}
-</div>
-
-<div>
-    {% if user.is_admin() %}
-        <h3>past post events</h3>
-        {% for pastPostEvent in user.pastPostEvent %}
-            <li><a href="{{url_for('event', event_id = pastPostEvent.id)}}">{{pastPostEvent.name}}</a>
-        {% endfor %}
-    {% endif %}
-
-</div>
-
-
 {% endblock %}

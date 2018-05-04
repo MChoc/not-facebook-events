@@ -8,7 +8,7 @@
 		<div class="event-row">
 			<div>
 				<h4>
-					<a href="{{ url_for('event', event_name=event.name) }}">{{ event.name }}</a>
+					<a href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a>
 				</h4>
 				Course
 				{{ event.date }}
@@ -21,7 +21,7 @@
 		<div class="event-row">
 			<div>
 				<h4>
-					<a href="{{ url_for('event', event_name=event.name) }}">{{ event.name }}</a>
+					<a href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a>
 				</h4>
 				Session
 				{{ event.date }}

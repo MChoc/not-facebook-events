@@ -125,6 +125,8 @@ def event(event_id):
         type = 'course'
         if not system.check_capacity(event):
             message = 'full'
+        if not system.check_deregister_validation(event):
+            message = 'deregister invalid'
     elif isinstance(event, Seminar):
         type = 'seminar'
 
@@ -188,6 +190,9 @@ def session(seminar_id, session_name):
     if not system.check_capacity(session):
         message = 'full'
 
+    if not system.check_deregister_validation(session):
+        message = 'deregister invalid'
+    
     if request.method == 'POST':
         if 'register_session' in request.form:
             message = "confirm_register_session"

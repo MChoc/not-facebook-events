@@ -11,8 +11,10 @@
 	    Date: {{session.date}}<br>
 	    Time: {{session.time}}<br>
 			Abstract Information: {{session.abstractInfo}}<br>
-			Session Capacity: {{session.attendeeList|length}}/{{session.maxAttendees}}
-			
+			Session Capacity: {{session.attendeeList|length}}/{{session.maxAttendees}}<br>
+			{% if session.status == 'open' and register == True %}
+        Date allows for deRegistration: {{session.deRegWindow}}
+      {% endif%}
 			<div class="speaker">
 		    <h4>Speaker</h4>
 		    Name: {{session.speaker.name}}<br />
@@ -43,9 +45,10 @@
 		            <h3>Do you wish to continue?</h3>
 		            <button name="confirm_register_session" type="submit">Continue</button>
 		          {% endif %}
-		        {% elif session.status == 'open' and register == True %}
-		          <button name="deregister_session" type="submit">deRegister</button>
-		          {% if message == 'confirm_deregister_session' %}
+						{% elif session.status == 'open' and register == True %}
+		          <button name="deregister_session" type="submit", {% if message == "deregister invalid" %} disabled {% endif %} >deRegister</button>
+							{% if message == "deregister invalid" %} <br>You are not allowed to deRegister.<br> {% endif %}
+							{% if message == 'confirm_deregister_session' %}
 		            <h3>Do you wish to continue?</h3>
 		            <button name="confirm_deregister_session" type="submit">Continue</button>
 		          {% endif %}

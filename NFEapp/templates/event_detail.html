@@ -9,10 +9,14 @@
 	    Event date: {{event.date}}<br>
 	    Event time: {{event.time}}<br>
       Event location: {{event.location}}<br>
-      Event capacity: {{event.attendeeList|length}}/{{event.maxAttendees}}
+      Event capacity: {{event.attendeeList|length}}/{{event.maxAttendees}}<br>
+      {% if event.status == 'open' and register == True %}
+        Date allows for deRegistration: {{event.deRegWindow}}
+      {% endif%}
       <h4>Presenter</h4>
       Name: {{user.username}}<br />
-		  Email: {{user.email}}
+      Email: {{user.email}}
+      
 <!-- temp code -->
       <div>
       {% if user.is_admin() and user.avoid_creator(event) == False %}
@@ -41,7 +45,8 @@
           	<button name="confirm_register_course" type="submit">Continue</button>
         	{% endif %}
         {% elif event.status == 'open' and register == True %}
-        <button name="deregister_course" type="submit">deRegister</button>
+        <button name="deregister_course" type="submit", {% if message == "deregister invalid" %} disabled {% endif %} >deRegister</button>
+          {% if message == "deregister invalid" %} <br>You are not allowed to deRegister.<br> {% endif %}
           {% if message == 'confirm_deregister_course' %}
             <h3>Do you wish to continue?</h3>
             <button name="confirm_deregister_course" type="submit">Continue</button>

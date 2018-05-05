@@ -194,3 +194,14 @@ img.open_events {
 	height: 105px;
 	width: 183px;
 }
+
+.meme_column {
+	float: left;
+	width: 50%;
+	padding: 5px;
+}
+.meme_row::after {
+	content: "";
+	clear: both;
+	display: table;
+}

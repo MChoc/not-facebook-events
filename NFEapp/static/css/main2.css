@@ -94,10 +94,11 @@ button {
 
 .event-row {
 	width: 940px;
-	border:1px solid #ccc;
-	border-radius:15px;
-	padding:10px;
-	margin-bottom:5px;
+	border: 1px solid #ccc;
+	border-radius: 15px;
+	padding: 10px;
+	margin-bottom: 5px;
+	height: 152px;
 }
 .center_header {
 	padding-top: 10px;
@@ -158,6 +159,9 @@ button {
 
 .text-description {
 	font-size: 14px;
+	overflow: auto;
+	padding-left: 20px;
+	max-height: 80px;
 }
 
 .event-link-title {
@@ -172,4 +176,21 @@ button {
 	width: 960px;
 	height: 4px;
 	margin: auto;
+}
+
+img.open_events {
+	height: 105px;
+	width: 183px;
+	float: left;
+}
+
+.open_events_format {
+	padding-left: 20px;
+	display: inline;
+}
+
+.open_event_img_container {
+	float: left;
+	height: 105px;
+	width: 183px;
 }

@@ -12,27 +12,23 @@
 		{% for event in events %}
 			{% if event in course %}
 				<div class="event-row">
-					<div>
-						<h4>
-							<a class="event-link-title" href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a>
-						</h4>
+					<h4><a class="event-link-title" href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a></h4>
+					<div class="open_event_img_container"><img class="open_events" src="{{ url_for('static', filename='images/new_college.png') }}"/></div>
+					<div class="open_events_format">
 						Course
 						{{ event.date }}
 						{{ event.time }}
-						<br />
 						<div class="text-description">{{ event.abstractInfo }}</div>
 					</div>
 				</div>
 			{% elif event in seminar %}
 				<div class="event-row">
-					<div>
-						<h4>
-							<a class="event-link-title" href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a>
-						</h4>
-							Seminar starting from
-							{{ event.get_first_session().date }}
-							{{ event.get_first_session().time }}
-							<br />
+					<h4><a class="event-link-title" href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a></h4>
+					<div class="open_event_img_container"><img class="open_events" src="{{ url_for('static', filename='images/new_college.png') }}"/></div>
+					<div class="open_events_format">
+						Seminar starting from
+						{{ event.get_first_session().date }}
+						{{ event.get_first_session().time }}
 						<div class="text-description">{{ event.abstractInfo }}</div>
 					</div>
 				</div>

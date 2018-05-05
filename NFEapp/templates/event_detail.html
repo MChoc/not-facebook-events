@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block body %}
 <div id="grad1">
+	<div class="sub_divider"></div>
 	<div class="center">
 		<h1>{{event.name}}</h1>
 	  <form method="POST">
@@ -16,7 +17,7 @@
       <h4>Presenter</h4>
       Name: {{user.username}}<br />
       Email: {{user.email}}
-      
+
 <!-- temp code -->
       <div>
       {% if user.is_admin() and user.avoid_creator(event) == False %}

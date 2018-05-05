@@ -77,6 +77,10 @@ a:hover {
   color: #6675df;
 }
 
+a.clickable {
+	border = 1px solid #
+}
+
 /*==========================================================*/
 
 button {
@@ -95,12 +99,17 @@ button {
 	padding:10px;
 	margin-bottom:5px;
 }
-
+.center_header {
+	padding-top: 10px;
+	margin: auto;
+	width: 960px;
+	background-color: #fff;
+}
 .center {
 	margin: auto;
 	width: 960px;
 	padding: 10px;
-	background-color: white;
+	background-color: #fff;
 }
 
 #grad1 {
@@ -108,10 +117,24 @@ button {
 	background: linear-gradient(grey, white);
 }
 
-#header_menu :hover{ background-color: #000;}
-#header_menu :hover{ color: #fff; }
-#header_menu .active{ background-color: #000; }
-#header_menu .active{ color: #fff; }
+.header_menu_container {
+	width: 940px;
+	height: 42px;
+	overflow: hidden;
+}
+.header_menu {
+
+}
+.header_menu :hover {
+	background-color: #000;
+	color: #fff;
+	font-size: 20px;
+	padding: 10px;
+}
+.header_menu .active {
+	background-color: #000;
+	color: #fff;
+}
 
 .speaker {
 	margin-top: 20px;
@@ -124,4 +147,12 @@ button {
 .event-link-title {
 	font-size: 16px;
 	color: #0000EE;
+}
+
+.sub_divider {
+	display: block;
+	background-color: transparent;
+	color: transparent;
+	width: 960px;
+	height: 2px;
 }

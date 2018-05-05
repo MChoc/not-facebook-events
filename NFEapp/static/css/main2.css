@@ -118,22 +118,38 @@ button {
 }
 
 .header_menu_container {
-	width: 940px;
-	height: 42px;
+	width: 960px;
+	height: 51px;
+	padding-top: 14px;
+	padding-bottom: 13px;
+	padding-left: 10px;
+	padding-right: 10px;
 	overflow: hidden;
+	background: linear-gradient(#ffe680, #ffd11a);
 }
 .header_menu {
-
+	display: flex;
+	justify-content: space-between;
 }
 .header_menu :hover {
-	background-color: #000;
-	color: #fff;
+	background-color: transparent;
+	color: inherit;
+	font-family: Poppins-Bold, sans-serif;
 	font-size: 20px;
-	padding: 10px;
 }
 .header_menu .active {
-	background-color: #000;
-	color: #fff;
+	background-color: transparent;
+	color: inherit;;
+	font-family: Poppins-Bold, sans-serif;
+}
+.header_tab {
+	padding: 0px 10px;
+}
+.header_tab_first {
+	padding-left: 50px;
+}
+.header_tab_last {
+	padding-right: 50px;
 }
 
 .speaker {
@@ -154,5 +170,6 @@ button {
 	background-color: transparent;
 	color: transparent;
 	width: 960px;
-	height: 2px;
+	height: 4px;
+	margin: auto;
 }

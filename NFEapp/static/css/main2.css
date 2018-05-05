@@ -107,11 +107,20 @@ button {
 	height: 100%;
 	background: linear-gradient(grey, white);
 }
-
-#header_menu :hover{ background-color: #000;}
-#header_menu :hover{ color: #fff; }
-#header_menu .active{ background-color: #000; }
-#header_menu .active{ color: #fff; }
+.header_menu {
+	/* display: inline; */
+	margin: 10px;
+}
+.header_menu :hover {
+	background-color: #000;
+	color: #fff;
+	font-size: 20px;
+	padding: 10px;
+}
+.header_menu .active {
+	background-color: #000;
+	color: #fff;
+}
 
 .speaker {
 	margin-top: 20px;
@@ -125,3 +134,8 @@ button {
 	font-size: 16px;
 	color: #0000EE;
 }
+
+#image_reset :hover { background-color: transparent}
+#image_reset :hover { color: unset}
+#image_reset .active { background-color: transparent}
+#image_reset .active { color: unset}

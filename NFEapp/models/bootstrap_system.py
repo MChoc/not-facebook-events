@@ -4,7 +4,7 @@ from .EMS import *
 def bootstrap_system():
     system = EMS()
 
-    with open("/mnt/c/Users/62572/Desktop/COMP1531/test/not-facebook-events/NFEapp/models/user.csv", "r") as file:
+    with open("user.csv", "r") as file:
         reader = csv.reader(file, delimiter=',')
         for row in reader:
             username = row[0]

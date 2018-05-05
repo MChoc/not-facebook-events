@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block body%}
-Oh no! Something went wrong!
-Is this message triggering?
-Haha!
+<div id="grad1">
+	<div class="sub_divider"></div>
+	<div class="center">
+		Oh no! Something is wrong!
+		<br />
+		<img width="470" height="470" src="{{ url_for('static', filename='images/isaac_carr_fading.png') }}"/>
+		<img width="470" height="470" src="{{ url_for('static', filename='images/michael_tran_fading.png') }}"/>
+	</div>
+</div>
 {% endblock %}

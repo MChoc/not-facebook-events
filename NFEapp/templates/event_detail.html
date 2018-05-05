@@ -6,9 +6,13 @@
 	  <form method="POST">
 	  Event status: {{event.status}}<br>
 	  {% if type == 'course' %}
-	    event date: {{event.date}}<br>
-	    event time: {{event.time}}<br>
-	    event location: {{event.location}}
+	    Event date: {{event.date}}<br>
+	    Event time: {{event.time}}<br>
+      Event location: {{event.location}}<br>
+      Event capacity: {{event.attendeeList|length}}/{{event.maxAttendees}}
+      <h4>Presenter</h4>
+      Name: {{user.username}}<br />
+		  Email: {{user.email}}
 <!-- temp code -->
       <div>
       {% if user.is_admin() and user.avoid_creator(event) == False %}
@@ -31,7 +35,7 @@
         {% endif %}
       {% else %}
       	{% if event.status == 'open' and register == False %}
-        	<button name="register_course" type="submit">Register</button>
+          <button name="register_course" type="submit", {% if message == "full" %} disabled {% endif %}>Register</button>
         	{% if message == 'confirm_register_course' %}
           	<h3>Do you wish to continue?</h3>
           	<button name="confirm_register_course" type="submit">Continue</button>

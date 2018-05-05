@@ -119,13 +119,15 @@ def create_seminar():
 @login_required
 def event(event_id):
     event = system.getAllEvent(int(event_id))
-    
+    message = None
+
     if isinstance(event, Course):
         type = 'course'
+        if not system.check_capacity(event):
+            message = 'full'
     elif isinstance(event, Seminar):
         type = 'seminar'
 
-    message = None
     if request.method == 'POST':
         if 'register_course' in request.form and type == 'course':
             message = "confirm_register_course"
@@ -177,10 +179,15 @@ def event(event_id):
 @login_required
 def session(seminar_id, session_name):
     seminar = system.getAllEvent(int(seminar_id))
+    message = None
+    
     for s in seminar.session:
         if session_name == s.name:
             session = s
-    message = None
+    
+    if not system.check_capacity(session):
+        message = 'full'
+
     if request.method == 'POST':
         if 'register_session' in request.form:
             message = "confirm_register_session"

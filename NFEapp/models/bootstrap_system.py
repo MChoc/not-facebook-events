@@ -18,9 +18,9 @@ def bootstrap_system():
                 system.addUNSWMember(Student(username, zID, email, password, role))
 
 
-    system.create_open_course(system.getUNSWMember('admin_1'), "Conversation with Jenny Zhang", 'open', '2018-05-03', '18:15', "CLB7", 1000, '2018-05-02',
+    system.create_open_course(system.getUNSWMember('admin_1'), "Conversation with Jenny Zhang", 'open', '2018-05-03', '18:15', "CLB7", 15, '2018-05-02',
     "A conversation on campus with New York based poet, writer and performer Jenny Zhang as part of Sydney Writers’ Festival 2018.")
-    system.create_open_course(system.getUNSWMember('admin_1'), "Free lunch hour concert May - Australia Ensemble",'open','2018-05-08','13:10','John Niland Scientia Building',15,'2018-05-7',
+    system.create_open_course(system.getUNSWMember('admin_1'), "Free lunch hour concert May - Australia Ensemble",'open','2018-05-08','13:10','John Niland Scientia Building',20,'2018-05-7',
     "Bask in the beautiful sounds of one of the country’s leading chamber ensembles, as the Australia Ensemble present a free lunch hour concert.")
 
     staff1 = system.getUNSWMember('name4119998')

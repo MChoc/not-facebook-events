@@ -150,3 +150,12 @@ class EMS:
             if c.get_id() == user_id:
                 return c
         return None
+
+    def check_capacity(self, event):
+        if len(event.attendeeList) < event.maxAttendees:
+            print("check")
+            print(len(event.attendeeList))
+            print(event.maxAttendees)
+            return True
+        else:
+            return False

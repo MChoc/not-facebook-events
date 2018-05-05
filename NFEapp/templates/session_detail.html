@@ -7,14 +7,16 @@
 	  <h1>Seminar: {{seminar.name}}</h1>
 	  <h2>{{session.name}}</h2>
 	  <form method="POST">
-	    {{session.status}}
-	    {{session.date}}
-	    {{session.time}}<br />
-			{{session.abstractInfo}}
+	    Status: {{session.status}}<br>
+	    Date: {{session.date}}<br>
+	    Time: {{session.time}}<br>
+			Abstract Information: {{session.abstractInfo}}<br>
+			Session Capacity: {{session.attendeeList|length}}/{{session.maxAttendees}}
+			
 			<div class="speaker">
 		    <h4>Speaker</h4>
-		    {{session.speaker.name}}<br />
-		    {{session.speaker.contact}}
+		    Name: {{session.speaker.name}}<br />
+		    Email: {{session.speaker.contact}}
 		    <div>
 		      {% if user.is_admin() and user.avoid_creator(seminar) == False %}
 		        {% if session.status == 'open'%}
@@ -36,7 +38,7 @@
 		        {% endif %}
 		      {% else %}
 		        {% if session.status == 'open' and register == False %}
-		          <button name="register_session" type="submit">Register</button>
+		          <button name="register_session" type="submit", {% if message == "full" %} disabled {% endif %}>Register</button>
 		          {% if message == 'confirm_register_session' %}
 		            <h3>Do you wish to continue?</h3>
 		            <button name="confirm_register_session" type="submit">Continue</button>

@@ -124,7 +124,6 @@ def event(event_id):
     if isinstance(event, Course):
         type = 'course'
         if not system.check_capacity(event):
-            print("check full")
             message = 'full'
         if not system.check_deregister_validation(event):
             message = 'deregister invalid'
@@ -150,6 +149,7 @@ def event(event_id):
             message = "confirm_deregister_course"
         elif 'confirm_deregister_course' in request.form:
             system.deRegister_course(current_user, event)
+            print(message)
             message = None
         elif 'deregister_seminar' in request.form:
             message = "confirm_deregister_seminar"

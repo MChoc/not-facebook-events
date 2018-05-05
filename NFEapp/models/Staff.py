@@ -23,26 +23,14 @@ class Staff(UNSWMember):
     def createCourse(self, course):
         self.currentPostEvent.append(course)
 
-    '''
-    #create a new seminar or a new sesssion in the semianr
-    def createSeminar(self, seminar, session):
-        for s in self._currentPostEvent:
-            if s.name == seminar.name:
-                seminar.add_session(session)
-                return True
-        self._currentPostEvent.append(seminar)
-        seminar.add_session(session)
-    '''
-
     def createSeminar(self, seminar, session):
         self.currentPostEvent.append(seminar)
         seminar.add_session(session)
 
     def addSession(self, seminar, session):
-        for s in self.currentPostEvent:
-            if s.name == seminar.name:
-                seminar.add_session(session)
-                return True
+        if seminar in self.currentPostEvent:
+            seminar.add_session(session)
+            return True
 
     #change status of seminars or courses, not sessions
     #used for changeCourseStatus or changeSeminarStatus, not for individual use
@@ -56,11 +44,7 @@ class Staff(UNSWMember):
         if status == "cancelled":
             self.cancelledEvent.append(event)
         if status == "closed":
-            print("closing")
             self.pastPostEvent.append(event)
-        
-        
-        print(self.pastPostEvent)
 
     #change the status of a course
     #need to check that the person who wants to change the status
@@ -69,10 +53,8 @@ class Staff(UNSWMember):
         if self.changeStatus(course, status) == False:
             return False
         for attendee in course.attendeeList:
-            for e in attendee._currentEvents:
-                if e.name == course.name:
-                    attendee.currentEvents.remove(course)
-                    attendee.pastEvents.append(course)
+            attendee.currentEvents.remove(course)
+            attendee.pastEvents.append(course)
 
     #change the status of a seminar
     #need to check that the person who wants to change the status
@@ -110,16 +92,10 @@ class Staff(UNSWMember):
     #if the person is the creator, will return false
     #logic is suggested by the name, if not creator, thus succesfully avoid creator and return true
     def avoid_creator(self, event):
-        flag = 0
-        for e in self.currentPostEvent:
-            if event.name == e.name:
-                flag = 1
-                break
-        #not the creator will return true
-        if flag == 0:
-            return True
-        elif flag == 1:
+        if event in self.currentPostEvent:
             return False
+        else:
+            return True
 
     #staff register course
     #inherited from UNSWMember

@@ -159,8 +159,7 @@ class EMS:
     
     def check_deregister_validation(self, event):
         currentDate = datetime.now().date()
-        deRegDate = datetime.strptime(event.deRegWindow, '%Y-%m-%d').date()
-        if currentDate > deRegDate:
+        if currentDate > event.deRegWindow:
             return False
         else:
             return True

@@ -153,9 +153,14 @@ class EMS:
 
     def check_capacity(self, event):
         if len(event.attendeeList) < event.maxAttendees:
-            print("check")
-            print(len(event.attendeeList))
-            print(event.maxAttendees)
             return True
         else:
             return False
+    
+    def check_deregister_validation(self, event):
+        currentDate = datetime.now().date()
+        deRegDate = datetime.strptime(event.deRegWindow, '%Y-%m-%d').date()
+        if currentDate > deRegDate:
+            return False
+        else:
+            return True

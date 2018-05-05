@@ -168,8 +168,8 @@ class UNSWMember(Member):
     #need to check that this user has registered for this course before
     #need to check time that allow for deregister is not passed
     def deRegisterCourse(self, course):
-        #if self._check_time_validation(course.deRegWindow) == False:
-        #    return False
+        if self._check_time_validation(course.deRegWindow) == False:
+            return False
         if self._avoid_dup(course) == True:
             return False
 
@@ -180,10 +180,7 @@ class UNSWMember(Member):
     #pass in a semianr that the user intends to deregister for
     #thus deregister from all sessions in the seminar
     #need to check that this user has registered for this seminar before
-    ##need to check time that allow for deregister is not passed
     def deRegisterSeminar(self, seminar):
-        #if self.check_time_validation(course.deRegWindow) == False:
-        #    return False
         if self._avoid_dup(seminar) == True:
             return False
 
@@ -206,9 +203,9 @@ class UNSWMember(Member):
             return False
         if self._avoid_fake_session(seminar, session) != True:
             return False
-        #if self._check_time_validation(session.deRegWindow) == False:
-        #    return False
-
+        if self._check_time_validation(session.deRegWindow) == False:
+            return False
+        
         for attendee in session.attendeeList:
             if self.username == attendee.username:
                 session.remove_attendee(self)
@@ -238,8 +235,8 @@ class UNSWMember(Member):
     #check that deregister is allowed
     #return true if time is valid(deregister is allowed)
     def _check_time_validation(self, deRegDate):
-        deRegDate = datetime.strptime(deRegDate, '%Y-%m-%d')
-        currentDate = datetime.now()
+        deRegDate = datetime.strptime(deRegDate, '%Y-%m-%d').date()
+        currentDate = datetime.now().date()
         if currentDate > deRegDate:
             return False
         else:

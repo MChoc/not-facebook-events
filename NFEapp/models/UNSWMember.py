@@ -1,4 +1,3 @@
-from .Event import *
 from .Course import *
 from .Seminar import *
 from .Member import *

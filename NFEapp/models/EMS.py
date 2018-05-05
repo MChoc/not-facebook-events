@@ -1,12 +1,7 @@
-from .UNSWMember import *
-from .Event import *
 from .Course import *
 from .Seminar import *
 from .Staff import *
 from .Student import *
-from .Speaker import *
-from .Session import *
-from .Member import *
 
 class EMS:
     __id = -1  #course/event id

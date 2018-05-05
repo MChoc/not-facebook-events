@@ -99,7 +99,12 @@ button {
 	padding:10px;
 	margin-bottom:5px;
 }
-
+.center_header {
+	padding-top: 10px;
+	margin: auto;
+	width: 960px;
+	background-color: #fff;
+}
 .center {
 	margin: auto;
 	width: 960px;
@@ -116,6 +121,9 @@ button {
 	width: 940px;
 	height: 42px;
 	overflow: hidden;
+}
+.header_menu {
+
 }
 .header_menu :hover {
 	background-color: #000;
@@ -141,7 +149,10 @@ button {
 	color: #0000EE;
 }
 
-#image_reset :hover { background-color: transparent}
-#image_reset :hover { color: unset}
-#image_reset .active { background-color: transparent}
-#image_reset .active { color: unset}
+.sub_divider {
+	display: block;
+	background-color: transparent;
+	color: transparent;
+	width: 960px;
+	height: 2px;
+}

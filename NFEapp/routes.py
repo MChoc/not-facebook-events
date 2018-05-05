@@ -119,7 +119,7 @@ def create_seminar():
 @login_required
 def event(event_id):
     event = system.getAllEvent(int(event_id))
-
+    
     if isinstance(event, Course):
         type = 'course'
     elif isinstance(event, Seminar):
@@ -135,6 +135,8 @@ def event(event_id):
             message = "confirm_close_course"
         elif 'confirm_close_course' in request.form:
             system.change_course_status(current_user, event, 'closed')
+        elif 'view_attendees' in request.form:
+            message = "view_attendees"        
         elif 'close_seminar' in request.form:
             message = "confirm_close_seminar"
         elif 'confirm_close_seminar' in request.form:
@@ -192,9 +194,9 @@ def session(seminar_id, session_name):
             message = "confirm_deregister_session"
         elif 'confirm_deregister_session' in request.form:
             system.deRegister_session(current_user, seminar, session)
-
+        elif 'view_attendees' in request.form:
+            message = "view_attendees"
     if seminar in current_user.currentEvents and session in system.get_current_session(current_user, seminar):
-        print("true")
         register = True
     else:
         register = False

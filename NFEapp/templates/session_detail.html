@@ -18,7 +18,17 @@
 		    <div>
 		      {% if user.is_admin() and user.avoid_creator(seminar) == False %}
 		        {% if session.status == 'open'%}
-		          <button name="close" type="submit">Close</button>
+							<button name="close" type="submit">Close</button>
+							<button name="view_attendees" type="submit">Get Attendee List</button>
+							{% if message == 'view_attendees' %}
+		            <h3>Current Attendees</h3>
+								{% for member in session.attendeeList %}
+									{{member}}<br/>
+								{% endfor %}
+								{% if not session.attendeeList %}
+									<h4>No attendees</h4>
+								{% endif %}
+		          {% endif %}
 		          {% if message == 'confirm_close_session' %}
 		            <h3>Do you wish to continue?</h3>
 		            <button name="confirm_close_session" type="submit">Continue</button>

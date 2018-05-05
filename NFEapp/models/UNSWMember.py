@@ -41,7 +41,7 @@ class UNSWMember(Member):
             return 0
 
     def __str__(self):
-        return "Attdenee detail: \nname: {0}, email: {1}".format(self._username, self._email)
+        return "name: {0}, email: {1}".format(self._username, self._email)
 
     @property
     def currentEvents(self):

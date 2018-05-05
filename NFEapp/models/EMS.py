@@ -71,7 +71,6 @@ class EMS:
     def getAllEvent(self, id):
         for event in self.openEvent:
             if id == event.id:
-                print(event.name)
                 return event
         for event in self.closeEvent:
             if id == event.id:

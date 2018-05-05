@@ -77,6 +77,10 @@ a:hover {
   color: #6675df;
 }
 
+a.clickable {
+	border = 1px solid #
+}
+
 /*==========================================================*/
 
 button {
@@ -100,16 +104,18 @@ button {
 	margin: auto;
 	width: 960px;
 	padding: 10px;
-	background-color: white;
+	background-color: #fff;
 }
 
 #grad1 {
 	height: 100%;
 	background: linear-gradient(grey, white);
 }
-.header_menu {
-	/* display: inline; */
-	margin: 10px;
+
+.header_menu_container {
+	width: 940px;
+	height: 42px;
+	overflow: hidden;
 }
 .header_menu :hover {
 	background-color: #000;

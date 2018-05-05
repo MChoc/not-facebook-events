@@ -88,6 +88,11 @@ class Seminar:
             return 1
         else:
             return 0
+
+    # grabs first session in session list
+    # return session[0]
+    def get_first_session(self):
+        return self._session[0]
 ##
 ##
     # return list[list[UNSWMember]] from session

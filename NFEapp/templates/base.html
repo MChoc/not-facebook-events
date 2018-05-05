@@ -12,16 +12,17 @@
 		<img height="70px" width="165px" typeof="foaf:Image" src="{{ url_for('static', filename='images/UNSW_0.png')}}" title="Home" />
 		<div class="header_menu_container">
 			<div class="header_menu">
-			<a class="header_tab_first" href="{{ url_for('open_events') }}">Home</a>
-			<a class="header_tab" href="{{ url_for('dashboard') }}">Dashboard</a>
 
-			{% if current_user.is_admin() %}
-				<a class="header_tab" href="{{ url_for('create_course') }}">Create Course</a>
-				<a class="header_tab" href="{{ url_for('create_seminar') }}">Create Seminar</a>
-  		{% endif %}
-
-			<a class="header_tab_last" href="{{ url_for('page_not_found') }}">Memes</a>
-			<a class="header_tab_last" href="{{ url_for('logout') }}">Logout</a>
+				<div class="header_tab_dummy"></div>
+				<a class="header_tab" href="{{ url_for('open_events') }}">Home</a>
+				<a class="header_tab" href="{{ url_for('dashboard') }}">Dashboard</a>
+				{% if current_user.is_admin() %}
+					<a class="header_tab" href="{{ url_for('create_course') }}">Create Course</a>
+					<a class="header_tab" href="{{ url_for('create_seminar') }}">Create Seminar</a>
+	  		{% endif %}
+				<a class="header_tab" href="{{ url_for('page_not_found') }}">Memes</a>
+				<a class="header_tab" href="{{ url_for('logout') }}">Logout</a>
+				<div class="header_tab_dummy"></div>
 			</div>
 		</div>
 	</div>

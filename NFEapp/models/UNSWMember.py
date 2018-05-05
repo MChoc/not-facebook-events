@@ -235,7 +235,6 @@ class UNSWMember(Member):
     #check that deregister is allowed
     #return true if time is valid(deregister is allowed)
     def _check_time_validation(self, deRegDate):
-        deRegDate = datetime.strptime(deRegDate, '%Y-%m-%d').date()
         currentDate = datetime.now().date()
         if currentDate > deRegDate:
             return False

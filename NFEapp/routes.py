@@ -120,7 +120,7 @@ def create_seminar():
 def event(event_id):
     event = system.getAllEvent(int(event_id))
     message = None
-
+    
     if isinstance(event, Course):
         type = 'course'
         if not system.check_capacity(event):

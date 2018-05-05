@@ -6,11 +6,11 @@ class Event:
         self._id = id
         self._name = name
         self._status = status
-        self._date = date
-        self._time = time
+        self._date = self._conform_date_format(date)
+        self._time = self._conform_time_format(time)
         self._location = location
         self._maxAttendees = maxAttendees
-        self._deRegWindow = deRegWindow
+        self._deRegWindow = self._conform_date_format(deRegWindow)
         self._abstractInfo = abstractInfo
         self._attendeeList = []
 
@@ -64,7 +64,7 @@ class Event:
 
     def _valid_date(input_date):
         try:
-            datetime.strptime(input_date, '%Y-%m-%d')
+            datetime.strptime(input_date, '%Y-%m-%d').date()
         except ValueError:
             return 0
         return 1
@@ -80,6 +80,14 @@ class Event:
             return 0
 ##
 ##
+    #conform date format as date
+    def _conform_date_format(self, date):
+        if isinstance(date, str):
+            return datetime.strptime(date, '%Y-%m-%d').date()
+        else:
+            return date
+##
+##   
     # return: datetime.time
     @property
     def time(self):
@@ -87,7 +95,7 @@ class Event:
 
     def _valid_time(input_time):
         try:
-            datetime.strptime(input_time, '%H:%M')
+            datetime.strptime(input_time, '%H:%M').time()
         except ValueError:
             return 0
         return 1
@@ -104,6 +112,13 @@ class Event:
         return 0
 ##
 ##
+    def _conform_time_format(self, time):
+        if isinstance(time, str):
+            time = datetime.strptime(time, '%H:%M')
+            return time.strftime("%H:%M")
+        else:
+            return time.strftime("%H:%M")
+
     # return str: location of event
     @property
     def location(self):

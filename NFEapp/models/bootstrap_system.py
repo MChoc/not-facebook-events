@@ -37,5 +37,6 @@ def bootstrap_system():
     system.create_open_seminar(staff3, 'Effect of CSR Information Presentation Order on Stakeholder Decision‐Making', 'open', 'Stakeholder demand for information about broader social and environmental dimensions of organizational performance is growing', 'Corporate Social Responsibility', 'open', '2018-05-19','16:00', 'Tyree Energy Technology LG07', 15, '2018-05-18', 'Socially responsible investment strategies', Speaker('Jaze', 'jaze@gmail.com'))
     seminar1 = system.getOpenEvent('Effect of CSR Information Presentation Order on Stakeholder Decision‐Making')
     system.add_session(staff3, seminar1, 'Public Enforcement Reputation and the Dual Role of Investor Litigation', 'open','2018-05-21', '09:00', 'Room 2063, Quadrangle Building', 7, '2018-05-19', 'How to Succeed in Business Without Really Trying', Speaker('John Zaitseff', 'j.zaitseff@unsw.edu.au'))
+    system.add_session(staff3, seminar1, 'On the efficient level of inequality in business income', 'closed', '2018-05-17', '10:00', '232, UNSW Business School building', 10, '2018-05-14', 'Does External Monitoring Affect the Performance of State-Owned Enterprises?', Speaker('Thomas', 'thomas@gmail.com'))
     
     return system

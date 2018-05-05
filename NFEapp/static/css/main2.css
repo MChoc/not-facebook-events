@@ -167,7 +167,7 @@ button {
 
 .sub_divider {
 	display: block;
-	background-color: transparent;
+	background-color: black;
 	color: transparent;
 	width: 960px;
 	height: 4px;

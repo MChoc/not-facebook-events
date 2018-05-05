@@ -193,7 +193,8 @@ def session(seminar_id, session_name):
         elif 'confirm_deregister_session' in request.form:
             system.deRegister_session(current_user, seminar, session)
 
-    if seminar in current_user.currentEvents:
+    if seminar in current_user.currentEvents and session in system.get_current_session(current_user, seminar):
+        print("true")
         register = True
     else:
         register = False

@@ -10,7 +10,7 @@
 			<a href="{{url_for('event', event_id = currentEvents.id)}}">{{currentEvents.name}}</a><br/>
 			{% if currentEvents.session %}
 				registered session:<br/>
-				{% for session in currentEvents.session%}
+				{% for session in user.get_current_session(currentEvents) %}
 					<li><a href="{{url_for('session', seminar_id = currentEvents.id, session_name = session.name)}}">{{session.name}}</a><br/>
 				{% endfor %}
 			{% endif %}

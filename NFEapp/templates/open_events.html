@@ -29,7 +29,9 @@
 						<h4>
 							<a class="event-link-title" href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a>
 						</h4>
-							Seminar
+							Seminar starting from
+							{{ event.get_first_session().date }}
+							{{ event.get_first_session().time }}
 							<br />
 						<div class="text-description">{{ event.abstractInfo }}</div>
 					</div>

@@ -1,3 +1,5 @@
+from .Session import *
+
 class Seminar:
 
     def __init__(self, id, name, status, abstractInfo):

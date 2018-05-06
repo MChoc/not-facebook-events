@@ -1,7 +1,9 @@
 from datetime import datetime
+from abc import ABC, abstractmethod
 
-class Event:
+class Event(ABC):
 
+    @abstractmethod
     def __init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
         self._id = id
         self._name = name

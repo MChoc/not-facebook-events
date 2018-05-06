@@ -4,7 +4,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class Member(UserMixin, ABC):
     __id = -1
-
+    
+    @abstractmethod
     def __init__(self, username, password):
         self._id = self._generate_id()
         self._username = username

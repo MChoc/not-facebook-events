@@ -152,6 +152,8 @@ button {
 .header_tab {
 	display: inline-block;
 	padding: 0px 10px;
+	border-right: 1px solid #000;
+	border-left: 1px solid #000;
 }
 .header_tab_dummy {
 	display: inline-block;

@@ -29,7 +29,7 @@
 		{% if user.is_admin() %}
 			<h3>Current posted events</h3>
 			{% for currentPostEvent in user.currentPostEvent %}
-				<a href="{{url_for('event', event_id = currentPostEvent.id)}}">{{currentPostEvent.name}}</a>{% if currentPostEvent.session %} Seminar {% else %} Course {% endif %}<br/>
+				<a href="{{url_for('event', event_id = currentPostEvent.id)}}">{{currentPostEvent.name}}</a><br/>
 			{% else %}
 				No active events posted by you!
 			{% endfor %}

@@ -3,8 +3,8 @@ from .Event import *
 
 class Session(Event):
 
-    def __init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo, speaker):
-        Event.__init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo)
+    def __init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo, speaker):
+        Event.__init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo)
         self._speaker = speaker
 
 ##

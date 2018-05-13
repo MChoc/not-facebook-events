@@ -18,6 +18,7 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         valid_user = system.validate_login(username, password)
+        print(valid_user.id)
         if valid_user is None:
             return redirect(url_for('login', fail=True))
         else:
@@ -44,8 +45,6 @@ def page_not_found(e=None):
 @app.route('/open_events', methods=['GET','POST'])
 @login_required
 def open_events():
-    # return render_template('open_events.html', events=system.openEvent)
-
     course = []
     seminar = []
     for event in system.openEvent:
@@ -82,10 +81,12 @@ def create_course():
         location = request.form['location']
         maxAttendees = int(request.form['maxAttendees'])
         deRegWindow = datetime.strptime(request.form['deRegWindow'], date_format).date()
+        fee = int(request.form['fee'])
+        earlyRegDate = datetime.strptime(request.form['earlyRegDate'], date_format).date()
         abstractInfo = request.form['abstractInfo']
 
     if 'create' in request.form:
-        system.create_open_course(current_user, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo)
+        system.create_open_course(current_user, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo)
         return redirect(url_for('dashboard'))
     return render_template('create_course.html')
 
@@ -108,12 +109,14 @@ def create_seminar():
         location = request.form['location']
         maxAttendees = int(request.form['maxAttendees'])
         deRegWindow = datetime.strptime(request.form['deRegWindow'], date_format).date()
+        fee = int(request.form['fee'])
+        earlyRegDate = datetime.strptime(request.form['earlyRegDate'], date_format).date()
         abstractInfo = request.form['abstractInfo']
         speaker_name = request.form['speaker_name']
         email = request.form['email']
 
     if 'create' in request.form:
-        system.create_open_seminar(current_user, cname, cstatus, cabstractInfo, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo, Speaker(speaker_name, email))
+        system.create_open_seminar(current_user, cname, cstatus, cabstractInfo, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo, Speaker(speaker_name, email))
         return redirect(url_for('dashboard'))
     return render_template('create_seminar.html')
 
@@ -170,6 +173,8 @@ def event(event_id):
             location = request.form['location']
             maxAttendees = int(request.form['maxAttendees'])
             deRegWindow = datetime.strptime(request.form['deRegWindow'], date_format).date()
+            fee = int(request.form['fee'])
+            earlyRegDate = datetime.strptime(request.form['earlyRegDate'], date_format).date()
             abstractInfo = request.form['abstractInfo']
             speaker_name = request.form['speaker_name']
             email = request.form['email']
@@ -222,8 +227,26 @@ def session(seminar_id, session_name):
 
     return render_template('session_detail.html', seminar=seminar, user=current_user, session=session, register=register, message = message)
 
-
-@app.route('/<seminar_id>/<session_name>/<guest_speaker>')
+#guest speaker profile
+@app.route('/<seminar_id>/<session_name>/<guest_speaker_name>')
 @login_required
-def guest_speaker(seminar_id, session_name, guest_speaker):
-    pass
+def guest_speaker(seminar_id, session_name, guest_speaker_name):
+    speaker = system.getAllEvent(int(seminar_id)).get_one_session(session_name).speaker
+    return render_template('speaker_profile.html', speaker = speaker)
+
+@app.route('/register', methods=['GET','POST'])
+def guest_register():
+    if request.method == 'POST':
+        username = request.form['fullname']
+        email = request.form['email']
+        password = request.form['password']
+        
+        if 'sign_up' in request.form:
+            f = open('guest.csv', 'a')
+            writer = csv.writer(f)
+            writer.writerow((username, email, password))
+            f.close()
+            system.addGuest(Guest(username, email, password))
+            return redirect(url_for('login'))
+
+    return render_template('guest_register.html')

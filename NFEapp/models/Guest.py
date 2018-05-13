@@ -4,7 +4,7 @@ from .Seminar import *
 from datetime import datetime
 
 class Guest(Member):
-    def __init__(self, username, password, email):
+    def __init__(self, username, email, password):
         super().__init__(username, password)
         self._email = email
         self._currentEvents = []

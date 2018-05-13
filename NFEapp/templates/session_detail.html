@@ -15,9 +15,9 @@
         Date allows for deRegistration: {{session.deRegWindow}}
       {% endif%}
 			<div class="speaker">
-		    <h4>Speaker</h4>
+		    <h4><a href = "{{ url_for('guest_speaker',seminar_id = seminar.id, session_name = session.name, guest_speaker_name = session.speaker.name) }}">Speaker</a></h4>
 		    Name: {{session.speaker.name}}<br />
-		    Email: {{session.speaker.contact}}
+				Email: {{session.speaker.contact}}
 		    <div>
 		      {% if user.is_admin() and user.avoid_creator(seminar) == False %}
 		        {% if session.status == 'open'%}

@@ -18,7 +18,6 @@ class Event(ABC):
         self._abstractInfo = abstractInfo
         self._attendeeList = []
 
-
 ##
     # prints out information about the event
     def __str__(self):

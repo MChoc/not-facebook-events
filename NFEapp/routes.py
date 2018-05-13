@@ -45,7 +45,7 @@ def page_not_found(e=None):
 @login_required
 def open_events():
     # return render_template('open_events.html', events=system.openEvent)
-    
+
     course = []
     seminar = []
     for event in system.openEvent:
@@ -53,11 +53,11 @@ def open_events():
             course.append(event)
         elif isinstance(event, Seminar):
             seminar.append(event)
-    
+
     if request.method == 'POST':
         key_words = request.form['key_words']
         return render_template('open_events.html', events = system.search_open_events(key_words), seminar=seminar, course=course)
-    
+
     return render_template('open_events.html', events=system.openEvent, seminar=seminar, course=course)
 
 
@@ -65,6 +65,7 @@ def open_events():
 @login_required
 def dashboard():
     return render_template('dashboard.html', user=current_user)
+
 
 @app.route('/create_course', methods=['GET','POST'])
 @login_required
@@ -77,7 +78,7 @@ def create_course():
         status = request.form['status']
         date = datetime.strptime(request.form['date'], date_format).date()
         time = datetime.strptime(request.form['time'], time_format).time()
-        
+
         location = request.form['location']
         maxAttendees = int(request.form['maxAttendees'])
         deRegWindow = datetime.strptime(request.form['deRegWindow'], date_format).date()
@@ -87,6 +88,7 @@ def create_course():
         system.create_open_course(current_user, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo)
         return redirect(url_for('dashboard'))
     return render_template('create_course.html')
+
 
 @app.route('/create_seminar', methods=['GET','POST'])
 @login_required
@@ -98,7 +100,7 @@ def create_seminar():
         cname = request.form['cname']
         cstatus = request.form['cstatus']
         cabstractInfo = request.form['cabstractInfo']
-    
+
         name = request.form['name']
         status = request.form['status']
         date = datetime.strptime(request.form['date'], date_format).date()
@@ -115,12 +117,13 @@ def create_seminar():
         return redirect(url_for('dashboard'))
     return render_template('create_seminar.html')
 
+
 @app.route('/<event_id>', methods=['GET','POST'])
 @login_required
 def event(event_id):
     event = system.getAllEvent(int(event_id))
     message = None
-    
+
     if isinstance(event, Course):
         type = 'course'
         if not system.check_capacity(event):
@@ -140,7 +143,7 @@ def event(event_id):
         elif 'confirm_close_course' in request.form:
             system.change_course_status(current_user, event, 'closed')
         elif 'view_attendees' in request.form:
-            message = "view_attendees"        
+            message = "view_attendees"
         elif 'close_seminar' in request.form:
             message = "confirm_close_seminar"
         elif 'confirm_close_seminar' in request.form:
@@ -171,7 +174,7 @@ def event(event_id):
             speaker_name = request.form['speaker_name']
             email = request.form['email']
             system.add_session(current_user, event, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo, Speaker(speaker_name, email))
-    
+
     if event in current_user.currentEvents:
         register = True
     else:
@@ -179,22 +182,23 @@ def event(event_id):
 
     return render_template('event_detail.html', event=event, type=type, user=current_user, register=register, message = message)
 
+
 @app.route('/<seminar_id>/<session_name>', methods=['GET','POST'])
 @login_required
 def session(seminar_id, session_name):
     seminar = system.getAllEvent(int(seminar_id))
     message = None
-    
+
     for s in seminar.session:
         if session_name == s.name:
             session = s
-    
+
     if not system.check_capacity(session):
         message = 'full'
 
     if not system.check_deregister_validation(session):
         message = 'deregister invalid'
-    
+
     if request.method == 'POST':
         if 'register_session' in request.form:
             message = "confirm_register_session"
@@ -217,3 +221,9 @@ def session(seminar_id, session_name):
         register = False
 
     return render_template('session_detail.html', seminar=seminar, user=current_user, session=session, register=register, message = message)
+
+
+@app.route('/<seminar_id>/<session_name>/<guest_speaker>')
+@login_required
+def guest_speaker(seminar_id, session_name, guest_speaker):
+    pass

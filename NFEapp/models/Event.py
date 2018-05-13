@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class Event(ABC):
 
     @abstractmethod
-    def __init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, fee, abstractInfo):
+    def __init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo):
         self._id = id
         self._name = name
         self._status = status
@@ -14,6 +14,7 @@ class Event(ABC):
         self._maxAttendees = maxAttendees
         self._deRegWindow = self._conform_date_format(deRegWindow)
         self._fee = fee
+        self._earlyRegDate = self._conform_date_format(earlyRegDate)
         self._abstractInfo = abstractInfo
         self._attendeeList = []
 
@@ -167,6 +168,15 @@ class Event(ABC):
     def fee(self, fee):
         self._fee = fee
 ##   
+##    
+    @property
+    def earlyRegDate(self):
+        return self._earlyRegDate
+    
+    @earlyRegDate.setter
+    def earlyRegDate(self, earlyRegDate):
+        self._earlyRegDate = earlyRegDate
+##  
 ##    
     # return list[UNSWMember]
     @property

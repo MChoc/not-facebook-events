@@ -43,6 +43,9 @@ class UNSWMember(Member):
     def __str__(self):
         return "name: {0}, email: {1}".format(self._username, self._email)
 
+    def is_guest(self):
+        return False
+
     @property
     def currentEvents(self):
         return self._currentEvents

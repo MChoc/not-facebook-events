@@ -2,6 +2,7 @@ from .Course import *
 from .Seminar import *
 from .Member import *
 from datetime import datetime
+
 class UNSWMember(Member):
 
     def __init__ (self, username, zID, email, password, role):
@@ -74,10 +75,10 @@ class UNSWMember(Member):
     def registerCourse(self, course):
         if self._avoid_closed_status(course) == False:
             return False
-        
+
         if self._avoid_full(course) == False:
             return False
-        
+
         if self._avoid_dup(course) == True:
             course.add_attendee(self)
             self.currentEvents.append(course)
@@ -200,7 +201,7 @@ class UNSWMember(Member):
 
         if self in session.attendeeList:
             session.remove_attendee(self)
-        
+
         flag = 0
         for session in seminar.session:
             if self in session.attendeeList:
@@ -209,7 +210,7 @@ class UNSWMember(Member):
 
         if flag == 0:
             self.currentEvents.remove(seminar)
-            
+
     #used for deRegistration
     #check that intended deregistered event is registered before
     def _check_registration(self, event):

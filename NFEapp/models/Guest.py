@@ -25,45 +25,11 @@ class Guest(Member):
     def __str__(self):
         return "name: {0}, email {1}".format(self._username, self._email)
 
-    def registerCourse(self, course):
-        if self._avoid_closed_status(course) == False:
-            return False
-
-        if self._avoid_full(course) == False:
-            return False
-
-        if self._avoid_dup(course) == True:
-            course.add_attendee(self)
-            self.currentEvents.append(course)
-            return True
-        else:
-            return False
-    
-    def _registerSession(self, session):
-        session.add_attendee(self)
-
     def registerSeminar(self, seminar, session):
-        if self._avoid_closed_status(seminar) == False:
+        if not self.avoid_speaker(session):
             return False
-        if session.status == "closed":
-            return False
-
-        if self._avoid_fake_session(seminar, session) != True:
-            return False
-
-        if self._avoid_full(session) == False:
-            return False
-
-        if self._avoid_dup(seminar) == True:
-            self._registerSession(session)
-            self.currentEvents.append(seminar)
-            return True
         else:
-            if self._avoid_dup_session(seminar, session) == True:
-                self._registerSession(session)
-                return True
-            else:
-                return False
+            super().registerSeminar(seminar, session)
     
     #when register, need to check that the person is not the speaker
     def avoid_speaker(self, session):

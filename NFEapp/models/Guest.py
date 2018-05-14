@@ -7,9 +7,7 @@ class Guest(Member):
     def __init__(self, username, email, password):
         super().__init__(username, password)
         self._email = email
-        self._currentEvents = []
-        self._pastEvents = []
-
+    
     @property
     def email(self):
         return self._email
@@ -17,14 +15,6 @@ class Guest(Member):
     @email.setter
     def email(self, email):
         self._email = email
-
-    @property
-    def currentEvents(self):
-        return self._currentEvents
-
-    @property
-    def pastEvents(self):
-        return self._pastEvents
 
     def is_admin(self):
         return False

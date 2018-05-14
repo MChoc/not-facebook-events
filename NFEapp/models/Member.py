@@ -11,6 +11,8 @@ class Member(UserMixin, ABC):
         self._username = username
         self._password = generate_password_hash(password)
 
+        self._currentEvents = []
+        self._pastEvents = []
 
     @property
     def username(self):
@@ -48,3 +50,11 @@ class Member(UserMixin, ABC):
     @abstractmethod
     def is_admin(self):
         pass
+
+    @property
+    def currentEvents(self):
+        return self._currentEvents
+
+    @property
+    def pastEvents(self):
+        return self._pastEvents

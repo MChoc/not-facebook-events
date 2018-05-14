@@ -10,8 +10,6 @@ class UNSWMember(Member):
         self._zID = zID
         self._email = email
         self._role = role
-        self._currentEvents = []
-        self._pastEvents = []
 
     #getters
     @property
@@ -45,14 +43,6 @@ class UNSWMember(Member):
 
     def is_guest(self):
         return False
-
-    @property
-    def currentEvents(self):
-        return self._currentEvents
-
-    @property
-    def pastEvents(self):
-        return self._pastEvents
 
     #return current sessions that the user registered for in a seminar
     #pass in a seminar object

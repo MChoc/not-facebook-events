@@ -18,7 +18,6 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         valid_user = system.validate_login(username, password)
-        print(valid_user.id)
         if valid_user is None:
             return redirect(url_for('login', fail=True))
         else:
@@ -116,7 +115,7 @@ def create_seminar():
         email = request.form['email']
 
     if 'create' in request.form:
-        system.create_open_seminar(current_user, cname, cstatus, cabstractInfo, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo, Speaker(speaker_name, email))
+        system.create_open_seminar(current_user, cname, cstatus, cabstractInfo, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo, speaker_name, email)
         return redirect(url_for('dashboard'))
     return render_template('create_seminar.html')
 
@@ -155,7 +154,6 @@ def event(event_id):
             message = "confirm_deregister_course"
         elif 'confirm_deregister_course' in request.form:
             system.deRegister_course(current_user, event)
-            print(message)
             message = None
         elif 'deregister_seminar' in request.form:
             message = "confirm_deregister_seminar"
@@ -178,7 +176,7 @@ def event(event_id):
             abstractInfo = request.form['abstractInfo']
             speaker_name = request.form['speaker_name']
             email = request.form['email']
-            system.add_session(current_user, event, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo, Speaker(speaker_name, email))
+            system.add_session(current_user, event, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo, speaker_name, email)
 
     if event in current_user.currentEvents:
         register = True

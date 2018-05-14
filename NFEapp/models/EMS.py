@@ -66,6 +66,15 @@ class EMS:
                 return person
         return None
 
+    def get_guest_by_email(self, email):
+        for person in self.guest:
+            if email.lower() == person.email.lower():
+                return person
+        for person in self.UNSWMember:
+            if email.lower() == person.email.lower():
+                return person
+        return None
+    
     def getOpenEvent(self, name):
         for event in self.openEvent:
             if event.name == name:
@@ -86,20 +95,24 @@ class EMS:
         user.createCourse(course)
         self.addOpenEvent(course)
 
-    def create_open_seminar(self, user, name, status, abstractInfo, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, sspeaker):
+    def create_open_seminar(self, user, name, status, abstractInfo, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, speaker_name, speaker_email):
+        if self.get_guest_by_email(speaker_email):
+            speaker= self.get_guest_by_email(speaker_email)
         id = self._generate_id()
         sid = self._generate_sid()
         seminar = Seminar(id, name, status, abstractInfo)
-        session = Session(sid, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate,  sabstractInfo, sspeaker)
+        session = Session(sid, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate,  sabstractInfo, speaker)
         user.createSeminar(seminar, session)
         self.addOpenEvent(seminar)
 
-    def add_session(self, user, seminar, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, sspeaker):
+    def add_session(self, user, seminar, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, speaker_name, speaker_email):
         if user.avoid_creator(seminar) == True:
             return False
+        if self.get_guest_by_email(speaker_email):
+            speaker= self.get_guest_by_email(speaker_email)
 
         sid = self._generate_sid()
-        session = Session(sid, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, sspeaker)
+        session = Session(sid, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, speaker)
         user.addSession(seminar, session)
 
     def change_course_status(self, user, course, status):
@@ -148,10 +161,8 @@ class EMS:
         for c in self.UNSWMember:
             if c.username == username and c.check_password(password):
                 return c
-        print("check")
         for g in self.guest:
             if g.email == username and g.check_password(password):
-                print("yes")
                 return g
         return None
 

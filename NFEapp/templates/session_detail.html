@@ -15,9 +15,9 @@
         Date allows for deRegistration: {{session.deRegWindow}}
       {% endif%}
 			<div class="speaker">
-		    <h4><a href = "{{ url_for('guest_speaker',seminar_id = seminar.id, session_name = session.name, guest_speaker_name = session.speaker.name) }}">Speaker</a></h4>
-		    Name: {{session.speaker.name}}<br />
-				Email: {{session.speaker.contact}}
+		    <h4><a href = "{{ url_for('guest_speaker',seminar_id = seminar.id, session_name = session.name, guest_speaker_name = session.speaker.username) }}">Speaker</a></h4>
+		    Name: {{session.speaker.username}}<br />
+				Email: {{session.speaker.email}}
 		    <div>
 		      {% if user.is_admin() and user.avoid_creator(seminar) == False %}
 		        {% if session.status == 'open'%}
@@ -39,9 +39,13 @@
 		        {% endif %}
 		      {% else %}
 		        {% if session.status == 'open' and register == False %}
-		          <button name="register_session" type="submit", {% if message == "full" %} disabled {% endif %}>Register</button>
+							<button name="register_session" type="submit", {% if message == "full" %} disabled {% endif %},
+							{% if user.is_guest() and not user.avoid_speaker(session) %} disabled {% endif %}>Register</button>
 		          {% if message == 'confirm_register_session' %}
-		            <h3>Do you wish to continue?</h3>
+								{% if user.is_guest() %}
+                  <h3>Fee: $ {{user.calculate_fee(session)}}</h3>
+								{% endif %}
+								<h3>Do you wish to continue?</h3>
 		            <button name="confirm_register_session" type="submit">Continue</button>
 		          {% endif %}
 						{% elif session.status == 'open' and register == True %}

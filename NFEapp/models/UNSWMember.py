@@ -44,20 +44,6 @@ class UNSWMember(Member):
     def is_guest(self):
         return False
 
-    #return current sessions that the user registered for in a seminar
-    #pass in a seminar object
-    #need to check that this user has registered for this seminar before
-    #return false if not successful
-    def get_current_session(self, seminar):
-        if self._avoid_dup(seminar) == True:
-            return False
-
-        current_session = []
-        for session in seminar.session:
-            if self in session.attendeeList:
-                current_session.append(session)
-        return current_session
-
 
     #register for courses
     #pass in a course that the user intends to register for
@@ -113,14 +99,6 @@ class UNSWMember(Member):
             else:
                 return False
 
-    #check against registration history to avoid duplicated registeration for events
-    #return false if the person has registerer for this event before
-    #return true if the person has not registered before
-    def _avoid_dup(self, event):
-        if event in self.currentEvents:
-            return False
-        else:
-            return True
 
     #check aganinst session history to avoid duplicated registration for sessions
     #return false if this person has registered for this session before

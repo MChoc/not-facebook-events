@@ -41,9 +41,6 @@ class Member(UserMixin, ABC):
         Member.__id += 1
         return Member.__id
 
-    # def validate_password(self, password):
-    #     return password == self._password
-
     def check_password(self, password):
         return check_password_hash(self._password, password)
 
@@ -58,3 +55,26 @@ class Member(UserMixin, ABC):
     @property
     def pastEvents(self):
         return self._pastEvents
+
+    #return current sessions that the user registered for in a seminar
+    #pass in a seminar object
+    #need to check that this user has registered for this seminar before
+    #return false if not successful
+    def get_current_session(self, seminar):
+        if self._avoid_dup(seminar) == True:
+            return False
+
+        current_session = []
+        for session in seminar.session:
+            if self in session.attendeeList:
+                current_session.append(session)
+        return current_session
+
+    #check against registration history to avoid duplicated registeration for events
+    #return false if the person has registerer for this event before
+    #return true if the person has not registered before
+    def _avoid_dup(self, event):
+        if event in self.currentEvents:
+            return False
+        else:
+            return True

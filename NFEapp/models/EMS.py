@@ -2,6 +2,7 @@ from .Course import *
 from .Seminar import *
 from .Staff import *
 from .Student import *
+from .Guest import *
 
 class EMS:
     __id = -1  #course/event id
@@ -11,6 +12,7 @@ class EMS:
         self._openEvent = []
         self._closeEvent = []
         self._UNSWMember = []
+        self._guest = []
 
     @property
     def openEvent(self):
@@ -23,6 +25,10 @@ class EMS:
     @property
     def UNSWMember(self):
         return self._UNSWMember
+
+    @property
+    def guest(self):
+        return self._guest
 
     def _generate_id(self):
         EMS.__id += 1
@@ -51,6 +57,9 @@ class EMS:
     def addUNSWMember(self, member):
         self.UNSWMember.append(member)
 
+    def addGuest(self, guest):
+        self.guest.append(guest)
+
     def getUNSWMember(self, username):
         for person in self.UNSWMember:
             if person.username == username:
@@ -71,26 +80,26 @@ class EMS:
             if id == event.id:
                 return event
 
-    def create_open_course(self, user, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo):
+    def create_open_course(self, user, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo):
         id = self._generate_id()
-        course = Course(id, name, status, date, time, location, maxAttendees, deRegWindow, abstractInfo)
+        course = Course(id, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo)
         user.createCourse(course)
         self.addOpenEvent(course)
 
-    def create_open_seminar(self, user, name, status, abstractInfo, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sabstractInfo, sspeaker):
+    def create_open_seminar(self, user, name, status, abstractInfo, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, sspeaker):
         id = self._generate_id()
         sid = self._generate_sid()
         seminar = Seminar(id, name, status, abstractInfo)
-        session = Session(sid, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sabstractInfo, sspeaker)
+        session = Session(sid, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate,  sabstractInfo, sspeaker)
         user.createSeminar(seminar, session)
         self.addOpenEvent(seminar)
 
-    def add_session(self, user, seminar, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sabstractInfo, sspeaker):
+    def add_session(self, user, seminar, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, sspeaker):
         if user.avoid_creator(seminar) == True:
             return False
 
         sid = self._generate_sid()
-        session = Session(sid, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sabstractInfo, sspeaker)
+        session = Session(sid, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, sspeaker)
         user.addSession(seminar, session)
 
     def change_course_status(self, user, course, status):
@@ -135,15 +144,25 @@ class EMS:
         return user.get_current_session(seminar)
 
     def validate_login(self, username, password):
+
         for c in self.UNSWMember:
             if c.username == username and c.check_password(password):
                 return c
+        print("check")
+        for g in self.guest:
+            if g.email == username and g.check_password(password):
+                print("yes")
+                return g
         return None
 
     def get_user_by_id(self, user_id):
         for c in self.UNSWMember:
             if c.get_id() == user_id:
                 return c
+        
+        for g in self.guest:
+            if g.get_id() == user_id:
+                return g        
         return None
 
     def check_capacity(self, event):

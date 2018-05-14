@@ -48,3 +48,13 @@ class Member(UserMixin, ABC):
     @abstractmethod
     def is_admin(self):
         pass
+
+    def get_current_session(self, seminar):
+        if self._avoid_dup(seminar) == True:
+            return False
+
+        current_session = []
+        for session in seminar.session:
+            if self in session.attendeeList:
+                current_session.append(session)
+        return current_session

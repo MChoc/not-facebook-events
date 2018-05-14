@@ -65,39 +65,6 @@ class Guest(Member):
             else:
                 return False
     
-    def _avoid_dup(self, event):
-        if event in self.currentEvents:
-            return False
-        else:
-            return True
-
-    #check aganinst session history to avoid duplicated registration for sessions
-    #return false if this person has registered for this session before
-    def _avoid_dup_session(self, seminar, session):
-        s = seminar.get_one_session(session.name)
-        for user in s.attendeeList:
-            if self.username == user.username:
-                return False
-        return True
-
-    #check that the status of the event is not closed
-    #return false if the event is already closed
-    def _avoid_closed_status(self, event):
-        if event.status == 'closed':
-            return False
-
-    #check that the session does belong to this seminar
-    #return ture if the session belongs to this seminar
-    def _avoid_fake_session(self, seminar, session):
-        for s in seminar.session:
-            if session.name == s.name:
-                return True
-
-
-    def _avoid_full(self, event):
-        if len(event.attendeeList) >= event.maxAttendees:
-            return False
-    
     #when register, need to check that the person is not the speaker
     def avoid_speaker(self, session):
         if session.speaker.get_id() == self.get_id():

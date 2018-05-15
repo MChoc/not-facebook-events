@@ -43,7 +43,7 @@
 							{% if user.is_guest() and not user.avoid_speaker(session) %} disabled {% endif %}>Register</button>
 		          {% if message == 'confirm_register_session' %}
 								{% if user.is_guest() %}
-                  <h3>Fee: $ {{user.calculate_fee(session)}}</h3>
+                  <h3>Fee: $ {{fee}}</h3>
 								{% endif %}
 								<h3>Do you wish to continue?</h3>
 		            <button name="confirm_register_session" type="submit">Continue</button>

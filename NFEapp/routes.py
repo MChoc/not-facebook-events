@@ -204,7 +204,9 @@ def session(seminar_id, session_name):
 
     if request.method == 'POST':
         if 'register_session' in request.form:
+            fee = system.check_reg_fee(current_user, session)
             message = "confirm_register_session"
+            return render_template('session_detail.html', seminar=seminar, user=current_user, session=session, register=False, message = message, fee = fee)
         elif 'confirm_register_session' in request.form:
             system.register_seminar(current_user, seminar, session)
         elif 'close' in request.form:

@@ -188,3 +188,21 @@ class EMS:
             return False
         else:
             return True
+
+    #pass in either a course or a session
+    def check_reg_fee(self, guest, event):
+        if isinstance(event, Course):
+            return guest.calculate_fee(event)
+        else:
+            #if the guest is the speaker of the session
+            if not guest.avoid_speaker(event):
+                return 0
+            else:
+                for seminar in self.openEvent:
+                    #to get seminar id of the session
+                    if isinstance(seminar, Seminar) and event in seminar.session:
+                        target_id = seminar.id
+                        if target_id in guest.assigned_session.values():
+                            return 0
+                return guest.calculate_fee(event)
+                    

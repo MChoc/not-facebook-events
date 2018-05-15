@@ -49,7 +49,7 @@ class Guest(Member):
         else:
             return True
     
-    #pass in either a course or a session
+    #pass in a course
     def calculate_fee(self, event):
         currentDate = datetime.now().date()
         if event.fee < 0:
@@ -59,9 +59,5 @@ class Guest(Member):
             regFee = 0.5*event.fee
         else:
             regFee = event.fee
-            
-        if isinstance(event, Session):
-            if not self.avoid_speaker(event):
-                regFee = 0
-        
+
         return regFee

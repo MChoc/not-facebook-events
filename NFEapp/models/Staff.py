@@ -6,6 +6,7 @@ class Staff(UNSWMember):
         self._currentPostEvent = []
         self._pastPostEvent = []
         self._cancelledEvent = []
+        self._assigned_session = {}
 
     @property
     def currentPostEvent(self):
@@ -19,16 +20,28 @@ class Staff(UNSWMember):
     def cancelledEvent(self):
         return self._cancelledEvent
 
+    @property
+    def assigned_session(self):
+        return self._assigned_session
+
+    def get_seminar_id(self, session_name):
+        return int(self.assigned_session.get(session_name))
+
+    def add_assigned_session(self, seminar, session):
+        self._assigned_session[session.name] = seminar.id
+    
     #create a new course
     def createCourse(self, course):
         self.currentPostEvent.append(course)
 
     def createSeminar(self, seminar, session):
+        session.speaker.add_assigned_session(seminar, session)
         self.currentPostEvent.append(seminar)
         seminar.add_session(session)
 
     def addSession(self, seminar, session):
         if seminar in self.currentPostEvent:
+            session.speaker.add_assigned_session(seminar, session)
             seminar.add_session(session)
             return True
 
@@ -66,6 +79,7 @@ class Staff(UNSWMember):
             return False
         for s in seminar.session:
             s.status = status
+            s.speaker.assigned_session.pop(s.name)
             for attendee in s.attendeeList:
                 for e in attendee.currentEvents:
                     if e.name == seminar.name:
@@ -85,6 +99,7 @@ class Staff(UNSWMember):
         if seminar.status == "closed":
             return False
         session.status = status
+        session.speaker.assigned_session.pop(session.name)
 
     #check that the event creator cannnot register for this event
     #check that person who want to get the attendee list is the creator

@@ -42,7 +42,10 @@
       	{% if event.status == 'open' and register == False %}
           <button name="register_course" type="submit", {% if message == "full" %} disabled {% endif %}>Register</button>
         	{% if message == 'confirm_register_course' %}
-          	<h3>Do you wish to continue?</h3>
+            {% if user.is_guest() %}
+              <h3>Fee: $ {{user.calculate_fee(event)}}</h3>
+            {% endif %}
+            <h3>Do you wish to continue?</h3>
           	<button name="confirm_register_course" type="submit">Continue</button>
         	{% endif %}
         {% elif event.status == 'open' and register == True %}
@@ -104,7 +107,7 @@
         Session Location: <input type="text" name="location"</input><br/>
         Max Attendees: <input type="number" name="maxAttendees" min = "1" </input><br/>
         Date allowed for deregister: <input type="date" name="deRegWindow"</input><br/>
-        Guest Register Fee: <input type="number" name = "fee"</input><br/>
+        Guest Register Fee: <input type="number" name = "fee" min = "0"</input><br/>
         Early Bird Register Date: <input type = "date", name = "earlyRegDate"</input><br/>
         Session Abstract Information: <input type="text" name="abstractInfo"</input><br/>
         Speaker name: <input type="text" name="speaker_name"</input><br/>

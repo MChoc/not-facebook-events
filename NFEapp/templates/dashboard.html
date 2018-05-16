@@ -49,6 +49,17 @@
 				</div>
 			{% endfor %}
 		{% endif %}
+
+		{% if user.is_guest() or user.is_admin() %}
+		    <h3>Currently hosted Sessions</h3>
+		    {% for session_name in user.assigned_session.keys() %}
+			  <a class="text-description" href="{{url_for('session', seminar_id = user.get_seminar_id(session_name), session_name = session_name)}}">{{session_name}}</a>
+			  {% else %}
+			  <div class="text-description">
+				  No currently hosted sessions!
+			  </div>
+			{% endfor %}
+		{% endif %}
 	</div>
 </div>
 {% endblock %}

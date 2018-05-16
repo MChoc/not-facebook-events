@@ -1,8 +1,10 @@
-class Speaker:
+from .Guest import *
 
-    def __init__(self, name, contact):
+class Speaker(Guest):
+
+    def __init__(self, name, email):
         self._name = name
-        self._contact = contact #email
+        self._email = email #email
 
     @property
     def name(self):

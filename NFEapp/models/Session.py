@@ -1,4 +1,4 @@
-from .Speaker import *
+#from .Speaker import *
 from .Event import *
 
 class Session(Event):

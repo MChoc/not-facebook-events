@@ -239,6 +239,7 @@ def guest_speaker(seminar_id, session_name, guest_speaker_name):
 
 @app.route('/register', methods=['GET','POST'])
 def guest_register():
+    message = None
     if request.method == 'POST':
         username = request.form['fullname']
         email = request.form['email']
@@ -250,6 +251,7 @@ def guest_register():
             writer.writerow((username, email, password))
             f.close()
             system.addGuest(Guest(username, email, password))
-            return redirect(url_for('login'))
+            message = 'success'
+            return render_template('guest_register.html', message = message)
 
-    return render_template('guest_register.html')
+    return render_template('guest_register.html', message = message)

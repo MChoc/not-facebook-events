@@ -10,11 +10,16 @@
 <body>
   <form method="POST">
   <h1>Join Not Facebook Events Today.</h1>
-  <input type="text" value = "" name="fullname" maxlength="50" placeholder="Full name" />
-  <input type="text" value = "" name="email" maxlength="50" placeholder="Email" />
-  <input type="password" value = "" name="password" maxlength="50" placeholder="Password" />
-  <button name="sign_up" type="submit">Sign up</button>
-  <p>By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use. Others will be able to find you by email or phone number when provided.</p>
+  <input type="text" value = "" name="fullname" maxlength="50" placeholder="Full name" /><br>
+  <input type="text" value = "" name="email" maxlength="50" placeholder="Email" /><br>
+  <input type="password" value = "" name="password" maxlength="50" placeholder="Password" /><br>
+  {% if not message %}
+    <button name="sign_up" type="submit">Sign up</button>
+    <p>By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use. Others will be able to find you by email or phone number when provided.</p>
+  {% elif message == 'success' %}
+    Registration Successful<br>
+    <a href="{{url_for('login')}}">Login</a>
+  {% endif %}
   </form>
 </body>
 

@@ -69,7 +69,7 @@
         {% endif %}
       {% else %}
         {% if event.status == 'open' and register == True%}
-          <button name="deregister_seminar" type="submit">deRegister</button>
+          <button name="deregister_seminar" type="submit", {% if not user.valid_seminar_dereg_date(event) %} disabled {% endif %}>deRegister</button>
           {% if message == 'confirm_deregister_seminar' %}
             <h3>Do you wish to continue?</h3>
             <button name="confirm_deregister_seminar" type="submit">Continue</button>

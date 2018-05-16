@@ -91,10 +91,15 @@ class Seminar:
         else:
             return 0
 
-    # grabs first session in session list
-    # return session[0]
+    # grabs first session in session list (earlist open session)
     def get_first_session(self):
-        return self._session[0]
+        earlist_date = datetime.strptime('2999-01-01', '%Y-%m-%d').date()
+        for session in self.session:
+            if session.status == 'open':
+                if session.date < earlist_date:
+                    earlist_date = session.date
+                    s = session
+        return s
 ##
 ##
     # return list[list[UNSWMember]] from session

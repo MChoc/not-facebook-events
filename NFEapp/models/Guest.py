@@ -34,21 +34,14 @@ class Guest(Member):
         return True
 
     def __str__(self):
-        return "name: {0}, email {1}".format(self._username, self._email)
+        return "name: {0}, email: {1}".format(self._username, self._email)
     
     def registerSeminar(self, seminar, session):
         if not self.avoid_speaker(session):
             return False
         else:
             super().registerSeminar(seminar, session)
-    
-    #when register, need to check that the person is not the speaker
-    def avoid_speaker(self, session):
-        if session.speaker.email == self.email:
-            return False
-        else:
-            return True
-    
+       
     #pass in a course
     def calculate_fee(self, event):
         currentDate = datetime.now().date()

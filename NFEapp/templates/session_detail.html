@@ -40,7 +40,7 @@
 		      {% else %}
 		        {% if session.status == 'open' and register == False %}
 							<button name="register_session" type="submit", {% if message == "full" %} disabled {% endif %},
-							{% if user.is_guest() and not user.avoid_speaker(session) %} disabled {% endif %}>Register</button>
+							{% if not user.avoid_speaker(session) %} disabled {% endif %}>Register</button>
 		          {% if message == 'confirm_register_session' %}
 								{% if user.is_guest() %}
                   <h3>Fee: $ {{fee}}</h3>

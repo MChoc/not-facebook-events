@@ -250,3 +250,10 @@ class Member(UserMixin, ABC):
                 earlist_date = session.deRegWindow
         
         return self._check_time_validation(earlist_date)
+
+    #when register, need to check that the person is not the speaker
+    def avoid_speaker(self, session):
+        if session.speaker.email == self.email:
+            return False
+        else:
+            return True

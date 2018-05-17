@@ -19,3 +19,6 @@ Guest Sign up Constraints
 
 1. Guests have to fill in all three fields in order to be successfully authenticated.
 
+Login Page:
+
+1. The place holder of username field should be changed to "username or email"

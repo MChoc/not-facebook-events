@@ -16,7 +16,13 @@
     <p style = "color: palevioletred">btw, his name is 정준영</p>
     <p style = "color: palevioletred">고마워요~, 唔该</p>
     Speaker Name: {{speaker.username}}<br/>
-    Speaker Email: {{speaker.email}}
+    Speaker Email: {{speaker.email}}<br/>
+    <br>
+    <h3>Currently hosted Sessions</h3>
+    {% for session_name in speaker.assigned_session.keys() %}
+			<a class="text-description" href="{{url_for('session', seminar_id = speaker.get_seminar_id(session_name), session_name = session_name)}}">{{session_name}}</a>
+		{% endfor %}
+  
   </div>
 </div>
 {% endblock %}

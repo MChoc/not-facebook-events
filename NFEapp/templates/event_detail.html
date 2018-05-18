@@ -11,6 +11,7 @@
 	    Event time: {{event.time}}<br>
       Event location: {{event.location}}<br>
       Event capacity: {{event.attendeeList|length}}/{{event.maxAttendees}}<br>
+      {% if user.is_guest() %} Registration Fee: ${{event.fee}}<br> Early Bird Date: {{event.earlyRegDate}}<br>{% endif %}
       {% if event.status == 'open' and register == True %}
         Date allows for deRegistration: {{event.deRegWindow}}
       {% endif%}

@@ -69,6 +69,7 @@ def dashboard():
 @login_required
 @admin_required
 def create_course():
+    '''
     if request.method == 'POST':
         date_format = "%Y-%m-%d"
         time_format = "%H:%M"
@@ -83,10 +84,15 @@ def create_course():
         fee = int(request.form['fee'])
         earlyRegDate = datetime.strptime(request.form['earlyRegDate'], date_format).date()
         abstractInfo = request.form['abstractInfo']
-
+    '''
     if 'create' in request.form:
-        system.create_open_course(current_user, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo)
-        return redirect(url_for('dashboard'))
+        try:
+            system.create_open_course(current_user, request.form['name'], request.form['status'], request.form['date'], request.form['time'], request.form['location'], request.form['maxAttendees'], request.form['deRegWindow'], request.form['fee'], request.form['earlyRegDate'], request.form['abstractInfo'])
+        except InputError as error:
+            message = error.msg
+            return render_template('create_course.html', message = message)
+        else:
+            return redirect(url_for('dashboard'))
     return render_template('create_course.html')
 
 
@@ -94,6 +100,7 @@ def create_course():
 @login_required
 @admin_required
 def create_seminar():
+    '''
     if request.method == 'POST':
         date_format = "%Y-%m-%d"
         time_format = "%H:%M"
@@ -113,10 +120,15 @@ def create_seminar():
         abstractInfo = request.form['abstractInfo']
         speaker_name = request.form['speaker_name']
         email = request.form['email']
-
+    '''
     if 'create' in request.form:
-        system.create_open_seminar(current_user, cname, cstatus, cabstractInfo, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo, speaker_name, email)
-        return redirect(url_for('dashboard'))
+        try:
+            system.create_open_seminar(current_user, request.form['cname'], request.form['cstatus'], request.form['cabstractInfo'], request.form['name'], request.form['status'], request.form['date'], request.form['time'], request.form['location'], request.form['maxAttendees'], request.form['deRegWindow'], request.form['fee'], request.form['earlyRegDate'], request.form['abstractInfo'], request.form['speaker_name'], request.form['email'])
+        except InputError as error:
+            message = error.msg
+            return render_template('create_seminar.html', message = message)
+        else:
+            return redirect(url_for('dashboard'))
     return render_template('create_seminar.html')
 
 

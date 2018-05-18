@@ -36,6 +36,9 @@
         Speaker email: <input type="text" name="email"</input><br/>
       </div>
     <div>
+      {% if message %}
+        <p style = "color:red">{{message}}</p>
+      {% endif %}
       <button name="create" type="submit">Create Seminar</button>
     </div>
 

@@ -22,3 +22,9 @@ Guest Sign up Constraints
 Login Page:
 
 1. The place holder of username field should be changed to "username or email"
+
+Notification:
+
+1. After successful registration, do we need to display notification message saying 'registration successful'?
+
+2. Notification message after successfully creating course/seminar, deregister??

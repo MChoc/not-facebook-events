@@ -258,6 +258,10 @@ def guest_register():
         password = request.form['password']
         
         if 'sign_up' in request.form:
+            if not system.check_sign_up_history(username, email):
+                message = 'invalid'
+                return render_template('guest_register.html', message = message)
+            
             f = open('guest.csv', 'a')
             writer = csv.writer(f)
             writer.writerow((username, email, password))
@@ -266,4 +270,4 @@ def guest_register():
             message = 'success'
             return render_template('guest_register.html', message = message)
 
-    return render_template('guest_register.html', message = message)
+    return render_template('guest_register.html', message = True)

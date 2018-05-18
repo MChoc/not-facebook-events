@@ -1,3 +1,4 @@
+import csv
 from .Course import *
 from .Seminar import *
 from .Staff import *
@@ -294,3 +295,14 @@ class EMS:
                             return 0
                 return guest.calculate_fee(event)
                     
+    def check_sign_up_history(self, username, email):
+        with open('guest.csv', 'r') as file:
+            reader = csv.reader(file, delimiter=',')
+            for row in reader:
+                name = row[0]
+                Email = row[1]
+                if username == name:
+                    return False
+                if email == Email:
+                    return False
+        return True

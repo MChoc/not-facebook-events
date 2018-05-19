@@ -1,0 +1,5 @@
+[
+  "test_py.py::CreateCourseTestCase::test_invalid_course_name",
+  "test_py.py::CreateCourseTestCase::test_invalid_course_status",
+  "test_py.py::CreateSeminarTestCase::test_invalid_speaker"
+]

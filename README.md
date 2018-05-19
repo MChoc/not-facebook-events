@@ -9,11 +9,11 @@ Input constraints
 3. To Discuss: Should the website allow staff to select event status when they create event. (then make 'open' as default at the back-end)
   (It makes no sense if a staff creates a 'closed' event)
 
-4. When adding one speaker to a new session, this speaker should have already signed up for EMS. 
+4. (DONE) When adding one speaker to a new session, this speaker should have already signed up for EMS. 
   If this speaker has not signed up, the staff could not assign this speaker to a session.
   (so staff should ring the speaker up and ask him/her to sign up before assigning)
 
-5. When a staff fills in the create(add) session form, SPEAKER NAME field and SPEAKER EMAIL field should be checked whether they matched the info stored in guest.csv. 
+5. (DONE) When a staff fills in the create(add) session form, SPEAKER NAME field and SPEAKER EMAIL field should be checked whether they matched the info stored in guest.csv. 
 
 Guest Sign up Constraints
 
@@ -21,10 +21,14 @@ Guest Sign up Constraints
 
 Login Page:
 
-1. The place holder of username field should be changed to "username or email"
+1. (DONE) The place holder of username field should be changed to "username or email"
 
 Notification:
 
 1. After successful registration, do we need to display notification message saying 'registration successful'?
 
 2. Notification message after successfully creating course/seminar, deregister??
+
+404 Page:
+
+1. When typing random stuff on url, 404 page wont show up.

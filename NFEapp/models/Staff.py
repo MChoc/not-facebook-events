@@ -62,9 +62,13 @@ class Staff(UNSWMember):
     #change the status of a course
     #need to check that the person who wants to change the status
         #must be person who create this course
+    #need to check that the course is finished
     def changeCourseStatus(self, course, status):
         if self.changeStatus(course, status) == False:
             return False
+        if not self.check_close_date(course):
+            return False
+        
         for attendee in course.attendeeList:
             attendee.currentEvents.remove(course)
             attendee.pastEvents.append(course)
@@ -91,6 +95,7 @@ class Staff(UNSWMember):
     #change status of a session
     #need to check that the person who wants to change the status
         #must the person who create the seminar
+    #need to check that the session is finished
     #return false if unsuccessful
     #return false if the session has already closed
     def changeSessionStatus(self, seminar, session, status):
@@ -99,7 +104,10 @@ class Staff(UNSWMember):
         if self._avoid_fake_session(seminar, session) != True:
             return False
         if seminar.status == "closed":
+            return False       
+        if not self.check_close_date(session):
             return False
+
         session.status = status
         session.speaker.assigned_session.pop(session.name)
 

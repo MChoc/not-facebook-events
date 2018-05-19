@@ -48,8 +48,8 @@ class Guest(Member):
         if event.fee < 0:
             return False
         
-        if currentDate < event.earlyRegDate:
-            regFee = 0.5*event.fee
+        if currentDate <= event.earlyRegDate:
+            regFee = int(0.5*event.fee)
         else:
             regFee = event.fee
 

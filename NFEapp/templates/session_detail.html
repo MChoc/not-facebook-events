@@ -8,9 +8,11 @@
 	  <form method="POST">
 	    Status: {{session.status}}<br>
 	    Date: {{session.date}}<br>
-	    Time: {{session.time}}<br>
+			Time: {{session.time}}<br>
+			Location: {{session.location}}<br>
 			Abstract Information: {{session.abstractInfo}}<br>
 			Session Capacity: {{session.attendeeList|length}}/{{session.maxAttendees}}<br>
+			{% if user.is_guest() %} Registration Fee: ${{session.fee}}<br> Early Bird Date: {{session.earlyRegDate}}<br>{% endif %}
 			{% if session.status == 'open' and register == True %}
         Date allows for deRegistration: {{session.deRegWindow}}
       {% endif%}
@@ -21,7 +23,7 @@
 		    <div>
 		      {% if user.is_admin() and user.avoid_creator(seminar) == False %}
 		        {% if session.status == 'open'%}
-							<button name="close" type="submit">Close</button>
+							<button name="close" type="submit" {% if not user.check_close_date(session) %} disabled {% endif %}>Close</button>
 							<button name="view_attendees" type="submit">Get Attendee List</button>
 							{% if message == 'view_attendees' %}
 		            <h3>Current Attendees</h3>

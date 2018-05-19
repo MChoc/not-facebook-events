@@ -78,8 +78,10 @@ class Staff(UNSWMember):
         if self.changeStatus(seminar, status) == False:
             return False
         for s in seminar.session:
-            s.status = status
-            s.speaker.assigned_session.pop(s.name)
+            if s.status == 'open':
+                s.speaker.assigned_session.pop(s.name)
+                s.status = status
+            
             for attendee in s.attendeeList:
                 for e in attendee.currentEvents:
                     if e.name == seminar.name:
@@ -100,6 +102,11 @@ class Staff(UNSWMember):
             return False
         session.status = status
         session.speaker.assigned_session.pop(session.name)
+
+        for person in session.attendeeList:
+            if not person.get_current_session(seminar):
+                person.currentEvents.remove(seminar)
+                person.pastEvents.append(seminar)
 
     #check that the event creator cannnot register for this event
     #check that person who want to get the attendee list is the creator
@@ -134,6 +141,9 @@ class Staff(UNSWMember):
         else:
             return False
 
+    def check_close_date(self, event):
+        return event.date < datetime.now().date()
+    
     # NEW 3.5.18
     def is_admin(self):
         return True

@@ -19,11 +19,14 @@
       Date allowed for deregister: <input type="date" name="deRegWindow"</input><br/>
       Guest Register Fee (For guests only): <input type="number" name = "fee" min = "0"</input><br/>
       Early Bird Register Date (For guests only): <input type = "date", name = "earlyRegDate" min = "0" </input><br/>
-      Event Abstract Information: <input type="text" name="abstractInfo"</input><br/>
+      Event Abstract Information: <br><textarea name="abstractInfo" cols="60" rows="5"></textarea><br>
       {% if message %}
         <p style = "color:red">{{message}}</p>
       {% endif %}
       <button name="create" type="submit">Create Course</button>
+      <p style = "color:red"><font size='2'>
+        *Content is your responsibility, please ensure details are correct.</br>
+      </font></p>
     </form>
   </div>
 </div>

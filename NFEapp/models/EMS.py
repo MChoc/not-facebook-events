@@ -72,9 +72,11 @@ class EMS:
         for person in self.guest:
             if email.lower() == person.email.lower():
                 return person
+
         for person in self.UNSWMember:
-            if email.lower() == person.email.lower():
-                return person
+            if isinstance(person, Staff):
+                if email.lower() == person.email.lower():
+                    return person
         return None
     
     def getOpenEvent(self, name):
@@ -138,6 +140,7 @@ class EMS:
         time_format = "%H:%M"
 
         if not name:
+            print('True')
             raise InputError('seminar name', 'Please specify a valid ')
         if not status:
             raise InputError('seminar status', 'Please specify a valid ')
@@ -179,11 +182,10 @@ class EMS:
             raise InputError('deregisteration date', 'Please specify a valid ')
         if searlyRegDate > sdate:
             raise InputError('early registeration date', 'Please specify a valid ')
+        if not self.get_guest_by_email(speaker_email):
+            raise InputError('speaker', 'Please specify an eligible ')
         if self.get_guest_by_email(speaker_email).username != speaker_name:
             raise InputError('speaker', 'Please specify an eligible ')
-        
-        #if not isinstance(user, Staff):
-        #    raise InputError('')
         
         if self.get_guest_by_email(speaker_email):
             speaker= self.get_guest_by_email(speaker_email)

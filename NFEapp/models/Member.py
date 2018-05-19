@@ -67,8 +67,9 @@ class Member(UserMixin, ABC):
 
         current_session = []
         for session in seminar.session:
-            if self in session.attendeeList:
-                current_session.append(session)
+            if session.status == 'open':
+                if self in session.attendeeList:
+                    current_session.append(session)
         return current_session
 
     #check against registration history to avoid duplicated registeration for events

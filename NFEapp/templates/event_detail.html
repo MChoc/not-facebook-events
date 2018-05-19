@@ -3,9 +3,9 @@
 <div id="grad1">
 	<div class="sub_divider"></div>
 	<div class="center">
-		<h1>{{event.name}}</h1>
-	  <form method="POST">
-	  Event status: {{event.status}}<br>
+    <h1>{{event.name}}</h1>
+	  <form method="POST"><hr>
+    Event status: {{event.status}}<br>
 	  {% if type == 'course' %}
 	    Event date: {{event.date}}<br>
 	    Event time: {{event.time}}<br>
@@ -15,6 +15,7 @@
       {% if event.status == 'open' and register == True %}
         Date allows for deRegistration: {{event.deRegWindow}}
       {% endif%}
+      <hr>Abstract Information: {{event.abstractInfo}}<br>
       <h4>Presenter</h4>
       Name: {{user.username}}<br />
       Email: {{user.email}}
@@ -23,7 +24,7 @@
       <div>
       {% if user.is_admin() and user.avoid_creator(event) == False %}
         {% if event.status == 'open' %}
-          <button name="close_course" type="submit">Close</button>
+          <button name="close_course" type="submit" {% if not user.check_close_date(event) %} disabled {% endif %}>Close</button>
           <button name="view_attendees" type="submit">Get Attendee List</button>
 					{% if message == 'view_attendees' %}
 		        <h3>Current Attendees</h3>
@@ -60,6 +61,7 @@
       {% endif %}
       </div>
     {% else %}
+      Abstract Information: {{event.abstractInfo}}<hr>
       {% if user.is_admin() and user.avoid_creator(event) == False %}
         {% if event.status == 'open'%}
         <button name="close_seminar" type="submit">Close</button>
@@ -81,6 +83,7 @@
       {% for session in event.session %}
         <li><a href="{{url_for('session', seminar_id = event.id, session_name = session.name)}}">{{session.name}}</a>
         {{session.status}}
+        {{session.date}}
         {{session.time}}
         {{session.location}}
         {{session.abstractInfo}}
@@ -88,7 +91,7 @@
       {% if user.is_admin() %}
         {% if user.avoid_creator(event) == False %}
           {% if event.status == 'open'%}
-            <br/><button name="add_session" type="submit">Add Session</button>
+            <br><button name="add_session" type="submit">Add Session</button>
           {% endif %}
         {% endif %}
       {% endif %}
@@ -116,6 +119,9 @@
     	</div>
     <div>
       <button name="confirm" type="submit">Confirm</button>
+      <p style = "color:red"><font size='2'>
+        *Content is your responsibility, please ensure details are correct.</br>
+      </font></p>
     </div>
     {% endif %}
     </form>

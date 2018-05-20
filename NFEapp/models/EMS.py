@@ -4,7 +4,7 @@ from .Seminar import *
 from .Staff import *
 from .Student import *
 from .Guest import *
-from models.InputError import *
+from .Error import *
 
 class EMS:
     __id = -1  #course/event id
@@ -97,114 +97,79 @@ class EMS:
         date_format = "%Y-%m-%d"
         time_format = "%H:%M"
 
-        if not name:
-            raise InputError('course name', 'Please specify a valid ')
-        if not status:
-            raise InputError('course status', 'Please specify a valid ')
-        if not date:
-            raise InputError('course date', 'Please specify a valid ')
-        if not time:
-            raise InputError('course time', 'Please specify a valid ')
-        if not location:
-            raise InputError('course location', 'Please specify a valid ')
-        if not maxAttendees:
-            raise InputError('maximum attendees amount', 'Please specify a valid ')
-        if not deRegWindow:
-            raise InputError('deregisteration date', 'Please specify a valid ')
-        if not fee:
-            raise InputError('registration fee', 'Please specify a valid ')
-        if not earlyRegDate:
-            raise InputError('early registration date', 'Please specify a valid ')
-        if not abstractInfo:
-            raise InputError('event abstract information', 'Please specify a valid ')
-                
-        date = datetime.strptime(date, date_format).date()
-        time = datetime.strptime(time, time_format).time()
-        deRegWindow = datetime.strptime(deRegWindow, date_format).date()
-        earlyRegDate = datetime.strptime(earlyRegDate, date_format).date()
-        maxAttendees = int(maxAttendees)
-        fee = int(fee)
+        errors = check_creating_course_error(name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo)
+        if errors != {}:
+            raise InputError(errors)
+        else:
+            date = datetime.strptime(date, date_format).date()
+            time = datetime.strptime(time, time_format).time()
+            deRegWindow = datetime.strptime(deRegWindow, date_format).date()
+            earlyRegDate = datetime.strptime(earlyRegDate, date_format).date()
+            maxAttendees = int(maxAttendees)
+            fee = int(fee)
         
-        if deRegWindow > date:
-            raise InputError('deregisteration date', 'Please specify a valid ')
-        if earlyRegDate > date:
-            raise InputError('early registeration date', 'Please specify a valid ')
-
-        id = self._generate_id()
-        course = Course(id, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo)
-        user.createCourse(course)
-        self.addOpenEvent(course)
+            id = self._generate_id()
+            course = Course(id, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo)
+            user.createCourse(course)
+            self.addOpenEvent(course)
 
     def create_open_seminar(self, user, name, status, abstractInfo, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, speaker_name, speaker_email):
         date_format = "%Y-%m-%d"
         time_format = "%H:%M"
-
-        if not name:
-            print('True')
-            raise InputError('seminar name', 'Please specify a valid ')
-        if not status:
-            raise InputError('seminar status', 'Please specify a valid ')
-        if not abstractInfo:
-            raise InputError('seminar abstract information', 'Please specify a valid ')
-        if not sname:
-            raise InputError('session name', 'Please specify a valid ')
-        if not sstatus:
-            raise InputError('session status', 'Please specify a valid ')
-        if not sdate:
-            raise InputError('session date', 'Please specify a valid ')
-        if not stime:
-            raise InputError('session time', 'Please specify a valid ')
-        if not slocation:
-            raise InputError('session location', 'Please specify a valid ')
-        if not smaxAttendees:
-            raise InputError('maximum attendees amount', 'Please specify a valid ')
-        if not sdeRegWindow:
-            raise InputError('deregisteration date', 'Please specify a valid ')
-        if not sfee:
-            raise InputError('registration fee', 'Please specify a valid ')
-        if not searlyRegDate:
-            raise InputError('early registration date', 'Please specify a valid ')
-        if not sabstractInfo:
-            raise InputError('session abstract information', 'Please specify a valid ')
-        if not speaker_name:
-            raise InputError('speaker name', 'Please specify a valid ')
-        if not speaker_email:
-            raise InputError('speaker name', 'Please specify a valid ')
-
-        sdate = datetime.strptime(sdate, date_format).date()
-        stime = datetime.strptime(stime, time_format).time()
-        sdeRegWindow = datetime.strptime(sdeRegWindow, date_format).date()
-        searlyRegDate = datetime.strptime(searlyRegDate, date_format).date()
-        smaxAttendees = int(smaxAttendees)
-        sfee = int(sfee)   
-
-        if sdeRegWindow > sdate:
-            raise InputError('deregisteration date', 'Please specify a valid ')
-        if searlyRegDate > sdate:
-            raise InputError('early registeration date', 'Please specify a valid ')
-        if not self.get_guest_by_email(speaker_email):
-            raise InputError('speaker', 'Please specify an eligible ')
-        if self.get_guest_by_email(speaker_email).username != speaker_name:
-            raise InputError('speaker', 'Please specify an eligible ')
         
-        if self.get_guest_by_email(speaker_email):
+        errors = check_creating_seminar_error(name, status, abstractInfo, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, speaker_name, speaker_email)
+        if errors == {}:
+            if not self.get_guest_by_email(speaker_email):
+                errors['ineligibleSpeaker'] = 'Please specify an eligible speaker'
+            if 'ineligibleSpeaker' not in errors:
+                if self.get_guest_by_email(speaker_email).username != speaker_name:
+                    errors['speakerMismatch'] = 'Speaker email and name not match'
+        if errors != {}:
+            raise InputError(errors)
+        else:
+            sdate = datetime.strptime(sdate, date_format).date()
+            sdeRegWindow = datetime.strptime(sdeRegWindow, date_format).date()
+            searlyRegDate = datetime.strptime(searlyRegDate, date_format).date()
+            smaxAttendees = int(smaxAttendees)
+            sfee = int(sfee)
+
             speaker= self.get_guest_by_email(speaker_email)
-        id = self._generate_id()
-        sid = self._generate_sid()
-        seminar = Seminar(id, name, status, abstractInfo)
-        session = Session(sid, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate,  sabstractInfo, speaker)
-        user.createSeminar(seminar, session)
-        self.addOpenEvent(seminar)
+            id = self._generate_id()
+            sid = self._generate_sid()
+            seminar = Seminar(id, name, status, abstractInfo)
+            session = Session(sid, sname, sstatus, sdate, stime, slocation, int(smaxAttendees), sdeRegWindow, int(sfee), searlyRegDate,  sabstractInfo, speaker)
+            user.createSeminar(seminar, session)
+            self.addOpenEvent(seminar)
 
     def add_session(self, user, seminar, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, speaker_name, speaker_email):
-        if user.avoid_creator(seminar) == True:
-            return False
-        if self.get_guest_by_email(speaker_email):
-            speaker= self.get_guest_by_email(speaker_email)
+        date_format = "%Y-%m-%d"
+        time_format = "%H:%M"
+        
+        seminar = seminar
+        errors = check_creating_seminar_error(seminar.name, seminar.status, seminar.abstractInfo, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, speaker_name, speaker_email)
 
-        sid = self._generate_sid()
-        session = Session(sid, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, speaker)
-        user.addSession(seminar, session)
+        if errors == {}:
+            if not self.get_guest_by_email(speaker_email):
+                errors['ineligibleSpeaker'] = 'Please specify an eligible speaker'
+            if 'ineligibleSpeaker' not in errors:
+                if self.get_guest_by_email(speaker_email).username != speaker_name:
+                    errors['speakerMismatch'] = 'Speaker email and name not match'
+        if errors != {}:
+            raise InputError(errors)
+        else:
+            sdate = datetime.strptime(sdate, date_format).date()
+            sdeRegWindow = datetime.strptime(sdeRegWindow, date_format).date()
+            searlyRegDate = datetime.strptime(searlyRegDate, date_format).date()
+            smaxAttendees = int(smaxAttendees)
+            sfee = int(sfee)
+
+            if user.avoid_creator(seminar) == True:
+                return False
+            
+            speaker= self.get_guest_by_email(speaker_email)
+            sid = self._generate_sid()
+            session = Session(sid, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, speaker)
+            user.addSession(seminar, session)
 
     def change_course_status(self, user, course, status):
         if user.changeCourseStatus(course, status) == False:
@@ -303,8 +268,23 @@ class EMS:
             for row in reader:
                 name = row[0]
                 Email = row[1]
-                if username == name:
+                if username.lower() == name.lower():
                     return False
-                if email == Email:
+                if email.lower() == Email.lower():
                     return False
         return True
+
+    def guest_sign_up(self, username, email, password):
+        errors = check_guest_registering_error(username, email, password)
+        
+        if not self.check_sign_up_history(username, email):
+            errors['exist'] = 'Account already exists!'        
+        
+        if errors != {}:
+            raise SignUpError(errors)
+        else:
+            f = open('guest.csv', 'a')
+            writer = csv.writer(f)
+            writer.writerow((username, email, password))
+            f.close()
+            self.addGuest(Guest(username, email, password))

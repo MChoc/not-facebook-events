@@ -69,28 +69,12 @@ def dashboard():
 @login_required
 @admin_required
 def create_course():
-    '''
-    if request.method == 'POST':
-        date_format = "%Y-%m-%d"
-        time_format = "%H:%M"
-        name = request.form['name']
-        status = request.form['status']
-        date = datetime.strptime(request.form['date'], date_format).date()
-        time = datetime.strptime(request.form['time'], time_format).time()
 
-        location = request.form['location']
-        maxAttendees = int(request.form['maxAttendees'])
-        deRegWindow = datetime.strptime(request.form['deRegWindow'], date_format).date()
-        fee = int(request.form['fee'])
-        earlyRegDate = datetime.strptime(request.form['earlyRegDate'], date_format).date()
-        abstractInfo = request.form['abstractInfo']
-    '''
     if 'create' in request.form:
         try:
             system.create_open_course(current_user, request.form['name'], request.form['status'], request.form['date'], request.form['time'], request.form['location'], request.form['maxAttendees'], request.form['deRegWindow'], request.form['fee'], request.form['earlyRegDate'], request.form['abstractInfo'])
         except InputError as error:
-            message = error.msg
-            return render_template('create_course.html', message = message)
+            return render_template('create_course.html', errors = error.errors)
         else:
             return redirect(url_for('dashboard'))
     return render_template('create_course.html')
@@ -100,33 +84,12 @@ def create_course():
 @login_required
 @admin_required
 def create_seminar():
-    '''
-    if request.method == 'POST':
-        date_format = "%Y-%m-%d"
-        time_format = "%H:%M"
-        cname = request.form['cname']
-        cstatus = request.form['cstatus']
-        cabstractInfo = request.form['cabstractInfo']
 
-        name = request.form['name']
-        status = request.form['status']
-        date = datetime.strptime(request.form['date'], date_format).date()
-        time = datetime.strptime(request.form['time'], time_format).time()
-        location = request.form['location']
-        maxAttendees = int(request.form['maxAttendees'])
-        deRegWindow = datetime.strptime(request.form['deRegWindow'], date_format).date()
-        fee = int(request.form['fee'])
-        earlyRegDate = datetime.strptime(request.form['earlyRegDate'], date_format).date()
-        abstractInfo = request.form['abstractInfo']
-        speaker_name = request.form['speaker_name']
-        email = request.form['email']
-    '''
     if 'create' in request.form:
         try:
             system.create_open_seminar(current_user, request.form['cname'], request.form['cstatus'], request.form['cabstractInfo'], request.form['name'], request.form['status'], request.form['date'], request.form['time'], request.form['location'], request.form['maxAttendees'], request.form['deRegWindow'], request.form['fee'], request.form['earlyRegDate'], request.form['abstractInfo'], request.form['speaker_name'], request.form['email'])
         except InputError as error:
-            message = error.msg
-            return render_template('create_seminar.html', message = message)
+            return render_template('create_seminar.html', errors = error.errors)
         else:
             return redirect(url_for('dashboard'))
     return render_template('create_seminar.html')
@@ -174,21 +137,10 @@ def event(event_id):
         elif 'add_session' in request.form:
             return render_template('event_detail.html', event=event, type=type, user=current_user, register=False, add=True)
         elif 'confirm' in request.form:
-            date_format = "%Y-%m-%d"
-            time_format = "%H:%M"
-            name = request.form['name']
-            status = request.form['status']
-            date = datetime.strptime(request.form['date'], date_format).date()
-            time = datetime.strptime(request.form['time'], time_format).time()
-            location = request.form['location']
-            maxAttendees = int(request.form['maxAttendees'])
-            deRegWindow = datetime.strptime(request.form['deRegWindow'], date_format).date()
-            fee = int(request.form['fee'])
-            earlyRegDate = datetime.strptime(request.form['earlyRegDate'], date_format).date()
-            abstractInfo = request.form['abstractInfo']
-            speaker_name = request.form['speaker_name']
-            email = request.form['email']
-            system.add_session(current_user, event, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo, speaker_name, email)
+            try:
+                system.add_session(current_user, event, request.form['name'], request.form['status'], request.form['date'], request.form['time'], request.form['location'], request.form['maxAttendees'], request.form['deRegWindow'], request.form['fee'], request.form['earlyRegDate'], request.form['abstractInfo'], request.form['speaker_name'], request.form['email'])
+            except InputError as error:
+                return render_template('event_detail.html', event=event, type=type, user=current_user, register=False, add=True, errors = error.errors)
 
     if event in current_user.currentEvents:
         register = True
@@ -251,23 +203,12 @@ def guest_speaker(seminar_id, session_name, guest_speaker_name):
 
 @app.route('/register', methods=['GET','POST'])
 def guest_register():
-    message = None
-    if request.method == 'POST':
-        username = request.form['fullname']
-        email = request.form['email']
-        password = request.form['password']
-        
-        if 'sign_up' in request.form:
-            if not system.check_sign_up_history(username, email):
-                message = 'invalid'
-                return render_template('guest_register.html', message = message)
-            
-            f = open('guest.csv', 'a')
-            writer = csv.writer(f)
-            writer.writerow((username, email, password))
-            f.close()
-            system.addGuest(Guest(username, email, password))
-            message = 'success'
-            return render_template('guest_register.html', message = message)
 
-    return render_template('guest_register.html', message = True)
+    if 'sign_up' in request.form: 
+        try:
+            system.guest_sign_up(request.form['fullname'], request.form['email'], request.form['password'])
+        except SignUpError as error:
+            return render_template('guest_register.html', errors = error.errors)
+        else:
+            return render_template('guest_register.html', message = True)
+    return render_template('guest_register.html')

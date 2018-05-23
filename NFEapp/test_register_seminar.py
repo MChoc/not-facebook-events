@@ -147,7 +147,7 @@ class RegisterSeminarTestCase(unittest.TestCase):
         system.deRegister_seminar(self.student, self.seminar)
         assert len(self.session1.attendeeList) == 0
 
-    # Staff cannot register for a closed seminar
+    # Staff cannot register for a closed session
     @pytest.mark.run(order=12)
     def test_staff_register_session_closed(self):
         assert self.session1.status == 'closed'
@@ -155,7 +155,7 @@ class RegisterSeminarTestCase(unittest.TestCase):
         system.deRegister_seminar(self.staff, self.seminar)
         assert len(self.session1.attendeeList) == 0
 
-    # Guests cannot register for a closed seminar
+    # Guests cannot register for a closed session
     @pytest.mark.run(order=13)
     def test_guest_register_session_closed(self):
         assert self.session1.status == 'closed'

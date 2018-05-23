@@ -23,7 +23,7 @@ class EMS:
     @property
     def closeEvent(self):
         return self._closeEvent
-    
+
     @property
     def UNSWMember(self):
         return self._UNSWMember
@@ -78,7 +78,7 @@ class EMS:
                 if email.lower() == person.email.lower():
                     return person
         return None
-    
+
     def getOpenEvent(self, name):
         for event in self.openEvent:
             if event.name == name:
@@ -107,7 +107,7 @@ class EMS:
             earlyRegDate = datetime.strptime(earlyRegDate, date_format).date()
             maxAttendees = int(maxAttendees)
             fee = int(fee)
-        
+
             id = self._generate_id()
             course = Course(id, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo)
             user.createCourse(course)
@@ -116,7 +116,7 @@ class EMS:
     def create_open_seminar(self, user, name, status, abstractInfo, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, speaker_name, speaker_email):
         date_format = "%Y-%m-%d"
         time_format = "%H:%M"
-        
+
         errors = check_creating_seminar_error(name, status, abstractInfo, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, speaker_name, speaker_email)
         if errors == {}:
             if not self.get_guest_by_email(speaker_email):
@@ -144,7 +144,7 @@ class EMS:
     def add_session(self, user, seminar, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, speaker_name, speaker_email):
         date_format = "%Y-%m-%d"
         time_format = "%H:%M"
-        
+
         seminar = seminar
         errors = check_creating_seminar_error(seminar.name, seminar.status, seminar.abstractInfo, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, speaker_name, speaker_email)
 
@@ -165,7 +165,7 @@ class EMS:
 
             if user.avoid_creator(seminar) == True:
                 return False
-            
+
             speaker= self.get_guest_by_email(speaker_email)
             sid = self._generate_sid()
             session = Session(sid, sname, sstatus, sdate, stime, slocation, smaxAttendees, sdeRegWindow, sfee, searlyRegDate, sabstractInfo, speaker)
@@ -226,10 +226,10 @@ class EMS:
         for c in self.UNSWMember:
             if c.get_id() == user_id:
                 return c
-        
+
         for g in self.guest:
             if g.get_id() == user_id:
-                return g        
+                return g
         return None
 
     def check_capacity(self, event):
@@ -237,7 +237,7 @@ class EMS:
             return True
         else:
             return False
-    
+
     def check_deregister_validation(self, event):
         currentDate = datetime.now().date()
         if currentDate > event.deRegWindow:
@@ -261,7 +261,7 @@ class EMS:
                         if target_id in guest.assigned_session.values():
                             return 0
                 return guest.calculate_fee(event)
-                    
+
     def check_sign_up_history(self, username, email):
         with open('guest.csv', 'r') as file:
             reader = csv.reader(file, delimiter=',')
@@ -276,10 +276,10 @@ class EMS:
 
     def guest_sign_up(self, username, email, password):
         errors = check_guest_registering_error(username, email, password)
-        
+
         if not self.check_sign_up_history(username, email):
-            errors['exist'] = 'Account already exists!'        
-        
+            errors['exist'] = 'Account already exists!'
+
         if errors != {}:
             raise SignUpError(errors)
         else:

@@ -1,3 +1,8 @@
 {
-  "models/test_origin.py": true
+  "test_all.py::RegisterSeminarTestCase::test_10_guest_register_closed": true,
+  "test_all.py::RegisterSeminarTestCase::test_1_student_register": true,
+  "test_all.py::RegisterSeminarTestCase::test_2_staff_register": true,
+  "test_all.py::RegisterSeminarTestCase::test_4_convenor_register": true,
+  "test_all.py::RegisterSeminarTestCase::test_5_guest_speaker_register": true,
+  "test_all.py::RegisterSeminarTestCase::test_9_staff_register_closed": true
 }

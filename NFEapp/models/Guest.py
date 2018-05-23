@@ -8,7 +8,7 @@ class Guest(Member):
         super().__init__(username, password)
         self._email = email
         self._assigned_session = {}
-    
+
     @property
     def email(self):
         return self._email
@@ -26,7 +26,7 @@ class Guest(Member):
 
     def add_assigned_session(self, seminar, session):
         self.assigned_session[session.name] = seminar.id
-    
+
     def is_admin(self):
         return False
 
@@ -35,19 +35,19 @@ class Guest(Member):
 
     def __str__(self):
         return "name: {0}, email: {1}".format(self._username, self._email)
-    
+
     def registerSeminar(self, seminar, session):
         if not self.avoid_speaker(session):
             return False
-        else:
-            super().registerSeminar(seminar, session)
-       
+        elif super().registerSeminar(seminar, session) == False:
+            return False
+
     #pass in a course
     def calculate_fee(self, event):
         currentDate = datetime.now().date()
         if event.fee < 0:
             return False
-        
+
         if currentDate <= event.earlyRegDate:
             regFee = int(0.5*event.fee)
         else:

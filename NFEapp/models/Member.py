@@ -5,7 +5,7 @@ from datetime import datetime
 
 class Member(UserMixin, ABC):
     __id = -1
-    
+
     @abstractmethod
     def __init__(self, username, password):
         self._id = self._generate_id()
@@ -89,8 +89,8 @@ class Member(UserMixin, ABC):
             if self.username == user.username:
                 return False
         return True
-    
-    
+
+
     #check that the status of the event is not closed
     #return false if the event is already closed
     def _avoid_closed_status(self, event):
@@ -184,7 +184,7 @@ class Member(UserMixin, ABC):
     def deRegisterSeminar(self, seminar):
         if self._avoid_dup(seminar) == True:
             return False
-        
+
         if self.valid_seminar_dereg_date(seminar) == False:
             return False
 
@@ -242,14 +242,14 @@ class Member(UserMixin, ABC):
 
     #check allowed date for deregistering a seminar
     #return earlist allowable deregister date for a seminar
-    #this date should be the earlist dereg date 
+    #this date should be the earlist dereg date
     #among current enrolled sessions in this seminar
     def valid_seminar_dereg_date(self, seminar):
         earlist_date = datetime.strptime('2999-01-01', '%Y-%m-%d').date()
         for session in self.get_current_session(seminar):
             if session.deRegWindow < earlist_date:
                 earlist_date = session.deRegWindow
-        
+
         return self._check_time_validation(earlist_date)
 
     #when register, need to check that the person is not the speaker

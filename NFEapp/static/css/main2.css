@@ -211,3 +211,47 @@ img.open_events {
 	clear: both;
 	display: table;
 }
+
+.e_nameT { grid-area: nameT; font-feature: montserrat-Bold, sans-serif; }
+.e_nameC { grid-area: nameC; }
+.e_statusT { grid-area: statusT; font-family: Montserrat-Bold, sans-serif; }
+.e_statusC { grid-area: statusC; }
+.e_dateT { grid-area: dateT; font-family: Montserrat-Bold, sans-serif; }
+.e_dateC { grid-area: dateC; }
+.e_timeT { grid-area: timeT; font-family: Montserrat-Bold, sans-serif; }
+.e_timeC { grid-area: timeC; }
+.e_locationT { grid-area: locationT; font-family: Montserrat-Bold, sans-serif; }
+.e_locationC { grid-area: locationC; }
+.e_capacityT { grid-area: capacityT; font-family: Montserrat-Bold, sans-serif; }
+.e_capacityC { grid-area: capacityC; }
+.e_presenterT { grid-area: presenterT; font-family: Montserrat-Bold, sans-serif; }
+.e_presenterC { grid-area: presenterC; }
+.e_feeT { grid-area: feeT; font-family: Montserrat-Bold, sans-serif; }
+.e_feeC { grid-area: feeC; }
+.e_earlyBirdT {grid-area: earlyBirdT; font-family: Montserrat-Bold, sans-serif; }
+.e_earlyBirdC {grid-area: earlyBirdC; }
+
+.grid-container > div {
+	text-align: center;
+}
+.grid-container-session-title {
+	display: grid;
+	grid-auto-columns: 1fr;
+	grid-template-areas:
+		'. statusT dateT timeT locationT';
+}
+.grid-container-session {
+	display: grid;
+	grid-auto-columns: 1fr;
+	grid-template-areas:
+		'nameT statusC dateC timeC locationC';
+}
+.grid-container-course {
+	display: grid;
+	grid-template-areas:
+		'statusT dateT timeT locationT'
+		'statusC dateC timeC locationC'
+		'capacityT feeT earlyBirdT presenterT'
+		'capacityC feeC earlyBirdC presenterC';
+	padding: 10px;
+}

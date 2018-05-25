@@ -109,7 +109,7 @@ class EMS:
             fee = int(fee)
 
             id = self._generate_id()
-            course = Course(id, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo)
+            course = Course(id, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo, user)
             user.createCourse(course)
             self.addOpenEvent(course)
 

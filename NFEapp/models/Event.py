@@ -17,7 +17,6 @@ class Event(ABC):
         self._earlyRegDate = self._conform_date_format(earlyRegDate)
         self._abstractInfo = abstractInfo
         self._attendeeList = []
-
 ##
     # prints out information about the event
     def __str__(self):

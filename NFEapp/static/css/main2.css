@@ -253,3 +253,9 @@ img.open_events {
 		'presenterE . . .';
 	padding: 10px;
 }
+
+.speaker-image {
+    margin: 20px;
+	width: 300px;
+	height: 300px;
+}

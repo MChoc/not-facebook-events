@@ -37,7 +37,7 @@ def logout():
 
 @app.route('/404')
 @app.errorhandler(404)
-def page_not_found(e=None):
+def page_not_found(e):
     return render_template('404.html'), 404
 
 
@@ -95,7 +95,7 @@ def create_seminar():
     return render_template('create_seminar.html')
 
 
-@app.route('/<event_id>', methods=['GET','POST'])
+@app.route('/event/<event_id>', methods=['GET','POST'])
 @login_required
 def event(event_id):
     event = system.getAllEvent(int(event_id))
@@ -150,7 +150,7 @@ def event(event_id):
     return render_template('event_detail.html', event=event, type=type, user=current_user, register=register, message = message)
 
 
-@app.route('/<seminar_id>/<session_name>', methods=['GET','POST'])
+@app.route('/seminar/<seminar_id>/<session_name>', methods=['GET','POST'])
 @login_required
 def session(seminar_id, session_name):
     seminar = system.getAllEvent(int(seminar_id))
@@ -195,7 +195,7 @@ def session(seminar_id, session_name):
     return render_template('session_detail.html', seminar=seminar, user=current_user, session=session, register=register, message = message)
 
 #guest speaker profile
-@app.route('/<seminar_id>/<session_name>/<guest_speaker_name>')
+@app.route('/seminar/<seminar_id>/<session_name>/<guest_speaker_name>')
 @login_required
 def guest_speaker(seminar_id, session_name, guest_speaker_name):
     speaker = system.getAllEvent(int(seminar_id)).get_one_session(session_name).speaker
@@ -204,9 +204,9 @@ def guest_speaker(seminar_id, session_name, guest_speaker_name):
 @app.route('/register', methods=['GET','POST'])
 def guest_register():
 
-    if 'sign_up' in request.form: 
+    if 'sign_up' in request.form:
         try:
-            system.guest_sign_up(request.form['fullname'], request.form['email'], request.form['password'])
+            system.guest_sign_up(request.form['username'], request.form['email'], request.form['password'])
         except SignUpError as error:
             return render_template('guest_register.html', errors = error.errors)
         else:

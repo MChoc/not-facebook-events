@@ -1,216 +1,214 @@
 {% extends 'base.html' %}
 {% block body %}
-<div id="grad1">
-	<div class="sub_divider"></div>
-	<div class="center">
-    <h1>{{event.name}}</h1>
-	  <form method="POST">
-			<hr>
+
+<h1>{{event.name}}</h1>
+<form method="POST">
+	<hr>
 
 
-			<!-- Course -->
-			{% if type == 'course' %}
-			  <div class="grid-container grid-container-course">
-					<div class="e_statusT">Status</div>
-					<div class="e_statusC">{{event.status}}</div>
-					<div class="e_dateT">Date</div>
-					<div class="e_dateC">{{event.date}}</div>
-					<div class="e_timeT">Time</div>
-					<div class="e_timeC">{{event.time}}</div>
-					<div class="e_locationT">Location</div>
-					<div class="e_locationC">{{event.location}}</div>
-      		<div class="e_capacityT">Capacity</div>
-					<div class="e_capacityC">{{event.attendeeList|length}}/{{event.maxAttendees}}</div>
-		      {% if user.is_guest() %}
-					<div class="e_feeT">Registration fee</div>
-					<div class="e_feeC">${{ event.fee }}</div>
-					<div class="e_earlyBirdT">Early bird date</div>
-					<div class="e_earlyBirdC">{{ event.earlyRegDate }}</div>
-					<div class="e_presenterT">Presenter</div>
-					<div class="e_presenterC">{{ user.username }}</div>
-					{% endif %}
-      		{% if event.status == 'open' and register == True %}
-        		Date allowed for deRegistration: {{ event.deRegWindow }}
-      		{% endif %}
-				</div>
-      	<hr>
-				{{event.abstractInfo}}<br>
-      	<div>
-      		{% if user.is_admin() and user.avoid_creator(event) == False %}
-        		{% if event.status == 'open' %}
-          		<button name="close_course" type="submit" {% if not user.check_close_date(event) %} disabled {% endif %}>Close</button>
-          		<button name="view_attendees" type="submit">Get Attendee List</button>
-							{% if message == 'view_attendees' %}
-	        			<h3>Current Attendees</h3>
-				  			{% for member in event.attendeeList %}
-									{{ member }}<br/>
-								{% endfor %}
-								{% if not event.attendeeList %}
-									No attendees
-          			{% endif %}
-        			{% endif %}
-          		{% if message == 'confirm_close_course' %}
-            		<h4>Are you sure?</h4>
-            		<button name="confirm_close_course" type="submit">Yes</button>
-          		{% endif %}
-        		{% endif %}
-      		{% else %}
-      			{% if event.status == 'open' and register == False %}
-          		<button name="register_course" type="submit", {% if message == "full" %} disabled {% endif %}>Register</button>
-        			{% if message == 'confirm_register_course' %}
-            		{% if user.is_guest() %}
-              		<h3>Fee: $ {{user.calculate_fee(event)}}</h3>
-            		{% endif %}
-            		<h3>Do you wish to continue?</h3>
-          			<button name="confirm_register_course" type="submit">Continue</button>
-        			{% endif %}
-        		{% elif event.status == 'open' and register == True %}
-        			<button name="deregister_course" type="submit", {% if message == "deregister invalid" %} disabled {% endif %} >deRegister</button>
-          		{% if message == "deregister invalid" %}
-								<br>You are not allowed to deRegister.<br>
-							{% endif %}
-          		{% if message == 'confirm_deregister_course' %}
-            		<h3>Do you wish to continue?</h3>
-            		<button name="confirm_deregister_course" type="submit">Continue</button>
-          		{% endif %}
-        		{% endif %}
-      		{% endif %}
-      	</div>
-			<!-- Seminar -->
-    	{% else %}
-      	Abstract Information: {{event.abstractInfo}}<hr>
-      	{% if user.is_admin() and user.avoid_creator(event) == False %}
-        	{% if event.status == 'open'%}
-        		<button name="close_seminar" type="submit">Close</button>
-          	{% if message == 'confirm_close_seminar' %}
-          		<h3>Do you wish to continue?</h3>
-          		<button name="confirm_close_seminar" type="submit">Continue</button>
-          	{% endif %}
-        	{% endif %}
-      	{% else %}
-        	{% if event.status == 'open' and register == True%}
-          	<button name="deregister_seminar" type="submit", {% if not user.valid_seminar_dereg_date(event) %} disabled {% endif %}>deRegister</button>
-          	{% if message == 'confirm_deregister_seminar' %}
-            	<h4>Do you wish to continue?</h4>
-            	<button name="confirm_deregister_seminar" type="submit">Continue</button>
-          	{% endif %}
-        	{% endif %}
-      	{% endif %}
-      	<h2>Sessions:</h2>
-				<div class="grid-container grid-container-session-title">
-					<div class="e_statusT">Status</div>
-					<div class="e_dateT">Date</div>
-					<div class="e_timeT">Time</div>
-					<div class="e_locationT">Location</div>
-				</div>
-				{% for session in event.session %}
-					<div class="grid-container grid-container-session">
-						<div class="e_nameT"><a href="{{url_for('session', seminar_id = event.id, session_name = session.name)}}">{{session.name}}</a></div>
-						<div class="e_statusC">{{ session.status }}</div>
-						<div class="e_dateC">{{ session.date }}</div>
-						<div class="e_timeC">{{ session.time }}</div>
-						<div class="e_locationC">{{ session.location }}</div>
-					</div>
-				{% endfor %}
-      	{% if user.is_admin() %}
-        	{% if user.avoid_creator(event) == False %}
-          	{% if event.status == 'open'%}
-            	<br><button name="add_session" type="submit">Add Session</button>
-          	{% endif %}
-        	{% endif %}
-      	{% endif %}
-    	{% endif %}
-
-
-    	{% if add %}
-    		<div>
-        	<h3>Add a session</h3>
-
-        	Session Name: <input type="text" name="name"</input><br/>
-        	{% if errors and 'sname' in errors %}
-          	<font size="2" color="red">{{ errors['sname'] }}</font> <br>
-        	{% endif %}
-
-        	Session Status:
-        	<select name = "status">
-          	<option value="open">open</option>
-          	<option value="closed">closed</option>
-          	<option value="cancelled">cancelled</option>
-        	</select><br />
-        	{% if errors and 'sstatus' in errors %}
-          	<font size="2" color="red">{{ errors['sstatus'] }}</font> <br>
-        	{% endif %}
-
-        	Session Commence Date: <input type="date" name="date"</input><br/>
-        	{% if errors and 'sdate' in errors %}
-          	<font size="2" color="red">{{ errors['sdate'] }}</font> <br>
-        	{% endif %}
-
-        	Seesion Commence Time: <input type="time" name="time"</input><br/>
-        	{% if errors and 'stime' in errors %}
-          	<font size="2" color="red">{{ errors['stime'] }}</font> <br>
-        	{% endif %}
-
-        	Session Location: <input type="text" name="location"</input><br/>
-        	{% if errors and 'slocation' in errors %}
-          	<font size="2" color="red">{{ errors['slocation'] }}</font> <br>
-        	{% endif %}
-
-        	Max Attendees: <input type="number" name="maxAttendees" min = "1" </input><br/>
-        	{% if errors and 'smaxAttendees' in errors %}
-          	<font size="2" color="red">{{ errors['smaxAttendees'] }}</font> <br>
-        	{% endif %}
-
-        	Date allowed for deregister (For guests only): <input type="date" name="deRegWindow"</input><br/>
-        	{% if errors and 'dereg' in errors %}
-          	<font size="2" color="red">{{ errors['dereg'] }}</font> <br>
-        	{% endif %}
-        	{% if errors and 'sdeRegWindow' in errors %}
-          	<font size="2" color="red">{{ errors['sdeRegWindow'] }}</font> <br>
-        	{% endif %}
-
-        	Guest Register Fee (For guests only): <input type="number" name = "fee" min = "0"</input><br/>
-        	{% if errors and 'sfee' in errors %}
-          	<font size="2" color="red">{{ errors['sfee'] }}</font> <br>
-        	{% endif %}
-
-        	Early Bird Register Date (For guests only): <input type = "date", name = "earlyRegDate"</input><br/>
-        	{% if errors and 'searlyRegDate' in errors %}
-          	<font size="2" color="red">{{ errors['searlyRegDate'] }}</font> <br>
-        	{% endif %}
-        	{% if errors and 'earlybird' in errors %}
-        		<font size="2" color="red">{{ errors['earlybird'] }}</font> <br>
-        	{% endif %}
-
-        	Session Abstract Information: <input type="text" name="abstractInfo"</input><br/>
-        	{% if errors and 'sabstractInfo' in errors %}
-          	<font size="2" color="red">{{ errors['sabstractInfo'] }}</font> <br>
-        	{% endif %}
-
-        	Speaker name: <input type="text" name="speaker_name"</input><br/>
-        	{% if errors and 'speaker_name' in errors %}
-          	<font size="2" color="red">{{ errors['speaker_name'] }}</font> <br>
-        	{% endif %}
-
-        	Speaker email: <input type="text" name="email"</input><br/>
-        	{% if errors and 'speaker_email' in errors %}
-          	<font size="2" color="red">{{ errors['speaker_email'] }}</font> <br>
-        	{% endif %}
-        	{% if errors and 'ineligibleSpeaker' in errors %}
-          	<font size="2" color="red">{{ errors['ineligibleSpeaker'] }}</font> <br>
-        	{% endif %}
-        	{% if errors and 'speakerMismatch' in errors %}
-          	<font size="2" color="red">{{ errors['speakerMismatch'] }}</font> <br>
-    		</div>
+	<!-- Course -->
+	{% if type == 'course' %}
+	  <div class="grid-container grid-container-course">
+			<div class="e_statusT">Status</div>
+			<div class="e_statusC">{{event.status}}</div>
+			<div class="e_dateT">Date</div>
+			<div class="e_dateC">{{event.date}}</div>
+			<div class="e_timeT">Time</div>
+			<div class="e_timeC">{{event.time}}</div>
+			<div class="e_locationT">Location</div>
+			<div class="e_locationC">{{event.location}}</div>
+  		<div class="e_capacityT">Capacity</div>
+			<div class="e_capacityC">{{event.attendeeList|length}}/{{event.maxAttendees}}</div>
+			<div class="e_presenterT">Presenter</div>
+			<div class="e_presenterC">{{ event.presenter.username }}</div>
+			<div class="e_presenterE">{{ event.presenter.email }}</div>
+      {% if user.is_guest() %}
+			<div class="e_feeT">Registration fee</div>
+			<div class="e_feeC">${{ event.fee }}</div>
+			<div class="e_earlyBirdT">Early bird end date</div>
+			<div class="e_earlyBirdC">{{ event.earlyRegDate }}</div>
 			{% endif %}
-    	<div>
-      	<button name="confirm" type="submit">Confirm</button>
-      	<p style = "color:red"><font size='2'>
-        *Content is your responsibility, please ensure details are correct.</br>
-      	</font></p>
-    	</div>
+  		{% if event.status == 'open' and register == True %}
+    		Date allowed for deRegistration: {{ event.deRegWindow }}
+  		{% endif %}
+		</div>
+  	<hr>
+		{{event.abstractInfo}}<br>
+  	<div>
+  		{% if user.is_admin() and user.avoid_creator(event) == False %}
+    		{% if event.status == 'open' %}
+      		<button name="close_course" type="submit" {% if not user.check_close_date(event) %} disabled {% endif %}>Close</button>
+      		<button name="view_attendees" type="submit">Get Attendee List</button>
+					{% if message == 'view_attendees' %}
+      			<h3>Current Attendees</h3>
+		  			{% for member in event.attendeeList %}
+							{{ member }}<br/>
+						{% endfor %}
+						{% if not event.attendeeList %}
+							No attendees
+      			{% endif %}
+    			{% endif %}
+      		{% if message == 'confirm_close_course' %}
+        		<h4>Do you wish to continue?</h4>
+        		<button name="confirm_close_course" type="submit">Yes</button>
+      		{% endif %}
+    		{% endif %}
+  		{% else %}
+  			{% if event.status == 'open' and register == False %}
+      		<button name="register_course" type="submit", {% if message == "full" %} disabled {% endif %}>Register</button>
+    			{% if message == 'confirm_register_course' %}
+        		{% if user.is_guest() %}
+          		<h3>Fee: $ {{user.calculate_fee(event)}}</h3>
+        		{% endif %}
+        		<h4>Do you wish to continue?</h4>
+      			<button name="confirm_register_course" type="submit">Continue</button>
+    			{% endif %}
+    		{% elif event.status == 'open' and register == True %}
+    			<button name="deregister_course" type="submit", {% if message == "deregister invalid" %} disabled {% endif %} >deRegister</button>
+      		{% if message == "deregister invalid" %}
+						<br>You are not allowed to deRegister.<br>
+					{% endif %}
+      		{% if message == 'confirm_deregister_course' %}
+        		<h4>Do you wish to continue?</h4>
+        		<button name="confirm_deregister_course" type="submit">Continue</button>
+      		{% endif %}
+    		{% endif %}
+  		{% endif %}
+  	</div>
+	<!-- Seminar -->
+	{% else %}
+  	{{event.abstractInfo}}<hr>
+  	{% if user.is_admin() and user.avoid_creator(event) == False %}
+    	{% if event.status == 'open'%}
+    		<button name="close_seminar" type="submit">Close</button>
+      	{% if message == 'confirm_close_seminar' %}
+      		<h4>Do you wish to continue?</h4>
+      		<button name="confirm_close_seminar" type="submit">Continue</button>
+      	{% endif %}
     	{% endif %}
-    </form>
+  	{% else %}
+    	{% if event.status == 'open' and register == True%}
+      	<button name="deregister_seminar" type="submit", {% if not user.valid_seminar_dereg_date(event) %} disabled {% endif %}>deRegister</button>
+      	{% if message == 'confirm_deregister_seminar' %}
+        	<h4>Do you wish to continue?</h4>
+        	<button name="confirm_deregister_seminar" type="submit">Continue</button>
+      	{% endif %}
+    	{% endif %}
+  	{% endif %}
+  	<h2>Sessions:</h2>
+		<div class="grid-container grid-container-seminar-title">
+			<div class="e_statusT">Status</div>
+			<div class="e_dateT">Date</div>
+			<div class="e_timeT">Time</div>
+			<div class="e_locationT">Location</div>
+		</div>
+		{% for session in event.session %}
+			<div class="grid-container grid-container-seminar">
+				<div class="e_nameT"><a href="{{url_for('session', seminar_id=event.id, session_name=session.name)}}">{{ session.name }}</a></div>
+				<div class="e_statusC">{{ session.status }}</div>
+				<div class="e_dateC">{{ session.date }}</div>
+				<div class="e_timeC">{{ session.time }}</div>
+				<div class="e_locationC">{{ session.location }}</div>
+			</div>
+		{% endfor %}
+  	{% if user.is_admin() %}
+    	{% if user.avoid_creator(event) == False %}
+      	{% if event.status == 'open'%}
+        	<br><button name="add_session" type="submit">Add Session</button>
+      	{% endif %}
+    	{% endif %}
+  	{% endif %}
+	{% endif %}
+
+
+	{% if add %}
+		<div>
+    	<h3>Add a session</h3>
+
+    	Session Name: <input type="text" name="name"</input><br/>
+    	{% if errors and 'sname' in errors %}
+      	<font size="2" color="red">{{ errors['sname'] }}</font> <br>
+    	{% endif %}
+
+    	Session Status:
+    	<select name = "status">
+      	<option value="open">open</option>
+      	<option value="closed">closed</option>
+      	<option value="cancelled">cancelled</option>
+    	</select><br />
+    	{% if errors and 'sstatus' in errors %}
+      	<font size="2" color="red">{{ errors['sstatus'] }}</font> <br>
+    	{% endif %}
+
+    	Session Commence Date: <input type="date" name="date"</input><br/>
+    	{% if errors and 'sdate' in errors %}
+      	<font size="2" color="red">{{ errors['sdate'] }}</font> <br>
+    	{% endif %}
+
+    	Seesion Commence Time: <input type="time" name="time"</input><br/>
+    	{% if errors and 'stime' in errors %}
+      	<font size="2" color="red">{{ errors['stime'] }}</font> <br>
+    	{% endif %}
+
+    	Session Location: <input type="text" name="location"</input><br/>
+    	{% if errors and 'slocation' in errors %}
+      	<font size="2" color="red">{{ errors['slocation'] }}</font> <br>
+    	{% endif %}
+
+    	Max Attendees: <input type="number" name="maxAttendees" min = "1" </input><br/>
+    	{% if errors and 'smaxAttendees' in errors %}
+      	<font size="2" color="red">{{ errors['smaxAttendees'] }}</font> <br>
+    	{% endif %}
+
+    	Date allowed for deregister (For guests only): <input type="date" name="deRegWindow"</input><br/>
+    	{% if errors and 'dereg' in errors %}
+      	<font size="2" color="red">{{ errors['dereg'] }}</font> <br>
+    	{% endif %}
+    	{% if errors and 'sdeRegWindow' in errors %}
+      	<font size="2" color="red">{{ errors['sdeRegWindow'] }}</font> <br>
+    	{% endif %}
+
+    	Guest Register Fee (For guests only): <input type="number" name = "fee" min = "0"</input><br/>
+    	{% if errors and 'sfee' in errors %}
+      	<font size="2" color="red">{{ errors['sfee'] }}</font> <br>
+    	{% endif %}
+
+    	Early Bird Register Date (For guests only): <input type = "date", name = "earlyRegDate"</input><br/>
+    	{% if errors and 'searlyRegDate' in errors %}
+      	<font size="2" color="red">{{ errors['searlyRegDate'] }}</font> <br>
+    	{% endif %}
+    	{% if errors and 'earlybird' in errors %}
+    		<font size="2" color="red">{{ errors['earlybird'] }}</font> <br>
+    	{% endif %}
+
+    	Session Abstract Information: <input type="text" name="abstractInfo"</input><br/>
+    	{% if errors and 'sabstractInfo' in errors %}
+      	<font size="2" color="red">{{ errors['sabstractInfo'] }}</font> <br>
+    	{% endif %}
+
+    	Speaker name: <input type="text" name="speaker_name"</input><br/>
+    	{% if errors and 'speaker_name' in errors %}
+      	<font size="2" color="red">{{ errors['speaker_name'] }}</font> <br>
+    	{% endif %}
+
+    	Speaker email: <input type="text" name="email"</input><br/>
+    	{% if errors and 'speaker_email' in errors %}
+      	<font size="2" color="red">{{ errors['speaker_email'] }}</font> <br>
+    	{% endif %}
+    	{% if errors and 'ineligibleSpeaker' in errors %}
+      	<font size="2" color="red">{{ errors['ineligibleSpeaker'] }}</font> <br>
+    	{% endif %}
+    	{% if errors and 'speakerMismatch' in errors %}
+      	<font size="2" color="red">{{ errors['speakerMismatch'] }}</font> <br>
+		</div>
+	{% endif %}
+	<div>
+  	<button name="confirm" type="submit">Confirm</button>
+  	<p style = "color:red"><font size='2'>
+    *Content is your responsibility, please ensure details are correct.</br>
+  	</font></p>
 	</div>
-</div>
+	{% endif %}
+</form>
+
 {% endblock %}

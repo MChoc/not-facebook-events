@@ -1,67 +1,78 @@
 {% extends 'base.html' %}
 {% block body %}
-<div id="grad1">
-	<div class="sub_divider"></div>
-	<div class="center">
-	  <h1>Seminar: {{seminar.name}}</h1>
-	  <h2>{{session.name}}</h2>
-	  <form method="POST">
-	    Status: {{session.status}}<br>
-	    Date: {{session.date}}<br>
-			Time: {{session.time}}<br>
-			Location: {{session.location}}<br>
-			Abstract Information: {{session.abstractInfo}}<br>
-			Session Capacity: {{session.attendeeList|length}}/{{session.maxAttendees}}<br>
-			{% if user.is_guest() %} Registration Fee: ${{session.fee}}<br> Early Bird Date: {{session.earlyRegDate}}<br>{% endif %}
-			{% if session.status == 'open' and register == True %}
-        Date allows for deRegistration: {{session.deRegWindow}}
-      {% endif%}
-			<div class="speaker">
-		    <h4><a href = "{{ url_for('guest_speaker',seminar_id = seminar.id, session_name = session.name, guest_speaker_name = session.speaker.username) }}">Speaker</a></h4>
-		    Name: {{session.speaker.username}}<br />
-				Email: {{session.speaker.email}}
-		    <div>
-		      {% if user.is_admin() and user.avoid_creator(seminar) == False %}
-		        {% if session.status == 'open'%}
-							<button name="close" type="submit" {% if not user.check_close_date(session) %} disabled {% endif %}>Close</button>
-							<button name="view_attendees" type="submit">Get Attendee List</button>
-							{% if message == 'view_attendees' %}
-		            <h3>Current Attendees</h3>
-								{% for member in session.attendeeList %}
-									{{member}}<br/>
-								{% endfor %}
-								{% if not session.attendeeList %}
-									<h4>No attendees</h4>
-								{% endif %}
-		          {% endif %}
-		          {% if message == 'confirm_close_session' %}
-		            <h3>Do you wish to continue?</h3>
-		            <button name="confirm_close_session" type="submit">Continue</button>
-		          {% endif %}
-		        {% endif %}
-		      {% else %}
-		        {% if session.status == 'open' and register == False %}
-							<button name="register_session" type="submit", {% if message == "full" %} disabled {% endif %},
-							{% if not user.avoid_speaker(session) %} disabled {% endif %}>Register</button>
-		          {% if message == 'confirm_register_session' %}
-								{% if user.is_guest() %}
-                  <h3>Fee: $ {{fee}}</h3>
-								{% endif %}
-								<h3>Do you wish to continue?</h3>
-		            <button name="confirm_register_session" type="submit">Continue</button>
-		          {% endif %}
-						{% elif session.status == 'open' and register == True %}
-		          <button name="deregister_session" type="submit", {% if message == "deregister invalid" %} disabled {% endif %} >deRegister</button>
-							{% if message == "deregister invalid" %} <br>You are not allowed to deRegister.<br> {% endif %}
-							{% if message == 'confirm_deregister_session' %}
-		            <h3>Do you wish to continue?</h3>
-		            <button name="confirm_deregister_session" type="submit">Continue</button>
-		          {% endif %}
-		        {% endif %}
-		      {% endif %}
-		    </div>
-			</div>
-	  </form>
+
+<h1>Seminar: {{seminar.name}}</h1>
+<form method="POST">
+	<hr />
+	<h3>{{session.name}}</h3>
+	<div class="grid-container grid-container-course">
+		<div class="e_statusT">Status</div>
+		<div class="e_statusC">{{ session.status }}</div>
+		<div class="e_dateT">Date</div>
+		<div class="e_dateC">{{ session.date }}</div>
+		<div class="e_timeT">Time</div>
+		<div class="e_timeC">{{ session.time }}</div>
+		<div class="e_locationT">Location</div>
+		<div class="e_locationC">{{ session.location }}</div>
+		<div class="e_presenterT">Presenter</div>
+		<div class="e_presenterC"><a href="{{ url_for('guest_speaker', seminar_id=seminar.id, session_name=session.name, guest_speaker_name=session.speaker.username) }}">{{ session.speaker.username }}</a></div>
+		<div class="e_presenterE">{{ session.speaker.email }}</div>
+		<div class="e_capacityT">Capacity</div>
+		<div class="e_capacityC">{{ attendeeList|length }}/{{ session.maxAttendees }}</div>
+		{% if user.is_guest() %}
+			<div class="e_feeT">Fee</div>
+			<div class="e_feeC">${{ session.fee }}</div>
+			<div class="e_earlyBirdT">Early bird end date</div>
+			<div class="e_earlyBirdC">{{ session.earlyRegDate }}</div>
+		{% endif %}
 	</div>
-</div>
+	<hr />
+	{{session.abstractInfo}}<br>
+	{% if session.status == 'open' and register == True %}
+		Date allowed for deRegistration: {{session.deRegWindow}}
+	{% endif%}
+
+
+  <div>
+    {% if user.is_admin() and user.avoid_creator(seminar) == False %}
+      {% if session.status == 'open' %}
+				<button name="close" type="submit" {% if not user.check_close_date(session) %} disabled {% endif %}>Close</button>
+				<button name="view_attendees" type="submit">Get Attendee List</button>
+				{% if message == 'view_attendees' %}
+          <h3>Current Attendees</h3>
+					{% for member in session.attendeeList %}
+						{{member}}<br/>
+					{% endfor %}
+					{% if not session.attendeeList %}
+						<h4>No attendees</h4>
+					{% endif %}
+        {% endif %}
+        {% if message == 'confirm_close_session' %}
+          <h4>Do you wish to continue?</h4>
+          <button name="confirm_close_session" type="submit">Continue</button>
+        {% endif %}
+      {% endif %}
+    {% else %}
+      {% if session.status == 'open' and register == False %}
+				<button name="register_session" type="submit", {% if message == "full" %} disabled {% endif %},
+				{% if not user.avoid_speaker(session) %} disabled {% endif %}>Register</button>
+        {% if message == 'confirm_register_session' %}
+					{% if user.is_guest() %}
+            <h3>Fee: $ {{fee}}</h3>
+					{% endif %}
+					<h4>Do you wish to continue?</h4>
+          <button name="confirm_register_session" type="submit">Continue</button>
+        {% endif %}
+			{% elif session.status == 'open' and register == True %}
+        <button name="deregister_session" type="submit", {% if message == "deregister invalid" %} disabled {% endif %} >deRegister</button>
+				{% if message == "deregister invalid" %} <br>You are not allowed to deRegister.<br> {% endif %}
+				{% if message == 'confirm_deregister_session' %}
+          <h4>Do you wish to continue?</h4>
+          <button name="confirm_deregister_session" type="submit">Continue</button>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  </div>
+</form>
+
 {% endblock %}

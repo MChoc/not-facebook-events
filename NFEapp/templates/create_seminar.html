@@ -1,107 +1,102 @@
 {% extends 'base.html' %}
 {% block body %}
-<div id="grad1">
-	<div class="sub_divider"></div>
-  <div class="center">
-  <h1>Create Seminar</h1>
-  <form method="POST">
-    <div>
-      Seminar Name: <input type="text" name="cname"</input><br/>
-      {% if errors and 'name' in errors %}
-        <font size="2" color="red">{{ errors['name'] }}</font> <br>
+
+<h1>Create Seminar</h1>
+<form method="POST">
+  <div>
+    Seminar Name: <input type="text" name="cname"</input><br/>
+    {% if errors and 'name' in errors %}
+      <font size="2" color="red">{{ errors['name'] }}</font> <br>
+    {% endif %}
+    Seminar Status:
+			<select name="cstatus">
+				<option value="open">open</option>
+				<option value="closed">closed</option>
+				<option value="cancelled">cancelled</option>
+      </select><br/>
+    {% if errors and 'status' in errors %}
+      <font size="2" color="red">{{ errors['status'] }}</font> <br>
+    {% endif %}
+    Seminar Abstract Information: <input type="text" name="cabstractInfo"</input><br/>
+    {% if errors and 'abstractInfo' in errors %}
+      <font size="2" color="red">{{ errors['abstractInfo'] }}</font> <br>
+    {% endif %}
+  </div>
+  <div>
+    <h3>Add a session</h3>
+      Session Name: <input type="text" name="name"</input><br/>
+      {% if errors and 'sname' in errors %}
+        <font size="2" color="red">{{ errors['sname'] }}</font> <br>
       {% endif %}
-      Seminar Status:
-				<select name="cstatus">
-					<option value="open">open</option>
-					<option value="closed">closed</option>
-					<option value="cancelled">cancelled</option>
+      Session Status:
+        <select name = "status">
+          <option value="open">open</option>
+          <option value="closed">closed</option>
+          <option value="cancelled">cancelled</option>
         </select><br/>
-      {% if errors and 'status' in errors %}
-        <font size="2" color="red">{{ errors['status'] }}</font> <br>
+      {% if errors and 'sstatus' in errors %}
+        <font size="2" color="red">{{ errors['sstatus'] }}</font> <br>
       {% endif %}
-      Seminar Abstract Information: <input type="text" name="cabstractInfo"</input><br/>
-      {% if errors and 'abstractInfo' in errors %}
-        <font size="2" color="red">{{ errors['abstractInfo'] }}</font> <br>
+      Session Commence Date: <input type="date" name="date"</input><br/>
+      {% if errors and 'sdate' in errors %}
+        <font size="2" color="red">{{ errors['sdate'] }}</font> <br>
+      {% endif %}
+      Seesion Commence Time: <input type="time" name="time"</input><br/>
+      {% if errors and 'stime' in errors %}
+        <font size="2" color="red">{{ errors['stime'] }}</font> <br>
+      {% endif %}
+      Session Location: <input type="text" name="location"</input><br/>
+      {% if errors and 'slocation' in errors %}
+        <font size="2" color="red">{{ errors['slocation'] }}</font> <br>
+      {% endif %}
+      Max Attendees: <input type="number" name="maxAttendees" min = "1" </input><br/>
+      {% if errors and 'smaxAttendees' in errors %}
+        <font size="2" color="red">{{ errors['smaxAttendees'] }}</font> <br>
+      {% endif %}
+      Date allowed for deregister: <input type="date" name="deRegWindow"</input><br/>
+      {% if errors and 'dereg' in errors %}
+        <font size="2" color="red">{{ errors['dereg'] }}</font> <br>
+      {% endif %}
+      {% if errors and 'sdeRegWindow' in errors %}
+        <font size="2" color="red">{{ errors['sdeRegWindow'] }}</font> <br>
+      {% endif %}
+      Guest Register Fee (For guests only): <input type="number" name = "fee" min = "0"</input><br/>
+      {% if errors and 'sfee' in errors %}
+        <font size="2" color="red">{{ errors['sfee'] }}</font> <br>
+      {% endif %}
+      Early Bird Register Date (For guests only): <input type = "date", name = "earlyRegDate"</input><br/>
+      {% if errors and 'searlyRegDate' in errors %}
+        <font size="2" color="red">{{ errors['searlyRegDate'] }}</font> <br>
+      {% endif %}
+      {% if errors and 'earlybird' in errors %}
+      <font size="2" color="red">{{ errors['earlybird'] }}</font> <br>
+      {% endif %}
+      Session Abstract Information: <input type="text" name="abstractInfo"</input><br/>
+      {% if errors and 'sabstractInfo' in errors %}
+        <font size="2" color="red">{{ errors['sabstractInfo'] }}</font> <br>
+      {% endif %}
+      Speaker name: <input type="text" name="speaker_name"</input><br/>
+      {% if errors and 'speaker_name' in errors %}
+        <font size="2" color="red">{{ errors['speaker_name'] }}</font> <br>
+      {% endif %}
+      Speaker email: <input type="text" name="email"</input><br/>
+      {% if errors and 'speaker_email' in errors %}
+        <font size="2" color="red">{{ errors['speaker_email'] }}</font> <br>
+      {% endif %}
+      {% if errors and 'ineligibleSpeaker' in errors %}
+        <font size="2" color="red">{{ errors['ineligibleSpeaker'] }}</font> <br>
+      {% endif %}
+      {% if errors and 'speakerMismatch' in errors %}
+        <font size="2" color="red">{{ errors['speakerMismatch'] }}</font> <br>
       {% endif %}
     </div>
-    <div>
-      <h3>Add a session</h3>
-        Session Name: <input type="text" name="name"</input><br/>
-        {% if errors and 'sname' in errors %}
-          <font size="2" color="red">{{ errors['sname'] }}</font> <br>
-        {% endif %}
-        Session Status:
-          <select name = "status">
-            <option value="open">open</option>
-            <option value="closed">closed</option>
-            <option value="cancelled">cancelled</option>
-          </select><br/>
-        {% if errors and 'sstatus' in errors %}
-          <font size="2" color="red">{{ errors['sstatus'] }}</font> <br>
-        {% endif %}
-        Session Commence Date: <input type="date" name="date"</input><br/>
-        {% if errors and 'sdate' in errors %}
-          <font size="2" color="red">{{ errors['sdate'] }}</font> <br>
-        {% endif %}
-        Seesion Commence Time: <input type="time" name="time"</input><br/>
-        {% if errors and 'stime' in errors %}
-          <font size="2" color="red">{{ errors['stime'] }}</font> <br>
-        {% endif %}
-        Session Location: <input type="text" name="location"</input><br/>
-        {% if errors and 'slocation' in errors %}
-          <font size="2" color="red">{{ errors['slocation'] }}</font> <br>
-        {% endif %}
-        Max Attendees: <input type="number" name="maxAttendees" min = "1" </input><br/>
-        {% if errors and 'smaxAttendees' in errors %}
-          <font size="2" color="red">{{ errors['smaxAttendees'] }}</font> <br>
-        {% endif %}
-        Date allowed for deregister: <input type="date" name="deRegWindow"</input><br/>
-        {% if errors and 'dereg' in errors %}
-          <font size="2" color="red">{{ errors['dereg'] }}</font> <br>
-        {% endif %}
-        {% if errors and 'sdeRegWindow' in errors %}
-          <font size="2" color="red">{{ errors['sdeRegWindow'] }}</font> <br>
-        {% endif %}
-        Guest Register Fee (For guests only): <input type="number" name = "fee" min = "0"</input><br/>
-        {% if errors and 'sfee' in errors %}
-          <font size="2" color="red">{{ errors['sfee'] }}</font> <br>
-        {% endif %}
-        Early Bird Register Date (For guests only): <input type = "date", name = "earlyRegDate"</input><br/>
-        {% if errors and 'searlyRegDate' in errors %}
-          <font size="2" color="red">{{ errors['searlyRegDate'] }}</font> <br>
-        {% endif %}
-        {% if errors and 'earlybird' in errors %}
-        <font size="2" color="red">{{ errors['earlybird'] }}</font> <br>
-        {% endif %}        
-        Session Abstract Information: <input type="text" name="abstractInfo"</input><br/>
-        {% if errors and 'sabstractInfo' in errors %}
-          <font size="2" color="red">{{ errors['sabstractInfo'] }}</font> <br>
-        {% endif %}
-        Speaker name: <input type="text" name="speaker_name"</input><br/>
-        {% if errors and 'speaker_name' in errors %}
-          <font size="2" color="red">{{ errors['speaker_name'] }}</font> <br>
-        {% endif %}
-        Speaker email: <input type="text" name="email"</input><br/>
-        {% if errors and 'speaker_email' in errors %}
-          <font size="2" color="red">{{ errors['speaker_email'] }}</font> <br>
-        {% endif %}
-        {% if errors and 'ineligibleSpeaker' in errors %}
-          <font size="2" color="red">{{ errors['ineligibleSpeaker'] }}</font> <br>
-        {% endif %}
-        {% if errors and 'speakerMismatch' in errors %}
-          <font size="2" color="red">{{ errors['speakerMismatch'] }}</font> <br>
-        {% endif %}
-      </div>
-    <div>
-      <button name="create" type="submit">Create Seminar</button>
-      <p style = "color:red"><font size='2'>
-        *Content is your responsibility, please ensure details are correct.</br>
-      </font></p>
-    </div>
+  <div>
+    <button name="create" type="submit">Create Seminar</button>
+    <p style = "color:red"><font size='2'>
+      *Content is your responsibility, please ensure details are correct.</br>
+    </font></p>
+  </div>
 
-  </form>
-</div>
-</div>
-
+</form>
 
 {% endblock %}

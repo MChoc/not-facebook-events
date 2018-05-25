@@ -159,10 +159,6 @@ button {
 	display: inline-block;
 }
 
-.speaker {
-	margin-top: 20px;
-}
-
 .text-description {
 	font-size: 14px;
 	overflow: auto;
@@ -224,23 +220,24 @@ img.open_events {
 .e_locationC { grid-area: locationC; }
 .e_capacityT { grid-area: capacityT; font-family: Montserrat-Bold, sans-serif; }
 .e_capacityC { grid-area: capacityC; }
-.e_presenterT { grid-area: presenterT; font-family: Montserrat-Bold, sans-serif; }
-.e_presenterC { grid-area: presenterC; }
 .e_feeT { grid-area: feeT; font-family: Montserrat-Bold, sans-serif; }
 .e_feeC { grid-area: feeC; }
 .e_earlyBirdT {grid-area: earlyBirdT; font-family: Montserrat-Bold, sans-serif; }
 .e_earlyBirdC {grid-area: earlyBirdC; }
+.e_presenterT { grid-area: presenterT; font-family: Montserrat-Bold, sans-serif; }
+.e_presenterC { grid-area: presenterC; }
+.e_presenterE { grid-area: presenterE; }
 
 .grid-container > div {
 	text-align: center;
 }
-.grid-container-session-title {
+.grid-container-seminar-title {
 	display: grid;
 	grid-auto-columns: 1fr;
 	grid-template-areas:
 		'. statusT dateT timeT locationT';
 }
-.grid-container-session {
+.grid-container-seminar {
 	display: grid;
 	grid-auto-columns: 1fr;
 	grid-template-areas:
@@ -251,7 +248,8 @@ img.open_events {
 	grid-template-areas:
 		'statusT dateT timeT locationT'
 		'statusC dateC timeC locationC'
-		'capacityT feeT earlyBirdT presenterT'
-		'capacityC feeC earlyBirdC presenterC';
+		'presenterT capacityT feeT earlyBirdT'
+		'presenterC capacityC feeC earlyBirdC'
+		'presenterE . . .';
 	padding: 10px;
 }

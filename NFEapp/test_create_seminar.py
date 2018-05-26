@@ -6,7 +6,6 @@ from models.Error import *
 
 #User Stories 9 - create a seminar with one session
 
-# @unittest.skip('testing seminar')
 class CreateSeminarTestCase(unittest.TestCase):
     def setUp(self):
         self.staff = system.getUNSWMember('name4119988')
@@ -18,7 +17,6 @@ class CreateSeminarTestCase(unittest.TestCase):
         self.current_post_length = len(self.staff.currentPostEvent)
         self.current_assign_length = len(self.speaker.assigned_session)
 
-
     def test_successful_create_seminar(self):
         system.create_open_seminar(self.staff, 'New College presents', 'open',
             "some abstract information", 'Session 1', 'open', '2018-05-23', '21:30',
@@ -28,48 +26,6 @@ class CreateSeminarTestCase(unittest.TestCase):
         assert len(self.staff.currentPostEvent) == (self.current_post_length + 1)
         assert len(self.speaker.assigned_session) == (self.current_assign_length + 1)
         assert len(system.getOpenEvent('New College presents').session) == 1
-
-    #US9-AC9
-    def test_speaker_name_and_email_mismatch(self):
-        speaker1_name = 'Boy 2'
-        speaker2_email = 'boy1@unsw.edu.au'
-
-        with pytest.raises(InputError) as err:
-            system.create_open_seminar(self.staff, 'New College presents', 'open',
-                "some abstract information", 'Session 1', 'open', '2018-05-23', '21:30',
-                'New College, UNSW', 5, '2018-05-22', 20, '2018-05-20','Opening night',
-                speaker1_name, speaker2_email)
-
-        assert len(system.openEvent) == self.open_event_length
-        assert len(self.staff.currentPostEvent) == self.current_post_length
-        assert len(self.speaker.assigned_session) == self.current_assign_length
-
-    #US9-AC8
-    def test_speaker_not_registered_in_EMS(self):
-        non_registered_speaker_name = 'Micheal'
-        non_registered_speaker_email = 'micheal@unsw.edu.au'
-
-        with pytest.raises(InputError) as err:
-            system.create_open_seminar(self.staff, 'New College presents', 'open',
-                'some abstract information', 'Session 1', 'open', '2018-05-23', '21:30',
-                'New College, UNSW', 5, '2018-05-22', 20, '2018-05-20','Opening night',
-                non_registered_speaker_name, non_registered_speaker_email)
-
-        assert len(system.openEvent) == self.open_event_length
-        assert len(self.staff.currentPostEvent) == self.current_post_length
-        assert len(self.speaker.assigned_session) == self.current_assign_length
-
-    #US9-AC8
-    def test_speaker_is_a_student(self):
-        with pytest.raises(InputError) as err:
-            system.create_open_seminar(self.staff, 'New College presents', 'open',
-                "some abstract information", 'Session 1', 'open', '2018-05-23', '21:30',
-                'New College, UNSW', 5, '2018-05-22', 20, '2018-05-20','Opening night',
-                self.student.username, self.student.email)
-
-        assert len(system.openEvent) == self.open_event_length
-        assert len(self.staff.currentPostEvent) == self.current_post_length
-        assert len(self.speaker.assigned_session) == self.current_assign_length
 
     #US9-AC1
     def test_student_attempt_creating_seminar(self):
@@ -93,6 +49,7 @@ class CreateSeminarTestCase(unittest.TestCase):
         assert len(system.openEvent) == self.open_event_length
         assert len(self.staff.currentPostEvent) == self.current_post_length
         assert len(self.speaker.assigned_session) == self.current_assign_length
+
 
     #US9-AC6
     def test_empty_seminar_name(self):
@@ -322,6 +279,48 @@ class CreateSeminarTestCase(unittest.TestCase):
                 'some abstract information', 'Session 1', 'open', '2018-05-23', '21:30',
                 'New College, UNSW', 5, '2018-05-22', session_fee, '2018-05-20','Opening night',
                 'Boy 1', 'boy1@unsw.edu.au')
+        assert len(system.openEvent) == self.open_event_length
+        assert len(self.staff.currentPostEvent) == self.current_post_length
+        assert len(self.speaker.assigned_session) == self.current_assign_length
+            
+    #US9-AC8
+    def test_speaker_not_registered_in_EMS(self):
+        non_registered_speaker_name = 'Micheal'
+        non_registered_speaker_email = 'micheal@unsw.edu.au'
+
+        with pytest.raises(InputError) as err:
+            system.create_open_seminar(self.staff, 'New College presents', 'open',
+                'some abstract information', 'Session 1', 'open', '2018-05-23', '21:30',
+                'New College, UNSW', 5, '2018-05-22', 20, '2018-05-20','Opening night',
+                non_registered_speaker_name, non_registered_speaker_email)
+
+        assert len(system.openEvent) == self.open_event_length
+        assert len(self.staff.currentPostEvent) == self.current_post_length
+        assert len(self.speaker.assigned_session) == self.current_assign_length
+
+    #US9-AC8
+    def test_speaker_is_a_student(self):
+        with pytest.raises(InputError) as err:
+            system.create_open_seminar(self.staff, 'New College presents', 'open',
+                "some abstract information", 'Session 1', 'open', '2018-05-23', '21:30',
+                'New College, UNSW', 5, '2018-05-22', 20, '2018-05-20','Opening night',
+                self.student.username, self.student.email)
+
+        assert len(system.openEvent) == self.open_event_length
+        assert len(self.staff.currentPostEvent) == self.current_post_length
+        assert len(self.speaker.assigned_session) == self.current_assign_length
+
+    #US9-AC9
+    def test_speaker_name_and_email_mismatch(self):
+        speaker1_name = 'Boy 2'
+        speaker2_email = 'boy1@unsw.edu.au'
+
+        with pytest.raises(InputError) as err:
+            system.create_open_seminar(self.staff, 'New College presents', 'open',
+                "some abstract information", 'Session 1', 'open', '2018-05-23', '21:30',
+                'New College, UNSW', 5, '2018-05-22', 20, '2018-05-20','Opening night',
+                speaker1_name, speaker2_email)
+
         assert len(system.openEvent) == self.open_event_length
         assert len(self.staff.currentPostEvent) == self.current_post_length
         assert len(self.speaker.assigned_session) == self.current_assign_length

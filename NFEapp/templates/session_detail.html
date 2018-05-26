@@ -18,7 +18,7 @@
 		<div class="e_presenterC"><a href="{{ url_for('guest_speaker', seminar_id=seminar.id, session_name=session.name, guest_speaker_name=session.speaker.username) }}">{{ session.speaker.username }}</a></div>
 		<div class="e_presenterE">{{ session.speaker.email }}</div>
 		<div class="e_capacityT">Capacity</div>
-		<div class="e_capacityC">{{ attendeeList|length }}/{{ session.maxAttendees }}</div>
+		<div class="e_capacityC">{{ session.attendeeList|length }}/{{ session.maxAttendees }}</div>
 		{% if user.is_guest() %}
 			<div class="e_feeT">Fee</div>
 			<div class="e_feeC">${{ session.fee }}</div>
@@ -54,8 +54,7 @@
       {% endif %}
     {% else %}
       {% if session.status == 'open' and register == False %}
-				<button name="register_session" type="submit", {% if message == "full" %} disabled {% endif %},
-				{% if not user.avoid_speaker(session) %} disabled {% endif %}>Register</button>
+				<button name="register_session" type="submit", {% if message == "full" %} disabled {% endif %}, {% if not user.avoid_speaker(session) %} disabled {% endif %}>Register</button>
         {% if message == 'confirm_register_session' %}
 					{% if user.is_guest() %}
             <h3>Fee: $ {{fee}}</h3>

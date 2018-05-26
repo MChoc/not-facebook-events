@@ -110,17 +110,18 @@ class Staff(UNSWMember):
 
         session.status = status
         session.speaker.assigned_session.pop(session.name)
-
+        '''
         for person in session.attendeeList:
             if not person.get_current_session(seminar):
                 person.currentEvents.remove(seminar)
                 person.pastEvents.append(seminar)
+        '''
 
     #check that the event creator cannnot register for this event
     #check that person who want to get the attendee list is the creator
     #if the person is not the event creator, will return true
     #if the person is the creator, will return false
-    #logic is suggested by the name, if not creator, thus succesfully avoid creator and return true
+    #if not creator, thus succesfully avoid creator and return true
     def avoid_creator(self, event):
         if event in self.currentPostEvent:
             return False

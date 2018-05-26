@@ -232,9 +232,11 @@ class CreateSeminarTestCase(unittest.TestCase):
         assert len(self.speaker.assigned_session) == self.current_assign_length
 
     #US9-AC7
+    #session deregistration date should be set as a date earlier than 
+        #or same as session commence date
     def test_invalid_session_deregistration_date(self):
         session_date = '2018-05-23'
-        session_deregistration_date = '2018-05-29'
+        session_deregistration_date = '2018-05-24'
 
         with pytest.raises(InputError) as err:
             system.create_open_seminar(self.staff, 'New College presents', 'open',

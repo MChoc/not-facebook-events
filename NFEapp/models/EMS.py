@@ -68,6 +68,7 @@ class EMS:
                 return person
         return None
 
+    #get speaker by email
     def get_guest_by_email(self, email):
         for person in self.guest:
             if email.lower() == person.email.lower():

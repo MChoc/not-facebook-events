@@ -28,12 +28,12 @@
 			<div class="e_earlyBirdT">Early bird end date</div>
 			<div class="e_earlyBirdC">{{ event.earlyRegDate }}</div>
 			{% endif %}
-  		{% if event.status == 'open' and register == True %}
-    		Date allowed for deRegistration: {{ event.deRegWindow }}
-  		{% endif %}
 		</div>
   	<hr>
 		{{event.abstractInfo}}<br>
+		{% if event.status == 'open' and register == True %}
+    		Date allowed for deRegistration: {{ event.deRegWindow }}
+  		{% endif %}
   	<div>
   		{% if user.is_admin() and user.avoid_creator(event) == False %}
     		{% if event.status == 'open' %}

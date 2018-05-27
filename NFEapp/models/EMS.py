@@ -68,6 +68,7 @@ class EMS:
                 return person
         return None
 
+    #get speaker by email
     def get_guest_by_email(self, email):
         for person in self.guest:
             if email.lower() == person.email.lower():
@@ -122,7 +123,7 @@ class EMS:
             if not self.get_guest_by_email(speaker_email):
                 errors['ineligibleSpeaker'] = 'Please specify an eligible speaker'
             if 'ineligibleSpeaker' not in errors:
-                if self.get_guest_by_email(speaker_email).username != speaker_name:
+                if self.get_guest_by_email(speaker_email).username.lower() != speaker_name.lower():
                     errors['speakerMismatch'] = 'Speaker email and name not match'
         if errors != {}:
             raise InputError(errors)
@@ -152,7 +153,7 @@ class EMS:
             if not self.get_guest_by_email(speaker_email):
                 errors['ineligibleSpeaker'] = 'Please specify an eligible speaker'
             if 'ineligibleSpeaker' not in errors:
-                if self.get_guest_by_email(speaker_email).username != speaker_name:
+                if self.get_guest_by_email(speaker_email).username.lower() != speaker_name.lower():
                     errors['speakerMismatch'] = 'Speaker email and name not match'
         if errors != {}:
             raise InputError(errors)

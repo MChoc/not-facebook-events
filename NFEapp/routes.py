@@ -105,7 +105,7 @@ def event(event_id):
         type = 'course'
         if not system.check_capacity(event):
             message = 'full'
-        if not system.check_deregister_validation(event):
+        if event in current_user.currentEvents and not system.check_deregister_validation(event):
             message = 'deregister invalid'
     elif isinstance(event, Seminar):
         type = 'seminar'
@@ -163,7 +163,7 @@ def session(seminar_id, session_name):
     if not system.check_capacity(session):
         message = 'full'
 
-    if not system.check_deregister_validation(session):
+    if seminar in current_user.currentEvents and not system.check_deregister_validation(session):
         message = 'deregister invalid'
 
     if request.method == 'POST':
@@ -191,7 +191,7 @@ def session(seminar_id, session_name):
         register = True
     else:
         register = False
-
+    print(message)
     return render_template('session_detail.html', seminar=seminar, user=current_user, session=session, register=register, message = message)
 
 #guest speaker profile

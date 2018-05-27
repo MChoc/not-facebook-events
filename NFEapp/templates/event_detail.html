@@ -28,12 +28,12 @@
 			<div class="e_earlyBirdT">Early bird end date</div>
 			<div class="e_earlyBirdC">{{ event.earlyRegDate }}</div>
 			{% endif %}
-  		{% if event.status == 'open' and register == True %}
-    		Date allowed for deRegistration: {{ event.deRegWindow }}
-  		{% endif %}
 		</div>
   	<hr>
 		{{event.abstractInfo}}<br>
+		{% if event.status == 'open' and register == True %}
+    		Date allowed for deRegistration: {{ event.deRegWindow }}
+  		{% endif %}
   	<div>
   		{% if user.is_admin() and user.avoid_creator(event) == False %}
     		{% if event.status == 'open' %}
@@ -109,7 +109,7 @@
 				<div class="e_dateC">{{ session.date }}</div>
 				<div class="e_timeC">{{ session.time }}</div>
 				<div class="e_locationC">{{ session.location }}</div>
-			</div>
+			</div><div style="height:8px;"><br></div>
 		{% endfor %}
   	{% if user.is_admin() %}
     	{% if user.avoid_creator(event) == False %}

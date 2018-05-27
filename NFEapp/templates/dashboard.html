@@ -7,8 +7,8 @@ Welcome {{user.username}}!
 <h3>Current events</h3>
 {% for currentEvents in user.currentEvents %}
 	<a class="text-description" href="{{url_for('event', event_id = currentEvents.id)}}">{{currentEvents.name}}</a><br/>
-	{% if currentEvents.session %}
-		Registered session:<br/>
+	{% if currentEvents.session and user.get_current_session(currentEvents) != [] %}
+		<p class="text-description">Registered session:</p>
 		{% for session in user.get_current_session(currentEvents) %}
 			<a class="text-description" href="{{url_for('session', seminar_id = currentEvents.id, session_name = session.name)}}">{{session.name}}</a><br/>
 		{% endfor %}

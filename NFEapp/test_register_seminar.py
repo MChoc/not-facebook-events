@@ -1,6 +1,5 @@
 import unittest
 import pytest
-import datetime
 from server import system
 from models.Seminar import *
 from models.EMS import *

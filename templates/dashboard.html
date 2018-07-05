@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<h1>Dashboard</h1>
+Welcome {{user.username}}!
+
+<h3>Current events</h3>
+{% for currentEvents in user.currentEvents %}
+	<a class="text-description" href="{{url_for('event', event_id = currentEvents.id)}}">{{currentEvents.name}}</a><br/>
+	{% if currentEvents.session and user.get_current_session(currentEvents) != [] %}
+		<p class="text-description">Registered session:</p>
+		{% for session in user.get_current_session(currentEvents) %}
+			<a class="text-description" href="{{url_for('session', seminar_id = currentEvents.id, session_name = session.name)}}">{{session.name}}</a><br/>
+		{% endfor %}
+	{% endif %}
+{% else %}
+	<div class="text-description">
+		Not currently participating in any events!
+	</div>
+{% endfor %}
+
+<h3>Past events</h3>
+{% for pastEvents in user.pastEvents %}
+	<a class="text-description" href="{{url_for('event', event_id = pastEvents.id)}}">{{pastEvents.name}}</a><br/>
+{% else %}
+	<div class="text-description">
+		No past events!
+	</div>
+{% endfor %}
+
+{% if user.is_admin() %}
+	<h3>Current posted events</h3>
+	{% for currentPostEvent in user.currentPostEvent %}
+		<a class="text-description" href="{{url_for('event', event_id = currentPostEvent.id)}}">{{currentPostEvent.name}}</a><br/>
+	{% else %}
+	<div class="text-description">
+		No active events posted by you!
+	</div>
+	{% endfor %}
+
+	<h3>Past posted events</h3>
+	{% for pastPostEvent in user.pastPostEvent %}
+		<a class="text-description" href="{{url_for('event', event_id = pastPostEvent.id)}}">{{pastPostEvent.name}}</a><br/>
+	{% else %}
+		<div class="text-description">
+			No past events posted by you!
+		</div>
+	{% endfor %}
+{% endif %}
+
+{% if user.is_guest() or user.is_admin() %}
+    <h3>Currently hosted Sessions</h3>
+    {% for session_name in user.assigned_session.keys() %}
+	  <a class="text-description" href="{{url_for('session', seminar_id = user.get_seminar_id(session_name), session_name = session_name)}}">{{session_name}}</a>
+	  {% else %}
+	  <div class="text-description">
+		No currently hosted sessions!
+	  </div>
+	{% endfor %}
+{% endif %}
+
+{% endblock %}

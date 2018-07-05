@@ -1,0 +1,21 @@
+#from .Speaker import *
+from .Event import *
+
+class Session(Event):
+
+    def __init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo, speaker):
+        Event.__init__(self, id, name, status, date, time, location, maxAttendees, deRegWindow, fee, earlyRegDate, abstractInfo)
+        self._speaker = speaker
+
+##
+    # return str: speaker for session
+    @property
+    def speaker(self):
+        return self._speaker
+
+    # changes speaker
+    # arg1 Speaker
+    @speaker.setter
+    def speaker(self, speaker):
+        self._speaker = speaker
+##
